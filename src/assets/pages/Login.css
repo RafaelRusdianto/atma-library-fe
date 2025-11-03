@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
-  background: url("C:\Users\RAFAEL\Desktop\Praktikum\atma-library-fe\public\Library-main.png");
+  background: url("/public/Library-main.png");
   background-size: cover;
   display: flex;
   justify-content: center;
