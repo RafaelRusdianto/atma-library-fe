@@ -26,13 +26,13 @@ const Login = () => {
 
           <div className="social-login">
             <button type="button" className="social-btn google">
-                <img src="/google.jpg" alt="Google" />
+                <img src="/icons/google.jpg" alt="Google" />
             </button>
             <button type="button" className="social-btn github">
-                <img src="/github.png" alt="GitHub" />
+                <img src="/icons/github.png" alt="GitHub" />
             </button>
             <button type="button" className="social-btn facebook">
-                <img src="/facebook.png" alt="Facebook" />
+                <img src="/icons/facebook.png" alt="Facebook" />
             </button>
           </div>
 

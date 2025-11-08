@@ -11,7 +11,7 @@ function Navbar() {
 
       <ul className="nav-links">
         <li>Dashboard</li>
-        <li>Katalog</li>
+        <li>Catalog</li>
         <li>Support</li>
       </ul>
 
