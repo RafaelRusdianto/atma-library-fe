@@ -37,7 +37,8 @@ const Login = () => {
           </div>
 
           <p className="register-text">
-            Don’t have an account? <a href="#" onClick={() => navigate("/register")}>Register for free</a>
+            Don’t have an account? {" "}
+            <a href="#" onClick={() => navigate("/register")}>Register for free</a>
           </p>
 
           <button type="button" className="btn-back" onClick={() => navigate("/")}>← Back to Home</button>

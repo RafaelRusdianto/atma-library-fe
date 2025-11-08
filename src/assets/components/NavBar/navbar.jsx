@@ -13,8 +13,6 @@ function Navbar() {
         <li>Dashboard</li>
         <li>Katalog</li>
         <li>Support</li>
-        <li>Denda</li>
-        <li>Profil</li>
       </ul>
 
       <div className="nav-left">

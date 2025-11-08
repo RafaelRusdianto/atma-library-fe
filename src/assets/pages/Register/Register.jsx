@@ -20,6 +20,9 @@ const Register = () => {
           <label>Password</label>
           <input type="password" placeholder="Password" required />
 
+          <label>Confirm Password</label>
+          <input type="password" placeholder="Confirm Password" required />
+
           <label>Alamat</label>
           <input type="text" placeholder="Alamat" required />
 
@@ -33,10 +36,10 @@ const Register = () => {
 
           <p className="register-text">
             Already have an account?{" "}
-            <a onClick={() => navigate("/login")}>Login here</a>
+            <a href="#" onClick={() => navigate("/login")}>Login here</a>
           </p>
 
-          <button type="button" className="btn-back" onClick={handleBack}>
+          <button type="button" className="btn-back" onClick={() => navigate("/")}>
             ← Back to Home
           </button>
         </form>
