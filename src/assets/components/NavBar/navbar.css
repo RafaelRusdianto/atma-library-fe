@@ -1,22 +1,30 @@
 .navbar {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   padding: 15px 50px;
   background-color: white;
 }
 
-.nav-links {
-  display: flex;
-  justify-content: center;
-  flex: 1; /* ini yang bikin tengah */
-  list-style: none;
-  gap: 30px; /* jarak antar menu */
-  margin: 0;
+/* kolom kiri - logo */
+.navbar-logo {
+  width: 200px;
+  cursor: pointer;
 }
 
-.navbar-logo{
-  width: 220px;
+/* kolom mid: navigasi  */
+.nav-center-col {
+  display: flex;
+  justify-content: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-links li {
@@ -28,6 +36,13 @@
   color: #007bff;
 }
 
+/* kolom kanan - btn */
+.nav-right-col {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
 .regis-btn {
   background: #007bff;
   color: white;
@@ -37,22 +52,14 @@
   cursor: pointer;
   transition: background .2s ease;
 }
-
 .regis-btn:hover {
   background: #005fcc;
 }
 
 .sgnin-btn {
-  background-color: white;
-  color: rgb(0, 0, 0);
-  border: none;
+  background: white;
+  border: 1px solid #ccc;
   padding: 10px 20px;
   border-radius: 6px;
   cursor: pointer;
-}
-
-.nav-left{
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }

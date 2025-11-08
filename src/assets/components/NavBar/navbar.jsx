@@ -7,20 +7,30 @@ function Navbar() {
   
   return (
     <nav className="navbar">
-      <a href="/">
-        <img src="/logo.png" alt="logo-perpus" className="navbar-logo"/>
-      </a>
-
-      <ul className="nav-links">
-        <li>Dashboard</li>
-        <li>Catalog</li>
-        <li>Support</li>
-      </ul>
-
-      <div className="nav-left">
-        <button className="regis-btn" onClick={() => navigate("/register")}>Register</button>
-        <button className="sgnin-btn" onClick={() => navigate("/login")}>Log In</button>
+      
+      <div className="nav-left-col">
+        <a onClick={() => navigate("/")}>
+          <img src="/logo.png" alt="logo" className="navbar-logo"/>
+        </a>
       </div>
+
+      <div className="nav-center-col">
+        <ul className="nav-links">
+          <li>Dashboard</li>
+          <li>Catalog</li>
+          <li>Support</li>
+        </ul>
+      </div>
+
+      <div className="nav-right-col">
+        <button className="regis-btn" onClick={() => navigate("/register")}>
+          Register
+        </button>
+        <button className="sgnin-btn" onClick={() => navigate("/login")}>
+          Log In
+        </button>
+      </div>
+
     </nav>
   );
 }
