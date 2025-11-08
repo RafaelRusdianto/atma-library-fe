@@ -7,7 +7,9 @@ function Navbar() {
   
   return (
     <nav className="navbar">
-      <span className="logo">Atma Library</span>
+      <a href="/">
+        <img src="/logo.png" alt="logo-perpus" className="navbar-logo"/>
+      </a>
 
       <ul className="nav-links">
         <li>Dashboard</li>

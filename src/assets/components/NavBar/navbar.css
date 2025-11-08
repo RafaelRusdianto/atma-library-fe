@@ -15,17 +15,8 @@
   margin: 0;
 }
 
-.logo {
-  flex: 0 0 auto;
-  font-weight: bold;
-  font-size: 20px;
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 30px;
-  font-size: 16px;
+.navbar-logo{
+  width: 220px;
 }
 
 .nav-links li {
