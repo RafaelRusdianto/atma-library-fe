@@ -49,8 +49,6 @@ export default function Register () {
        alert("Register success!");
     }
 
-
-   
   };
 
   return (

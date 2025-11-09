@@ -1,10 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import Navbar from '../../components/NavBar/navbar';
 
-const Login = () => {
+export default function Login () {
   const navigate = useNavigate();
+  const [errors, setErrors] = useState("");
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+
+    
+    async function handleLogin(e){
+      e.preventDefault();
+      const res = await fetch('/api/login', {
+        method: "post",
+        body: JSON.stringify(formData),
+    }); 
+
+
+    const data = await res.json();
+
+    if(data.errors){
+      setErrors(data.errors);
+      return;
+    }else{
+      localStorage.setItem('token', data.token);
+      navigate('/');
+      console.log(data);
+      alert("Login success!");
+    }
+
+    };
+
+
 
   return (
     <div className="login-page">
@@ -14,12 +44,20 @@ const Login = () => {
       <div className="login-card">
         <h3 className="login-title">Glad you're back!</h3>
 
-        <form>
-          <label>Username</label>
-          <input type="Username" placeholder="Username" required />
+        <form onSubmit={handleLogin}>
+         <label>Email</label>
+          <input type="email" placeholder="Email" required
+          value={formData.email} onChange={(e)=>setFormData({...formData, email: e.target.value})}/>
 
           <label>Password</label>
-          <input type="password" placeholder="Password" required />
+          <input
+            type="password"
+            placeholder="Password"
+            required
+            value={formData.password} onChange={(e)=>setFormData({...formData, password: e.target.value})}
+          />
+          {errors.password && <p className="error">{errors.password[0]}</p>}
+
 
           <a href="#" className="forgot-password">Forgot Password?</a>
 
@@ -51,4 +89,3 @@ const Login = () => {
   );
 };
 
-export default Login;

@@ -37,7 +37,7 @@ function Navbar() {
           <li onClick={() => navigate("/support")}>Support</li>
 
           {/*navbar utk user*/}
-          {isLoggedIn && role === "user" && (
+          {isLoggedIn && role === "member" && (
             <>
               <li onClick={() => navigate("/ongoing")}>On-Going</li>
               <li onClick={() => navigate("/fines")}>Fines</li>
@@ -46,7 +46,7 @@ function Navbar() {
           )}
 
           {/*navbar utk staff*/}
-          {isLoggedIn && role === "staff" && (
+          {isLoggedIn && role === "petugas" && (
             <>
               <li onClick={() => navigate("/manage-books")}>Manage Books</li>
               <li onClick={() => navigate("/borrow-requests")}>Borrow Requests</li>
