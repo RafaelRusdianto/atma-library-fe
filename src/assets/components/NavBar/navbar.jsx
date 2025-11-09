@@ -8,12 +8,19 @@ function Navbar() {
   const [role, setRole] = useState(null);
 
   useEffect(() => {
-    // cek login status
-    const auth = localStorage.getItem("auth");
-    const userRole = localStorage.getItem("role");
+    const updateState = () => {
+      // cek login status
+      const auth = localStorage.getItem("auth");
+      const userRole = localStorage.getItem("role");
 
-    setIsLoggedIn(auth === "true");
-    setRole(userRole);
+      setIsLoggedIn(auth === "true");
+      setRole(userRole);
+    };
+    window.addEventListener("storageUpdate", updateState);
+
+    return () => {
+      window.removeEventListener("storageUpdate", updateState);
+    };
   }, []);
 
   const handleLogout = () => {
@@ -37,7 +44,7 @@ function Navbar() {
           <li onClick={() => navigate("/support")}>Support</li>
 
           {/*navbar utk user*/}
-          {isLoggedIn && role === "user" && (
+          {isLoggedIn && role === "member" && (
             <>
               <li onClick={() => navigate("/ongoing")}>On-Going</li>
               <li onClick={() => navigate("/fines")}>Fines</li>
@@ -46,7 +53,7 @@ function Navbar() {
           )}
 
           {/*navbar utk staff*/}
-          {isLoggedIn && role === "staff" && (
+          {isLoggedIn && role === "petugas" && (
             <>
               <li onClick={() => navigate("/manage-books")}>Manage Books</li>
               <li onClick={() => navigate("/borrow-requests")}>Borrow Requests</li>
