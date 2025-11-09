@@ -1,0 +1,91 @@
+.navbar {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  padding: 15px 50px;
+  background-color: white;
+}
+
+/* kolom kiri - logo */
+.navbar-logo {
+  width: 200px;
+  cursor: pointer;
+}
+
+/* kolom mid: navigasi  */
+.nav-center-col {
+  display: flex;
+  justify-content: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.nav-links li {
+  cursor: pointer;
+  transition: color .2s ease;
+}
+
+.nav-links li:hover {
+  color: #007bff;
+}
+
+/* kolom kanan - btn */
+.nav-right-col {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.regis-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+.regis-btn:hover {
+  background: #005fcc;
+}
+
+.sgnin-btn {
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pfp-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.pfp-btn img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;     /* biar jd lingkaran */
+  object-fit: cover;      /* biar img cover smw lingkaran */
+  border: 2px solid #ddd; 
+  transition: transform .2s ease, border-color .2s ease;
+}
+
+.pfp-btn:hover img {
+  transform: scale(1.08);
+  border-color: #007bff; 
+}
+
+.pfp-btn img {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}

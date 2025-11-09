@@ -1,0 +1,134 @@
+.home-page {
+  font-family: "Poppins", sans-serif;
+  color: #333;
+}
+
+.hero {
+  background: url("/home/library-hero.jpg") center/cover no-repeat;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  position: relative;
+}
+
+.hero‐inner {
+  background: rgba(0,0,0,0.5);
+  padding: 20px 40px;
+  border-radius: 8px;
+}
+
+.hero‐inner h1 {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+}
+
+.hero‐inner p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.search‐box {
+  display: flex;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search‐box input {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 6px 0 0 6px;
+  font-size: 1rem;
+}
+
+.search‐box button {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  
+  padding: 12px 20px;
+  border: none;
+  background: #ffd000;
+  color: white;
+  font-size: 1rem;
+  border-radius: 0 6px 6px 0;
+  cursor: pointer;
+  transition: background .2s ease;
+  height: 48px;
+}
+
+.search‐box button:hover {
+  background: #af9007;
+}
+
+.services {
+  padding: 60px 80px;
+  text-align: center;
+}
+
+.services h2 {
+  font-size: 2rem;
+  margin-bottom: 40px;
+}
+
+.services‐grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+}
+
+.service {
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  transition: box-shadow .3s;
+}
+
+.service:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.service h3 {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+}
+
+.service p {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.collections {
+  padding: 60px 80px;
+  background: #f9f9f9;
+}
+
+.collections h2 {
+  font-size: 2rem;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.collections‐grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+}
+
+.collection {
+  text-align: center;
+}
+
+.collection img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.collection h4 {
+  font-size: 1.2rem;
+  margin: 0;
+}
