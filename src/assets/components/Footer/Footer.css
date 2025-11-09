@@ -35,9 +35,10 @@
   text-decoration: underline;
 }
 
-.socials span {
+.socials a {
   margin-right: 10px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .footer-bottom {

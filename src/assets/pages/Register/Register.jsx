@@ -32,6 +32,9 @@ const Register = () => {
 
   return (
     <div className="login-page">
+      <div className="logo-side">
+        <img src="signlogin/logo-montserrat.png" alt="logo" />
+      </div>
       <div className="login-card">
         <h3 className="login-title">Create Your Account</h3>
 
@@ -79,11 +82,8 @@ const Register = () => {
           <label>No. Telepon</label>
           <input type="text" placeholder="08xxxxxxxxxx" required />
 
-          <button 
-            type="submit" 
-            className="btn-login"
-            disabled={error !== ""} 
-          >
+
+          <button type="submit" className="btn-login" disabled={error !== ""}>
             Register
           </button>
 

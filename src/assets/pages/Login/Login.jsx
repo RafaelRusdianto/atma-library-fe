@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./Login.css"; 
+import "./Login.css";
 import Navbar from '../../components/NavBar/navbar';
 
 const Login = () => {
@@ -8,6 +8,9 @@ const Login = () => {
 
   return (
     <div className="login-page">
+      <div className="logo-side">
+        <img src="signlogin/logo-montserrat.png" alt="logo" />
+      </div>
       <div className="login-card">
         <h3 className="login-title">Glad you're back!</h3>
 
@@ -26,13 +29,13 @@ const Login = () => {
 
           <div className="social-login">
             <button type="button" className="social-btn google">
-                <img src="/icons/google.jpg" alt="Google" />
+              <img src="/icons/google.jpg" alt="Google" />
             </button>
             <button type="button" className="social-btn github">
-                <img src="/icons/github.png" alt="GitHub" />
+              <img src="/icons/github.png" alt="GitHub" />
             </button>
             <button type="button" className="social-btn facebook">
-                <img src="/icons/facebook.png" alt="Facebook" />
+              <img src="/icons/facebook.png" alt="Facebook" />
             </button>
           </div>
 

@@ -10,9 +10,9 @@ export default function Footer() {
       <div className="footer-top">
         <div className="footer-section">
           <h4>Atma Library</h4>
-          <p>Universitas Atma Jaya Yogyakarta</p>
-          <p>📍 Jalan Babarsari, Yogyakarta</p>
-          <p>📞 (0274) 123456</p>
+          <p>Atma University</p>
+          <p>📍 742 Evergreen Terrace, Springfield</p>
+          <p>📞 (0274) 563248</p>
           <p>📧 atmalibrary@uajy.ac.id</p>
         </div>
 
@@ -36,9 +36,9 @@ export default function Footer() {
         <div className="footer-section">
           <h4>Connect</h4>
           <div className="socials">
-            <span>Instagram</span>
-            <span>Facebook</span>
-            <span>YouTube</span>
+            <a href="https://www.instagram.com/">Instagram</a>
+            <a href="https://www.facebook.com/">Facebook</a>
+            <a href="https://www.youtube.com/">YouTube</a>
           </div>
         </div>
       </div>
