@@ -8,12 +8,19 @@ function Navbar() {
   const [role, setRole] = useState(null);
 
   useEffect(() => {
-    // cek login status
-    const auth = localStorage.getItem("auth");
-    const userRole = localStorage.getItem("role");
+    const updateState = () => {
+      // cek login status
+      const auth = localStorage.getItem("auth");
+      const userRole = localStorage.getItem("role");
 
-    setIsLoggedIn(auth === "true");
-    setRole(userRole);
+      setIsLoggedIn(auth === "true");
+      setRole(userRole);
+    };
+    window.addEventListener("storageUpdate", updateState);
+
+    return () => {
+      window.removeEventListener("storageUpdate", updateState);
+    };
   }, []);
 
   const handleLogout = () => {
