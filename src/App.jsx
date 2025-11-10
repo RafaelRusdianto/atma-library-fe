@@ -3,8 +3,11 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 import Home from "./assets/pages/Home/Home";
 import Login from "./assets/pages/Login/Login";
 import Register from "./assets/pages/Register/Register";
+import Catalog from "./assets/pages/Catalog/Catalog";
+
 import Navbar from "./assets/components/NavBar/navbar";
 import Footer from "./assets/components/Footer/Footer";
+
 function Layout() {
   const location = useLocation();
 
@@ -20,9 +23,10 @@ function Layout() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/catalog" element={<Catalog />} />
       </Routes>
 
-      {!hideFooter && <Footer />}  
+      {!hideFooter && <Footer />}
     </>
   );
 }
