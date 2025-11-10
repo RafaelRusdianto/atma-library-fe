@@ -1,16 +1,24 @@
 import React from "react";
 import { Search } from "lucide-react";
 import "./Catalog.css";
+import { useNavigate } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 
-const BookCard = ({ book }) => (
-    <div className="book-card">
-        <img src={book.img} alt={book.judul} className="book-image" />
-        <p className="book-title">{book.judul}</p>
-        <p className="book-author">{book.penulis}</p>
-    </div>
-);
+const BookCard = ({ book }) => {
+    const navigate = useNavigate();
+    return (
+        <div
+            className="book-card"
+            onClick={() => navigate(`/book/${book.id_buku}`)}
+            style={{ cursor: "pointer" }}
+        >
+            <img src={book.img} alt={book.judul} className="book-image" />
+            <p className="book-title">{book.judul}</p>
+            <p className="book-author">{book.penulis}</p>
+        </div>
+    );
+};
 
 const BookSection = ({ title, books }) => (
     <div className="book-section">
@@ -84,8 +92,8 @@ export default function LibraryCatalog() {
 
                     {/* Sections */}
                     <BookSection title="Recommendations" books={randBooks} />
-                    {/* <BookSection title="Kategori 1" books={books} /> */}
-                    {/* <BookSection title="Kategori 2" books={books} /> */}
+                    {/* <BookSection title="Kategori 1" books={books1} /> */}
+                    {/* <BookSection title="Kategori 2" books={books2} /> */}
                 </main>
             </div>
         </div>

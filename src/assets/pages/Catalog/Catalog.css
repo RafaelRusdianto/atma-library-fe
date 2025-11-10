@@ -145,6 +145,11 @@ body {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
+    transition: transform .2s ease;
+}
+
+.book-card:hover {
+    transform: scale(1.05);
 }
 
 .book-image {
@@ -154,6 +159,11 @@ body {
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
+/* klo mw cover doang yg popup */
+/* .book-image:hover {
+    transform: scale(1.05);
+} */
 
 .book-title {
     font-weight: 500;

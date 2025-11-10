@@ -4,6 +4,7 @@ import Home from "./assets/pages/Home/Home";
 import Login from "./assets/pages/Login/Login";
 import Register from "./assets/pages/Register/Register";
 import Catalog from "./assets/pages/Catalog/Catalog";
+import BookDetail from "./assets/pages/BookDetail/BookDetail";
 
 import Navbar from "./assets/components/NavBar/navbar";
 import Footer from "./assets/components/Footer/Footer";
@@ -24,6 +25,7 @@ function Layout() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/catalog" element={<Catalog />} />
+        <Route path="/book/:id" element={<BookDetail />} />
       </Routes>
 
       {!hideFooter && <Footer />}
