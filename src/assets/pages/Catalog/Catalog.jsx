@@ -1,11 +1,10 @@
 import React from "react";
-import { Search } from "lucide-react";
+import { Import, Search } from "lucide-react";
 import "./Catalog.css";
 import { useNavigate } from "react-router-dom";
-
 import { useEffect, useState } from "react";
 
-const BookCard = ({ book }) => {
+const BookCard = ({ book }) => { //parameternya 1 buah buku
     const navigate = useNavigate();
     return (
         <div
@@ -13,7 +12,8 @@ const BookCard = ({ book }) => {
             onClick={() => navigate(`/book/${book.id_buku}`)}
             style={{ cursor: "pointer" }}
         >
-            <img src={book.img} alt={book.judul} className="book-image" />
+            <img src={book.url_foto_cover} alt={book.judul} className="book-image" />
+            {/* cari cover buku disini https://openlibrary.org/dev/docs/api/covers */}
             <p className="book-title">{book.judul}</p>
             <p className="book-author">{book.penulis}</p>
         </div>
@@ -32,13 +32,35 @@ const BookSection = ({ title, books }) => (
 );
 
 export default function LibraryCatalog() {
-    const [randBooks, setRecommendation] = useState([]);//variabel randBooks, utk fungsi setRec
+    const navigate = useNavigate();
+
+    const [query, setQuery] = useState("");//utk search
+    const [allBooks, setAllBooks] = useState([]);//fetch all books utk search
+
+    const [randBooks, setRecommendation] = useState([]);//fetch 8 rand books, utk fungsi setRec
+    const [showDropdown, setShowDropdown] = useState(false);//utk dropdown
+
     useEffect(() => {
-        fetch("http://127.0.0.1:8000/api/books/random") //diambil dr route ini
-            .then((res) => res.json())
-            .then((data) => setRecommendation(data.data))
+        fetch("http://127.0.0.1:8000/api/books/random") //diambil random buku dr route ini
+            .then((res) => res.json())                   //ubah ke json
+            .then((data) => setRecommendation(data.data)) //pake function setAllBooks utk simpen datanya di var randBooks
             .catch((err) => console.error("Error fetching books:", err));
     }, []);
+
+    //search bar
+    useEffect(() => {
+        fetch("http://127.0.0.1:8000/api/buku") //diambil semua buku dr route ini
+            .then((res) => res.json())           //ubah ke json
+            .then((data) => setAllBooks(data.data))//pake function setAllBooks utk simpen datanya di var allBooks
+            .catch((err) => console.error("Error fetching books:", err));
+    }, []);
+    //dropdown                          //book ini parameter yg dibawa ke const BookCard
+    const filteredBooks = allBooks.filter((book) =>   //allbooks difilter (.filter(book)) sesuai dgn pencarian, trs disimpen di filteredBooks
+        book.judul.toLowerCase().includes(query.toLowerCase()) ||
+        book.penulis.toLowerCase().includes(query.toLowerCase()) ||
+        (book.isbn && book.isbn.toLowerCase().includes(query.toLowerCase()))
+    );
+
 
     return (
         <div className="page-container">
@@ -81,13 +103,39 @@ export default function LibraryCatalog() {
                 {/* Main Area */}
                 <main className="main">
                     {/* Search Bar */}
-                    <div className="search-container">
+                    <div className="search-container"
+                        onBlur={() => setShowDropdown(false)}
+                        onFocus={() => query.length > 0 && setShowDropdown(true)}
+                        tabIndex={0}>
+                        {/* utk hide dropdown kl klik luar */}
+
                         <Search className="search-icon" size={18} />
                         <input
                             type="text"
-                            placeholder="Search by title, author, or keyword"
+                            placeholder="Search by title, author, or ISBN"
                             className="search-input"
-                        />
+                            value={query}
+                            onChange={(e) => {
+                                setQuery(e.target.value);
+                                setShowDropdown(e.target.value.length > 0);
+                            }} />
+                        {showDropdown && filteredBooks.length > 0 && (
+                            <div className="dropdown-results">
+                                {filteredBooks.map((book) => (
+                                    <div
+                                        key={book.id_buku}
+                                        className="dropdown-item"
+                                        onClick={() => navigate(`/book/${book.id_buku}`)}
+                                    >
+                                        <img src={book.url_foto_cover} className="dropdown-thumb" />
+                                        <div>
+                                            <p className="dropdown-title">{book.judul}</p>
+                                            <p className="dropdown-author">{book.penulis}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
 
                     {/* Sections */}
