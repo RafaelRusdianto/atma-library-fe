@@ -92,6 +92,7 @@ export default function LibraryCatalog() {
 
                     {/* Sections */}
                     <BookSection title="Recommendations" books={randBooks} />
+
                     {/* <BookSection title="Kategori 1" books={books1} /> */}
                     {/* <BookSection title="Kategori 2" books={books2} /> */}
                 </main>

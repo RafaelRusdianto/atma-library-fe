@@ -58,7 +58,7 @@ export default function Register() {
         <img src="/signlogin/logo-montserrat.png" alt="logo" />
       </div>
 
-      <div className="login-card">
+      <div className="register-card">
         <h3 className="login-title">Create Your Account</h3>
 
         <form onSubmit={handleRegister}>
