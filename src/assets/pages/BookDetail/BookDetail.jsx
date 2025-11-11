@@ -20,7 +20,7 @@ export default function BookDetails() {
     return (
         <div className="book-detail-page">
             <h1>{book.judul}</h1>
-            <img src={book.img} alt={book.judul} className="book-detail-image" />
+            <img src={book.url_foto_cover} alt={book.judul} className="book-detail-image" />
             <p><strong>Author:</strong> {book.penulis}</p>
             <p><strong>Penerbit:</strong> {book.penerbit}</p>
             <p><strong>ISBN:</strong> {book.ISBN}</p>

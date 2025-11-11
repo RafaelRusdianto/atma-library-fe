@@ -35,7 +35,7 @@ export default function LibraryCatalog() {
     const navigate = useNavigate();
 
     const [query, setQuery] = useState("");//utk search
-    const [allBooks, setAllBooks] = useState([]);//fetch all books utk search
+    const [filteredBooks, setFilteredBooks] = useState([]);//fetch all books utk search
 
     const [randBooks, setRecommendation] = useState([]);//fetch 8 rand books, utk fungsi setRec
     const [showDropdown, setShowDropdown] = useState(false);//utk dropdown
@@ -44,25 +44,22 @@ export default function LibraryCatalog() {
     useEffect(() => {
         fetch("http://127.0.0.1:8000/api/books/random") //diambil random buku dr route ini
             .then((res) => res.json())                   //ubah ke json
-            .then((data) => setRecommendation(data.data)) //pake function setAllBooks utk simpen datanya di var randBooks
+            .then((data) => setRecommendation(data.data)) //pake function setRecommendation utk simpen datanya di var randBooks
             .catch((err) => console.error("Error fetching books:", err));
     }, []);
 
     //search bar
     useEffect(() => {
-        fetch("http://127.0.0.1:8000/api/buku") //diambil semua buku dr route ini
-            .then((res) => res.json())           //ubah ke json
-            .then((data) => setAllBooks(data.data))//pake function setAllBooks utk simpen datanya di var allBooks
-            .catch((err) => console.error("Error fetching books:", err));
-    }, []);
+        if (query.trim() === "") { //cek isinya spasi doang kaga
+            setFilteredBooks([]); //klo kosong, set array kosong
+            return;
+        }
 
-    //dropdown                          //book ini parameter yg dibawa ke const BookCard
-    const filteredBooks = allBooks.filter((book) =>   //allbooks difilter (.filter(book)) sesuai dgn pencarian, trs disimpen di filteredBooks
-        book.judul.toLowerCase().includes(query.toLowerCase()) ||
-        book.penulis.toLowerCase().includes(query.toLowerCase()) ||
-        (book.isbn && book.isbn.toLowerCase().includes(query.toLowerCase()))
-    ).slice(0, 10);//max show 10 buku aja
-
+        fetch(`http://127.0.0.1:8000/api/buku/search?q=${query}`) //diambil filtered buku dr route ini
+            .then((res) => res.json())                            //ubah ke json
+            .then((data) => setFilteredBooks(data.data))          //pake function setAllBooks utk simpen datanya di var filteredBooks
+            .catch((err) => console.error("Error searching books:", err));
+    }, [query]);//inputan search
 
     return (
         <div className="page-container">
@@ -84,13 +81,27 @@ export default function LibraryCatalog() {
                     </div>
 
                     <div className="filter-group">
-                        <label className="filter-label">Format</label>
-                        {["Book", "eBook", "Journal", "Article"].map((f) => (
-                            <div key={f} className="filter-option">
-                                <input type="checkbox" id={f} />
-                                <label htmlFor={f}>{f}</label>
-                            </div>
-                        ))}
+                        <label className="filter-label">Fiction</label>
+                        {["Fantasy", "Science Fiction", "Dystopian", "Horror", "Mystery / Thriller",
+                            "Adventure", "Action", "Contemporary Fiction", "Historical Fiction",
+                            "Classic Literature", "Literary Fiction", "Mythology"].map((f) => (
+                                <div key={f} className="filter-option">
+                                    <input type="checkbox" id={f} />
+                                    <label htmlFor={f}>{f}</label>
+                                </div>
+                            ))}
+                    </div>
+
+                    <div className="filter-group">
+                        <label className="filter-label">Non-Fiction</label>
+                        {["Memoir / Biography", "Self-Help", "Personal Development", "Psychology",
+                            "Economics", "History", "Philosophy", "Business / Entrepreneurship",
+                            "Political Commentary"].map((f) => (
+                                <div key={f} className="filter-option">
+                                    <input type="checkbox" id={f} />
+                                    <label htmlFor={f}>{f}</label>
+                                </div>
+                            ))}
                     </div>
 
                     <div className="filter-group">
@@ -106,7 +117,7 @@ export default function LibraryCatalog() {
                 <main className="main">
                     {/* Search Bar */}
                     <div className="search-container"
-                        onBlur={() => setShowDropdown(false)}
+                        onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
                         onFocus={() => query.length > 0 && setShowDropdown(true)}
                         tabIndex={0}>
                         {/* utk hide dropdown kl klik luar */}
