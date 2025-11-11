@@ -40,6 +40,7 @@ export default function LibraryCatalog() {
     const [randBooks, setRecommendation] = useState([]);//fetch 8 rand books, utk fungsi setRec
     const [showDropdown, setShowDropdown] = useState(false);//utk dropdown
 
+    //recommendations
     useEffect(() => {
         fetch("http://127.0.0.1:8000/api/books/random") //diambil random buku dr route ini
             .then((res) => res.json())                   //ubah ke json
@@ -54,12 +55,13 @@ export default function LibraryCatalog() {
             .then((data) => setAllBooks(data.data))//pake function setAllBooks utk simpen datanya di var allBooks
             .catch((err) => console.error("Error fetching books:", err));
     }, []);
+
     //dropdown                          //book ini parameter yg dibawa ke const BookCard
     const filteredBooks = allBooks.filter((book) =>   //allbooks difilter (.filter(book)) sesuai dgn pencarian, trs disimpen di filteredBooks
         book.judul.toLowerCase().includes(query.toLowerCase()) ||
         book.penulis.toLowerCase().includes(query.toLowerCase()) ||
         (book.isbn && book.isbn.toLowerCase().includes(query.toLowerCase()))
-    );
+    ).slice(0, 10);//max show 10 buku aja
 
 
     return (
