@@ -3,7 +3,12 @@
   grid-template-columns: 1fr 2fr 1fr;
   align-items: center;
   padding: 15px 50px;
-  background-color: white;
+  background-color: rgb(240, 240, 240);
+
+  position: sticky;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
 }
 
 /* kolom kiri - logo */
