@@ -82,13 +82,14 @@ export default function BookDetail() {
                                 className="book-cover-img"
                             />
                         </div>
-                        <div>
+                        <div className="btn-section">
+                            {/* button-nya nanti deactivate kalo stok == 0 */}
                             <button
                                 type="button"
                                 className="btn-pinjam"
-                                onClick={() => navigate("/")}
+                                onClick={() => navigate("/catalog/book/:id/peminjaman")}
                             >
-                                ← Borrow
+                                Borrow
                             </button>
                         </div>
                     </td>

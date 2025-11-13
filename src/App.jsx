@@ -1,10 +1,10 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./assets/pages/Home/Home";
 import Login from "./assets/pages/Login/Login";
 import Register from "./assets/pages/Register/Register";
 import Catalog from "./assets/pages/Catalog/Catalog";
 import BookDetail from "./assets/pages/BookDetail/BookDetail";
+import Peminjaman from "./assets/pages/Peminjaman/Peminjaman";
 
 import Navbar from "./assets/components/NavBar/navbar";
 import Footer from "./assets/components/Footer/Footer";
@@ -24,8 +24,10 @@ function Layout() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
         <Route path="/catalog" element={<Catalog />} />
-        <Route path="/book/:id" element={<BookDetail />} />
+        <Route path="/catalog/book/:id" element={<BookDetail />} />
+        <Route path="/catalog/book/:id/peminjaman" element={<Peminjaman />} />
       </Routes>
 
       {!hideFooter && <Footer />}

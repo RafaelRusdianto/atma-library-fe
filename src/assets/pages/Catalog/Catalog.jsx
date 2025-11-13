@@ -8,7 +8,7 @@ const BookCard = ({ book }) => { //parameternya 1 buah buku
     return (
         <div
             className="book-card"
-            onClick={() => navigate(`/book/${book.id_buku}`)}
+            onClick={() => navigate(`/catalog/book/${book.id_buku}`)}
             style={{ cursor: "pointer" }}
         >
             <img src={book.url_foto_cover} alt={book.judul} className="book-image" />
@@ -137,7 +137,7 @@ export default function LibraryCatalog() {
                                     <div
                                         key={book.id_buku}
                                         className="dropdown-item"
-                                        onClick={() => navigate(`/book/${book.id_buku}`)}
+                                        onClick={() => navigate(`/catalog/book/${book.id_buku}`)}
                                     >
                                         <img src={book.url_foto_cover} className="dropdown-thumb" />
                                         <div>
