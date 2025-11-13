@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
-import Navbar from "../../components/NavBar/navbar";
 import api from "../../../config/api";
 import { toast } from "react-toastify";
 

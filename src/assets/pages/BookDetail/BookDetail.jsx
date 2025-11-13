@@ -1,34 +1,100 @@
-import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import "./BookDetail.css";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
-export default function BookDetails() {
-    const { id_buku } = useParams();
+export default function BookDetail() {
+    const navigate = useNavigate();
+    const { id } = useParams(); // get book id from route
     const [book, setBook] = useState(null);
 
     useEffect(() => {
-        fetch(`http://127.0.0.1:8000/api/buku/${id_buku}`)
-            .then(res => res.json())
-            .then(data => setBook(data.data))
-            .catch(err => console.error("Error:", err));
-    }, [id_buku]);
+        fetch(`http://127.0.0.1:8000/api/buku/${id}`)
+            .then((res) => res.json())
+            .then((data) => setBook(data.data))
+            .catch((err) => console.error("Error fetching book details:", err));
+    }, [id]);
 
-    if (!book) return <p>Loading...</p>;
+    if (!book) return <p className="loading">Loading book details...</p>;
 
     return (
-        <div className="book-detail-page">
-            <h1>{book.judul}</h1>
-            <img src={book.url_foto_cover} alt={book.judul} className="book-detail-image" />
-            <p><strong>Author:</strong> {book.penulis}</p>
-            <p><strong>Penerbit:</strong> {book.penerbit}</p>
-            <p><strong>ISBN:</strong> {book.ISBN}</p>
-            <p><strong>Tahun Terbit:</strong> {book.tahun_terbit}</p>
-        </div>
+        < div className="book-detail-container" >
+            <div className="breadcrumb">
+                <Link to="/catalog">Catalog</Link> /{" "}
+                /{" "}
+                <span className="title">{book.judul}</span>
+            </div>
+            <table>
+                <tr>
+                    <td className="book-detail-td">
+                        {/* Title */}
+                        <h1 className="book-title-detail">{book.judul}</h1>
+                        <div className="book-header">
+                            <div className="book-info">
+                                <p className="book-author">By {book.penulis}</p>
+                                <p className="book-status">Available</p>
+                                {/* NANTI GANTI AVAILABILITY LEWAT QUERY */}
+                            </div>
+                        </div>
+
+                        {/* Book Details */}
+                        <section className="details-section">
+                            <h2>Book Details</h2>
+                            <table className="details-table">
+                                <tbody>
+                                    <tr>
+                                        <td className="label">Author</td>
+                                        <td className="book-detail-value">{book.penulis}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="label">Publisher</td>
+                                        <td className="book-detail-value">{book.penerbit || "Unknown"}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="label">Publication Date</td>
+                                        <td className="book-detail-value">{book.tahun_terbit || "N/A"}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="label">ISBN</td>
+                                        <td className="book-detail-value">{book.ISBN || "-"}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="label">Stok</td>
+                                        <td className="book-detail-value">{book.stok || "-"}</td>
+                                        {/* HITUNG LEWAT QUERY COPY BUKU */}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                        {/* Abstract */}
+                        <section className="abstract-section">
+                            <h2>Abstract</h2>
+                            <p>
+                                {book.deskripsi ||
+                                    "No abstract available. This book’s description will appear here when provided."}
+                            </p>
+                        </section>
+                    </td>
+                    <td className="book-cover-td">
+                        <div className="book-cover">
+                            <img
+                                src={book.url_foto_cover}
+                                alt={book.judul}
+                                className="book-cover-img"
+                            />
+                        </div>
+                        <div>
+                            <button
+                                type="button"
+                                className="btn-pinjam"
+                                onClick={() => navigate("/")}
+                            >
+                                ← Borrow
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </div >
     );
 }
-
-
-//bisa pinjem disini
-//klo blm login, ke login page

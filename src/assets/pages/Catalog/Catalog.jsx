@@ -1,5 +1,4 @@
-import React from "react";
-import { Import, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import "./Catalog.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
