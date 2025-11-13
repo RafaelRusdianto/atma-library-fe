@@ -64,8 +64,8 @@
 }
 
 .sgnin-btn {
-  background: white;
-  border: 1px solid #ccc;
+  background: rgb(240, 240, 240);
+  border: none;
   padding: 10px 20px;
   border-radius: 6px;
   cursor: pointer;
