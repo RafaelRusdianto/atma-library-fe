@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
-import Navbar from "../../components/NavBar/navbar";
 import api from "../../../config/api";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -28,13 +28,13 @@ export default function Login() {
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
       window.dispatchEvent(new Event("storageUpdate"));
-
+      toast.success("Login Success!");
       navigate("/");
     } catch (error) {
       if (error.response?.data?.errors) {
         setErrors(error.response.data.errors);
       } else {
-        alert("Login failed!");
+        toast.error("Invalid Username or Password!");
       }
     }
   };

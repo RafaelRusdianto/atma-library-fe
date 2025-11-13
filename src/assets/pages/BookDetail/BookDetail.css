@@ -1,0 +1,154 @@
+/* bagian kiri */
+.book-detail-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 40px;
+    font-family: "Inter", sans-serif;
+    color: #222;
+    height: 100vh;
+}
+
+.book-detail-container table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.breadcrumb {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+    padding-bottom: 20px;
+}
+
+.breadcrumb a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.book-title-detail {
+    white-space: normal;
+    word-break: break-word;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 15px 10;
+}
+
+.book-status {
+    color: green;
+    font-weight: 600;
+}
+
+.book-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    gap: 40px;
+}
+
+.book-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.book-author {
+    font-size: 16px;
+    color: #666;
+}
+
+.book-cover-td {
+    padding-left: 20px;
+    /* gap between details n cover */
+    vertical-align: top;
+    width: 320px;
+}
+
+.details-section,
+.abstract-section,
+.availability-section {
+    margin-top: 40px;
+}
+
+.details-section h2,
+.abstract-section h2,
+.availability-section h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.details-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.details-table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.details-table .label {
+    color: #555;
+    width: 180px;
+    font-weight: 600;
+}
+
+.details-table .book-detail-value {
+    padding-left: 120px;
+}
+
+.availability-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.availability-card .status {
+    color: green;
+    font-weight: 600;
+}
+
+/* loading page */
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* ngisi biar full screen */
+    text-align: center;
+    font-size: 18px;
+}
+
+/* bagian kanan */
+.book-cover-img {
+    width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin-top: 10px;
+}
+
+.btn-section {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-pinjam {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background .3s ease, transform .3s ease;
+    font-size: 20px;
+}
+
+.btn-pinjam:hover {
+    background: #005fcc;
+    transform: scale(1.05);
+}

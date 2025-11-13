@@ -3,7 +3,12 @@
   grid-template-columns: 1fr 2fr 1fr;
   align-items: center;
   padding: 15px 50px;
-  background-color: white;
+  background-color: rgb(240, 240, 240);
+
+  position: sticky;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
 }
 
 /* kolom kiri - logo */
@@ -53,6 +58,7 @@
   cursor: pointer;
   transition: background .2s ease;
 }
+
 .regis-btn:hover {
   background: #005fcc;
 }
@@ -75,17 +81,19 @@
 .pfp-btn img {
   width: 40px;
   height: 40px;
-  border-radius: 50%;     /* biar jd lingkaran */
-  object-fit: cover;      /* biar img cover smw lingkaran */
-  border: 2px solid #ddd; 
+  border-radius: 50%;
+  /* biar jd lingkaran */
+  object-fit: cover;
+  /* biar img cover smw lingkaran */
+  border: 2px solid #ddd;
   transition: transform .2s ease, border-color .2s ease;
 }
 
 .pfp-btn:hover img {
   transform: scale(1.08);
-  border-color: #007bff; 
+  border-color: #007bff;
 }
 
 .pfp-btn img {
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }

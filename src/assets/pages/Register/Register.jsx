@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../../components/NavBar/navbar";
 import api from "../../../config/api"; // ← sesuaikan path
+import { toast } from "react-toastify";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -26,19 +26,29 @@ export default function Register() {
 
       // sukses
       localStorage.setItem("token", res.data.token);
-      alert("Register success!");
+      toast.success("Register Success!");
       navigate("/login");
       console.log(res.data);
 
     } catch (error) {
       console.log("REGISTER ERROR:", error.response?.data);
+      const backend = error.response?.data;
+      if (backend?.errors) {
+        Object.values(backend.errors).forEach((msgArr) => {
+          toast.error(msgArr[0]);
+        });
 
-      if (error.response?.data?.errors) {
-        setErrors(error.response.data.errors);
-      } else {
-        alert("Register failed, try again.");
+        setErrors(backend.errors);
+        return;
       }
+
+      if (backend?.message) {
+        toast.error(backend.message);
+        return;
+      }
+      toast.error("Register failed, try again.");
     }
+
   };
 
   return (
@@ -47,7 +57,7 @@ export default function Register() {
         <img src="/signlogin/logo-montserrat.png" alt="logo" />
       </div>
 
-      <div className="login-card">
+      <div className="register-card">
         <h3 className="login-title">Create Your Account</h3>
 
         <form onSubmit={handleRegister}>
