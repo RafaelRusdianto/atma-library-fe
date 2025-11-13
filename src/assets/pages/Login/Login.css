@@ -174,8 +174,14 @@ input {
 .register-text a {
   color: #fff;
   text-decoration: underline;
+  cursor: pointer;
 }
 
+.register-text span {
+  color: #fff;
+  text-decoration: underline;
+  cursor: pointer;
+}
 
 /*utk button balek*/
 .btn-back {

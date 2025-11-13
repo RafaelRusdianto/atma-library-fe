@@ -6,7 +6,7 @@
 /* HERO SECTION */
 .hero {
   height: 55vh;
-  background: linear-gradient(to top, rgba(2, 32, 165, 0.692), rgba(0, 0, 0, 0.452)), url("/home/library-hero.jpg") center/cover no-repeat;
+  background: linear-gradient(to top, rgba(3, 24, 117, 0.692), rgba(0, 0, 0, 0.452)), url("/home/library-hero.jpg") center/cover no-repeat;
   border-radius: 12px;
   margin: 20px auto;
   width: 95%;
