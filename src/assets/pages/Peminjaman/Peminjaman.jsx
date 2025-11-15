@@ -15,7 +15,7 @@ export default function Peminjaman() {
             .catch(() => toast.error("Failed to load book data"));
     }, [id]);
 
-    if (!book) return <p>Loading borrowing details...</p>;
+    if (!book) return <p className="loading">Loading borrowing details...</p>;
 
     return (
         <div className="peminjaman-container">
