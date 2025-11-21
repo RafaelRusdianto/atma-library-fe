@@ -2,6 +2,7 @@ import { Search } from "lucide-react";
 import "./Catalog.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import api from "../../../config/api";
 
 const BookCard = ({ book }) => { //parameternya 1 buah buku
     const navigate = useNavigate();
@@ -11,7 +12,7 @@ const BookCard = ({ book }) => { //parameternya 1 buah buku
             onClick={() => navigate(`/catalog/book/${book.id_buku}`)}
             style={{ cursor: "pointer" }}
         >
-            <img src={book.url_foto_cover} alt={book.judul} className="book-image" />
+            <img src={`http://127.0.0.1:8000/storage/${book.url_foto_cover}`} alt={book.judul} className="book-image" />
             {/* cari cover buku disini https://openlibrary.org/dev/docs/api/covers */}
             <p className="book-title">{book.judul}</p>
             <p className="book-author">{book.penulis}</p>
@@ -41,10 +42,13 @@ export default function LibraryCatalog() {
 
     //recommendations
     useEffect(() => {
-        fetch("http://127.0.0.1:8000/api/books/random") //diambil random buku dr route ini
-            .then((res) => res.json())                   //ubah ke json
-            .then((data) => setRecommendation(data.data)) //pake function setRecommendation utk simpen datanya di var randBooks
-            .catch((err) => console.error("Error fetching books:", err));
+        api.get("/books/random")
+        .then((res) => {
+            setRecommendation(res.data.data);
+        })
+        .catch((err) => {
+            console.error("Error fetching books:", err);
+        });
     }, []);
 
     //search bar
@@ -54,10 +58,9 @@ export default function LibraryCatalog() {
             return;
         }
 
-        fetch(`http://127.0.0.1:8000/api/buku/search?q=${query}`) //diambil filtered buku dr route ini
-            .then((res) => res.json())                            //ubah ke json
-            .then((data) => setFilteredBooks(data.data))          //pake function setAllBooks utk simpen datanya di var filteredBooks
-            .catch((err) => console.error("Error searching books:", err));
+        api.get(`/buku/search?q=${query}`)
+        .then((res) => setFilteredBooks(res.data.data))
+        .catch((err) => console.error("Error searching books:", err));
     }, [query]);//inputan search
 
     return (
@@ -139,7 +142,7 @@ export default function LibraryCatalog() {
                                         className="dropdown-item"
                                         onClick={() => navigate(`/catalog/book/${book.id_buku}`)}
                                     >
-                                        <img src={book.url_foto_cover} className="dropdown-thumb" />
+                                        <img src={`http://127.0.0.1:8000/storage/${book.url_foto_cover}`} className="dropdown-thumb" />
                                         <div>
                                             <p className="dropdown-title">{book.judul}</p>
                                             <p className="dropdown-author">{book.penulis}</p>
