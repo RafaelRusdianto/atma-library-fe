@@ -17,15 +17,15 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const res = await api.post("/login", formData, {
-        headers: { "Content-Type": "application/json" },
-      });
+      const res = await api.post("/login", formData);
 
       // SIMPAN TOKEN, ROLE, USER
       localStorage.setItem("auth", "true");
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("role", res.data.user.role);
       localStorage.setItem("user", JSON.stringify(res.data.user));
+      
+      console.log(res.data);
 
       window.dispatchEvent(new Event("storageUpdate"));
       toast.success("Login Success!");
