@@ -12,7 +12,7 @@ const BookCard = ({ book }) => { //parameternya 1 buah buku
             onClick={() => navigate(`/catalog/book/${book.id_buku}`)}
             style={{ cursor: "pointer" }}
         >
-            <img src={`http://127.0.0.1:8000/storage/${book.url_foto_cover}`} alt={book.judul} className="book-image" />
+            <img src={book.url_foto_cover} alt={book.judul} className="book-image" />
             {/* cari cover buku disini https://openlibrary.org/dev/docs/api/covers */}
             <p className="book-title">{book.judul}</p>
             <p className="book-author">{book.penulis}</p>
@@ -142,7 +142,7 @@ export default function LibraryCatalog() {
                                         className="dropdown-item"
                                         onClick={() => navigate(`/catalog/book/${book.id_buku}`)}
                                     >
-                                        <img src={`http://127.0.0.1:8000/storage/${book.url_foto_cover}`} className="dropdown-thumb" />
+                                        <img src={book.url_foto_cover}className="dropdown-thumb" />
                                         <div>
                                             <p className="dropdown-title">{book.judul}</p>
                                             <p className="dropdown-author">{book.penulis}</p>

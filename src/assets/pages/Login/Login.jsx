@@ -24,7 +24,7 @@ export default function Login() {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("role", res.data.user.role);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      
+
       console.log(res.data);
 
       window.dispatchEvent(new Event("storageUpdate"));

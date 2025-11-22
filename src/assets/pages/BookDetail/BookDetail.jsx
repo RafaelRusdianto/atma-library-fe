@@ -82,7 +82,7 @@ export default function BookDetail() {
                         <td className="book-cover-td">
                             <div className="book-cover">
                                 <img
-                                    src={`http://127.0.0.1:8000/storage/${book.url_foto_cover}`}
+                                    src={book.url_foto_cover}
                                     alt={book.judul}
                                     className="book-cover-img"
                                 />
