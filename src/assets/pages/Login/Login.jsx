@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import api from "../../../config/api";
 import { toast } from "react-toastify";
+import { useAuth } from "../../../context/AuthContext.jsx"; 
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
@@ -20,19 +22,25 @@ export default function Login() {
       const res = await api.post("/login", formData);
 
       // SIMPAN TOKEN, ROLE, USER
-      localStorage.setItem("auth", "true");
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("role", res.data.user.role);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      const token = res.data.token;   // ⬅️ ambil token
+      const role = res.data.user.role;
 
       console.log(res.data);
+  
+
+      // simpan state auth global
+      login(role, token);
 
       window.dispatchEvent(new Event("storageUpdate"));
       toast.success("Login Success!");
       navigate("/");
     } catch (error) {
+      console.error("LOGIN ERROR:", error.response ?? error);
+
       if (error.response?.data?.errors) {
         setErrors(error.response.data.errors);
+      } else if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
       } else {
         toast.error("Invalid Username or Password!");
       }

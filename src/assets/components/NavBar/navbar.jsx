@@ -1,34 +1,15 @@
 import { useEffect, useState } from "react";
 import "./navbar.css";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 
 function Navbar() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [role, setRole] = useState(null);
 
-  useEffect(() => {
-    const updateState = () => {
-      // cek login status
-      const auth = localStorage.getItem("auth");
-      const userRole = localStorage.getItem("role");
+  // Ambil state dari AuthContext
+  const { isLoggedIn, role } = useAuth();
 
-      setIsLoggedIn(auth === "true");
-      setRole(userRole);
-    };
-    window.addEventListener("storageUpdate", updateState);
-
-    return () => {
-      window.removeEventListener("storageUpdate", updateState);
-    };
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("auth");
-    setIsLoggedIn(false);
-    navigate("/login");
-  };
-
+  console.log("Navbar - isLoggedIn:", isLoggedIn, "role:", role);
   return (
     <nav className="navbar">
       <div className="nav-left-col">

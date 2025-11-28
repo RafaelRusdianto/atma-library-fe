@@ -1,0 +1,146 @@
+/* ========== MAIN PAGE WRAPPER ========== */
+.profile-page {
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  background: #f6f7fb;
+  padding: 40px 60px;
+  box-sizing: border-box;
+}
+
+.profile-content {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+/* ========== SIDEBAR ========== */
+.profile-sidebar {
+  width: 400px; /* Nilai Diperbesar */
+  height: 650px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.profile-user-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.profile-avatar-large {
+  width: 150px;
+  height: 150px;
+  border-radius: 100px;
+  background: #e3e3e3;
+  object-fit: cover;
+  margin-bottom: 12px;
+}
+
+.profile-user-info h3 {
+  font-size: 25px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.profile-user-info p {
+  font-size: 20px;
+  color: #7a7a7a;
+  margin-top: 2px;
+}
+
+/* MENU LIST */
+.profile-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-size: 20px;
+  text-align: left;
+  flex-grow: 1; /* Ditambahkan: Ini akan membuat menu list mengisi ruang vertikal yang tersedia */
+  margin-top: 10px; /* Opsional: Berikan sedikit jarak dari info pengguna di atas */
+}
+
+.profile-menu-item:hover {
+  background: #f4f4f7;
+}
+
+.profile-menu-active {
+  border-color: #5b9dff;
+  color: #1a4fad;
+  box-shadow: 0 4px 12px rgba(91, 157, 255, 0.25);
+  transform: translateX(6px);
+}
+.profile-menu-icon {
+   display: inline-flex;          /* biar ikut flex-centering */
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  width: 24px;   
+}
+
+
+/* LOGOUT BUTTON */
+.profile-logout-btn {
+ display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* 🎉 Atur jarak ikon - teks */
+  width: 100%;
+  padding-top: 10px;
+  padding: 14px 0;
+  border-radius: 12px;
+  border: 1.5px solid #d9534f;
+  background: #ffffff;
+  color: #d9534f;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.profile-logout-btn svg {
+  line-height: 1;
+  display: block;
+}
+
+
+/* Style saat di-HOVER (Merah Penuh) */
+.profile-logout-btn:hover {
+  background: #d9534f; /* Latar belakang menjadi merah penuh */
+  color: white; /* Warna teks menjadi putih */
+}
+/* Penyesuaian Icon saat HOVER */
+/* Jika ikonnya berupa teks (⎋), properti color di atas sudah cukup. */
+/* Namun, jika ikonnya terpisah (span.logout-icon), mungkin perlu penyesuaian: */
+.profile-logout-btn:hover .logout-icon {
+  color: white; 
+}
+
+/* ========== MAIN CONTENT AREA ========== */
+.profile-main {
+  flex: 1;
+}
+
+.profile-section-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}

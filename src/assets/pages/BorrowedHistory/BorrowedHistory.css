@@ -1,0 +1,149 @@
+/* toolbar di atas tabel */
+.bh-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* search box */
+.bh-search-box {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.bh-search-box input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  width: 100%;
+  background: transparent;
+}
+
+.bh-search-icon {
+  color: #9ca3af;
+}
+
+/* filter + sort button */
+.bh-toolbar-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.bh-toolbar-btn span {
+  white-space: nowrap;
+}
+
+.bh-toolbar-btn-primary {
+  background: #0052cc;
+  color: #ffffff;
+  border-color: #0052cc;
+}
+
+/* card tabel utama */
+.bh-table-card {
+  margin-top: 10px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 18px 24px 10px;
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
+}
+
+/* header row */
+.bh-table-header {
+  display: grid;
+  grid-template-columns: 2.5fr 1.6fr 1.2fr 1.2fr 1.4fr;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* body rows */
+.bh-table-row {
+  display: grid;
+  grid-template-columns: 2.5fr 1.6fr 1.2fr 1.2fr 1.4fr;
+  align-items: center;
+  font-size: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.bh-last-row {
+  border-bottom: none;
+}
+
+/* book title + cover */
+.bh-col-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bh-book-cover {
+  width: 42px;
+  height: 60px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.bh-book-title {
+  font-weight: 500;
+}
+
+/* author */
+.bh-author-text {
+  color: #6b7280;
+}
+
+/* status */
+.bh-col-status {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.bh-status-pill {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.bh-status-ok {
+  background: #e6fcd9;
+  color: #188038;
+}
+
+.bh-status-fine {
+  background: #fff6c7;
+  color: #b45309;
+}
+
+/* empty spacer row */
+.bh-empty-row {
+  min-height: 40px;
+  border-bottom: none;
+}
+
+/* responsive */
+@media (max-width: 900px) {
+  .bh-table-header,
+  .bh-table-row {
+    grid-template-columns: 2fr 1.5fr 1.2fr 1.2fr 1.4fr;
+  }
+}
+
