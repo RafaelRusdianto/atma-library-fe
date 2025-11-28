@@ -36,7 +36,7 @@ function Navbar() {
           {/*navbar utk staff*/}
           {isLoggedIn && role === "petugas" && (
             <>
-              <li onClick={() => navigate("/manage-books")}>Manage Books</li>
+              <li onClick={() => navigate("/managebooks")}>Manage Books</li>
               <li onClick={() => navigate("/borrow-requests")}>Borrow Requests</li>
               <li onClick={() => navigate("/members")}>Member List</li>
               <li onClick={() => navigate("/reports")}>Reports</li>
