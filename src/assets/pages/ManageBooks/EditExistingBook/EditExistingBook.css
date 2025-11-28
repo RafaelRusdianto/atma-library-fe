@@ -1,0 +1,120 @@
+.eb-wrapper {
+    background: #f4f6f8;
+    padding: 40px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.eb-container {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 1000px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+}
+
+.eb-title {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.eb-subtitle {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.eb-layout {
+    display: flex;
+    gap: 50px;
+}
+
+.eb-cover-section {
+    width: 250px;
+    text-align: center;
+}
+
+.eb-cover-img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.eb-change-cover {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    background: #ececec;
+    border: none;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.eb-delete-book {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    background: #ffdddd;
+    color: #b60000;
+    border: 1px solid #b60000;
+    cursor: pointer;
+}
+
+.eb-form {
+    flex: 1;
+}
+
+.eb-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.eb-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.eb-field label {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.eb-field input,
+.eb-field select,
+.eb-field textarea {
+    border: 1px solid #dcdcdc;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.eb-field textarea {
+    height: 140px;
+}
+
+.eb-full {
+    grid-column: 1 / span 2;
+}
+
+.eb-btn-row {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.eb-cancel {
+    padding: 10px 18px;
+    background: #ececec;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.eb-save {
+    padding: 10px 18px;
+    background: #0d3b66;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}

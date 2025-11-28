@@ -5,6 +5,9 @@ import Register from "./assets/pages/Register/Register";
 import Catalog from "./assets/pages/Catalog/Catalog";
 import BookDetail from "./assets/pages/BookDetail/BookDetail";
 import Peminjaman from "./assets/pages/Peminjaman/Peminjaman";
+import ManageBooks from "./assets/pages/ManageBooks/ManageBooks";
+import CreateNewBook from "./assets/pages/ManageBooks/CreateNewBook/CreateNewBook";
+import EditExistingBook from "./assets/pages/ManageBooks/EditExistingBook/EditExistingBook";
 
 import Navbar from "./assets/components/NavBar/navbar";
 import Footer from "./assets/components/Footer/Footer";
@@ -24,6 +27,9 @@ function Layout() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/managebooks" element={<ManageBooks />} />
+        <Route path="/managebooks/createnewbook" element={<CreateNewBook />} />
+        <Route path="/managebooks/editexistingbook" element={<EditExistingBook />} />
 
         <Route path="/catalog" element={<Catalog />} />
         <Route path="/catalog/book/:id" element={<BookDetail />} />

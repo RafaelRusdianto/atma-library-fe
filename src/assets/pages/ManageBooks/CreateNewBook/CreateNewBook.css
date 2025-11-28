@@ -1,0 +1,97 @@
+.cnb-wrapper {
+    background: #f4f6f8;
+    padding: 40px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.cnb-container {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 900px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+}
+
+.cnb-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.cnb-form {
+    margin-top: 20px;
+}
+
+.cnb-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.cnb-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.cnb-field label {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.cnb-field input,
+.cnb-field select,
+.cnb-field textarea {
+    border: 1px solid #dcdcdc;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.cnb-field textarea {
+    height: 120px;
+    resize: none;
+}
+
+.cnb-full {
+    grid-column: 1 / span 2;
+}
+
+.cnb-author-row {
+    display: flex;
+    gap: 10px;
+}
+
+.cnb-add-btn {
+    width: 60px;
+    background: #0d3b66;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.cnb-btn-row {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.cnb-cancel {
+    padding: 10px 18px;
+    background: #ececec;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.cnb-submit {
+    padding: 10px 18px;
+    background: #0d3b66;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
