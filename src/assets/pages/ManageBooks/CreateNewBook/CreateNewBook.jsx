@@ -59,7 +59,6 @@ export default function CreateNewBook() {
         axios.post("/api/buku/create", payload)
             .then(() => {
                 resetForm();
-                navigate("/managebooks");
                 toast.success("Book added successfully!");
             })
             .catch(err => {
