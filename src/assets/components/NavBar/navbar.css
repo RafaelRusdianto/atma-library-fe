@@ -11,6 +11,12 @@
   z-index: 1000;
 }
 
+.nav-active {
+  color: #007bff;
+  font-weight: 600;
+}
+
+
 /* kolom kiri - logo */
 .navbar-logo {
   width: 200px;

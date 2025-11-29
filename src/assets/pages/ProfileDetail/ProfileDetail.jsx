@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import ProfileLayout from "../ProfileLayout/ProfileLayout";
 import "./ProfileDetail.css";
 import api from "../../../config/api";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
+import { useProfileData } from "../ProfileLayout/ProfileLayout"; // ⬅️ cuma ambil context, BUKAN Layout
 
 export default function ProfileDetail() {
-  const [profile, setProfile] = useState(null);
-  const [isFetching, setIsFetching] = useState(true);
+  // ambil data dari context yang dibuat di ProfileLayout
+  const { profile, setProfile, isFetching, error } = useProfileData();
 
   const [formData, setFormData] = useState({
     nama: "",
@@ -29,43 +29,27 @@ export default function ProfileDetail() {
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
   const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [is2FAEnabled, setIs2FAEnabled] = useState(false);
-  const [error, setError] = useState("");
+  const { updateUser } = useAuth();
+
 
   const navigate = useNavigate();
   const { logout } = useAuth();
+  const role = localStorage.getItem("role");
 
-  // === FETCH PROFILE ===
+  const idLabel = role === "petugas" ? "Staff ID" : "Member ID";
+
+  // sinkronkan form ketika profile dari context berubah
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const role = localStorage.getItem("role");
-        const endpoint =
-          role === "petugas" ? "/petugas/profile" : "/member/profile";
-
-        const res = await api.get(endpoint);
-        console.log("PROFILE RESPONSE:", res.data);
-
-        const data = res.data.data;
-        setProfile(data);
-        setFormData({
-          nama: data.nama || "",
-          username: data.username || "",
-          id_member: data.id_member || "",
-          email: data.email || "",
-          no_telp: data.no_telp || "",
-          alamat: data.alamat || "",
-        });
-      } catch (err) {
-        console.error("Error fetching profile:", err);
-        setError("Gagal memuat data profile.");
-      } finally {
-        setIsFetching(false);
-      }
-    };
-
-    fetchProfile();
-  }, []);
+    if (!profile) return;
+    setFormData({
+      nama: profile.nama || "",
+      username: profile.username || "",
+      id_member: profile.id_member || profile.id_petugas || "",
+      email: profile.email || "",
+      no_telp: profile.no_telp || "",
+      alamat: profile.alamat || "",
+    });
+  }, [profile]);
 
   // === HANDLER ACCOUNT FORM ===
   const handleAccountChange = (e) => {
@@ -78,7 +62,7 @@ export default function ProfileDetail() {
     setFormData({
       nama: profile.nama || "",
       username: profile.username || "",
-      id_member: profile.id_member || "",
+      id_member: profile.id_member || profile.id_petugas || "",
       email: profile.email || "",
       no_telp: profile.no_telp || "",
       alamat: profile.alamat || "",
@@ -89,10 +73,10 @@ export default function ProfileDetail() {
     try {
       setIsUpdatingProfile(true);
 
-      const role = localStorage.getItem("role");
-      // SESUAIKAN endpoint update di backend-mu
       const endpoint =
-        role === "petugas" ? "/petugas/profile/update" : "/member/profile/update";
+        role === "petugas"
+          ? "/petugas/profile/update"
+          : "/member/profile/update";
 
       const payload = {
         nama: formData.nama,
@@ -100,19 +84,35 @@ export default function ProfileDetail() {
         email: formData.email,
         no_telp: formData.no_telp,
         alamat: formData.alamat,
-        // biasanya id_member tidak diubah, jadi tidak dikirim pun tidak apa-apa
       };
 
       const res = await api.post(endpoint, payload);
       console.log("UPDATE PROFILE RESPONSE:", res.data);
 
-      // Update state lokal
-      const updatedData = res.data.data || { ...profile, ...payload };
-      setProfile(updatedData);
+      const updatedData = res.data.data;
+      setProfile(updatedData); // update context → profileLayout & profileDetail ikut berubah
+      updateUser(updatedData);
       toast.success("Profil berhasil diperbarui.");
     } catch (err) {
       console.error("Error updating profile:", err);
-      const msg =
+
+      const errors = err?.response?.data?.errors;
+
+      // Kalau ada error spesifik dari validator
+      if (errors) {
+        if (errors.email && errors.email.length > 0) {
+          toast.error(errors.email[0]);       
+          return;
+        }
+
+        if (errors.username && errors.username.length > 0) {
+          toast.error(errors.username[0]);    
+          return;
+        }
+
+      }
+
+      // Fallback
         err?.response?.data?.message ||
         "Gagal memperbarui profil. Silakan coba lagi.";
       toast.error(msg);
@@ -148,8 +148,6 @@ export default function ProfileDetail() {
 
     try {
       setIsUpdatingPassword(true);
-      const role = localStorage.getItem("role");
-      // SESUAIKAN endpoint dengan backend-mu
       const endpoint =
         role === "petugas"
           ? "/petugas/changePassword"
@@ -177,19 +175,17 @@ export default function ProfileDetail() {
     }
   };
 
-
   // === DELETE ACCOUNT ===
-  const handleDeleteAccount = async () => {
+const handleDeleteAccount = async () => {
     const result = await Swal.fire({
-      title: "Hapus akun?",
-      text: "Tindakan ini tidak dapat dibatalkan. Anda yakin ingin melanjutkan?",
+      title: "Delete account?",
+      text: "This action cannot be undone. Are you sure you want to continue?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Ya, hapus",
-      cancelButtonText: "Batal",
+      cancelButtonText: "Cancel",
+      confirmButtonText: "Yes, delete",
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
-      reverseButtons: true,
     });
 
     if (!result.isConfirmed) return;
@@ -197,7 +193,6 @@ export default function ProfileDetail() {
     try {
       setIsDeleting(true);
 
-      const role = localStorage.getItem("role");
       const endpoint =
         role === "petugas"
           ? "/petugas/profile/delete"
@@ -212,8 +207,8 @@ export default function ProfileDetail() {
       toast.success("Account deleted!");
 
       await Swal.fire({
-        title: "Akun terhapus",
-        text: "Akun Anda berhasil dihapus. Anda akan diarahkan ke halaman utama.",
+        title: "Account Deleted",
+        text: "Your account has been successfully removed. You will be redirected shortly.",
         icon: "success",
         confirmButtonText: "OK",
       });
@@ -223,11 +218,12 @@ export default function ProfileDetail() {
       console.error("Error deleting profile:", err);
       const msg =
         err?.response?.data?.message ||
-        "Gagal menghapus akun. Silakan coba lagi.";
+        "Failed to delete your account. Please try again.";
+
       toast.error(msg);
 
       await Swal.fire({
-        title: "Gagal menghapus akun",
+        title: "Deletion Failed",
         text: msg,
         icon: "error",
         confirmButtonText: "OK",
@@ -237,105 +233,101 @@ export default function ProfileDetail() {
     }
   };
 
-  // === RENDER ===
+
+  // ===== RENDER =====
   if (isFetching)
     return (
-      <ProfileLayout>
+      <div className="settings-page">
         <p>Loading profile...</p>
-      </ProfileLayout>
+      </div>
     );
 
   if (error)
     return (
-      <ProfileLayout>
+      <div className="settings-page">
         <p>{error}</p>
-      </ProfileLayout>
+      </div>
     );
 
   if (!profile) return null;
 
   return (
-    <ProfileLayout profile={profile}>
-      <div className="settings-page">
-        <h2 className="settings-title">Settings</h2>
+    <div className="settings-page">
+      <h2 className="settings-title">Settings</h2>
 
-        {/* ACCOUNT DETAILS */}
-        <section className="settings-section-card">
-          <h3 className="settings-section-heading">Account Details</h3>
+      {/* ACCOUNT DETAILS */}
+      <section className="settings-section-card">
+        <h3 className="settings-section-heading">Account Details</h3>
 
-          <div className="settings-grid-2col">
-            <div className="settings-field">
-              <label>Full Name</label>
-              <input
-                type="text"
-                name="nama"
-                value={formData.nama}
-                onChange={handleAccountChange}
-                placeholder="Enter your full name"
-              />
-            </div>
-
-            <div className="settings-field">
-              <label>Member ID</label>
-              <input
-                type="text"
-                name="id_member"
-                value={formData.id_member}
-                disabled
-              />
-            </div>
-
-            <div className="settings-field">
-              <label>Username</label>
-              <input
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleAccountChange}
-                placeholder="Enter username"
-              />
-            </div>
-
-            <div className="settings-field">
-              <label>Email Address</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleAccountChange}
-                placeholder="Enter your email"
-              />
-            </div>
-
-            <div className="settings-field">
-              <label>Telepon Number</label>
-              <input
-                type="text"
-                name="no_telp"
-                value={formData.no_telp}
-                onChange={handleAccountChange}
-                placeholder="Enter your phone number"
-              />
-            </div>
-
-            
-
-            <div className="settings-field">
-              <label>Address</label>
-              <input
-                type="text"
-                name="alamat"
-                value={formData.alamat}
-                onChange={handleAccountChange}
-                placeholder="Enter your address"
-              />
-            </div>
+        <div className="settings-grid-2col">
+          <div className="settings-field">
+            <label>Full Name</label>
+            <input
+              type="text"
+              name="nama"
+              value={formData.nama}
+              onChange={handleAccountChange}
+              placeholder="Enter your full name"
+            />
           </div>
 
-          
+          <div className="settings-field">
+            <label>{idLabel}</label>
+            <input
+              type="text"
+              name="id_member"
+              value={formData.id_member}
+              disabled
+            />
+          </div>
 
-          <div className="settings-actions">
-            <button
+          <div className="settings-field">
+            <label>Username</label>
+            <input
+              type="text"
+              name="username"
+              value={formData.username}
+              onChange={handleAccountChange}
+              placeholder="Enter username"
+            />
+          </div>
+
+          <div className="settings-field">
+            <label>Email Address</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleAccountChange}
+              placeholder="Enter your email"
+            />
+          </div>
+
+          <div className="settings-field">
+            <label>Telepon Number</label>
+            <input
+              type="text"
+              name="no_telp"
+              value={formData.no_telp}
+              onChange={handleAccountChange}
+              placeholder="Enter your phone number"
+            />
+          </div>
+
+          <div className="settings-field">
+            <label>Address</label>
+            <input
+              type="text"
+              name="alamat"
+              value={formData.alamat}
+              onChange={handleAccountChange}
+              placeholder="Enter your address"
+            />
+          </div>
+        </div>
+
+        <div className="settings-actions">
+          <button
             type="button"
             className="settings-delete-account"
             onClick={handleDeleteAccount}
@@ -344,95 +336,86 @@ export default function ProfileDetail() {
             {isDeleting ? "Deleting account..." : "Delete account"}
           </button>
 
-            <button
-              type="button"
-              className="settings-btn secondary"
-              onClick={resetAccountForm}
-              disabled={isUpdatingProfile}
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              className="settings-btn primary"
-              onClick={handleUpdateProfile}
-              disabled={isUpdatingProfile}
-            >
-              {isUpdatingProfile ? "Saving..." : "Save"}
-            </button>
+          <button
+            type="button"
+            className="settings-btn secondary"
+            onClick={resetAccountForm}
+            disabled={isUpdatingProfile}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="settings-btn primary"
+            onClick={handleUpdateProfile}
+            disabled={isUpdatingProfile}
+          >
+            {isUpdatingProfile ? "Saving..." : "Save"}
+          </button>
+        </div>
+      </section>
 
+      {/* SECURITY */}
+      <h2 className="settings-title">Security</h2>
+      <section className="settings-section-card">
+         <h3 className="settings-section-heading">Change Password</h3>
 
-             
-          </div>
-        </section>
-
-        {/* SECURITY */}
-        <section className="settings-section-card">
-          <h3 className="settings-section-heading">Security</h3>
-
-          <h4 className="settings-subheading">Change Password</h4>
-
-          <div className="settings-grid-2col">
-            <div className="settings-field">
-              <label>Current Password</label>
-              <input
-                type="password"
-                name="currentPassword"
-                value={passwordData.currentPassword}
-                onChange={handlePasswordChange}
-                placeholder="Enter your current password"
-              />
-            </div>
-
-            <div className="settings-field" />
-
-            <div className="settings-field">
-              <label>New Password</label>
-              <input
-                type="password"
-                name="newPassword"
-                value={passwordData.newPassword}
-                onChange={handlePasswordChange}
-                placeholder="Enter your new password"
-              />
-            </div>
-
-            <div className="settings-field">
-              <label>Confirm New Password</label>
-              <input
-                type="password"
-                name="confirmPassword"
-                value={passwordData.confirmPassword}
-                onChange={handlePasswordChange}
-                placeholder="Repeat your new password"
-              />
-            </div>
+        <div className="settings-grid-2col">
+          <div className="settings-field">
+            <label>Current Password</label>
+            <input
+              type="password"
+              name="currentPassword"
+              value={passwordData.currentPassword}
+              onChange={handlePasswordChange}
+              placeholder="Enter your current password"
+            />
           </div>
 
-          <div className="settings-actions">
-            <button
-              type="button"
-              className="settings-btn secondary"
-              onClick={resetPasswordForm}
-              disabled={isUpdatingPassword}
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              className="settings-btn primary"
-              onClick={handleChangePassword}
-              disabled={isUpdatingPassword}
-            >
-              {isUpdatingPassword ? "Saving..." : "Save"}
-            </button>
+          <div className="settings-field" />
+
+          <div className="settings-field">
+            <label>New Password</label>
+            <input
+              type="password"
+              name="newPassword"
+              value={passwordData.newPassword}
+              onChange={handlePasswordChange}
+              placeholder="Enter your new password"
+            />
           </div>
 
-          
+          <div className="settings-field">
+            <label>Confirm New Password</label>
+            <input
+              type="password"
+              name="confirmPassword"
+              value={passwordData.confirmPassword}
+              onChange={handlePasswordChange}
+              placeholder="Repeat your new password"
+            />
+          </div>
+        </div>
 
-         
-        </section>
-      </div>
-    </ProfileLayout>
+        <div className="settings-actions">
+          <button
+            type="button"
+            className="settings-btn secondary"
+            onClick={resetPasswordForm}
+            disabled={isUpdatingPassword}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="settings-btn primary"
+            onClick={handleChangePassword}
+            disabled={isUpdatingPassword}
+          >
+            {isUpdatingPassword ? "Saving..." : "Save"}
+          </button>
+        </div>
+      </section>
+    </div>
   );
 }

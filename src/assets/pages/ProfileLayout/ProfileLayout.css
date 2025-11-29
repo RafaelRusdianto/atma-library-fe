@@ -85,8 +85,8 @@
 .profile-menu-active {
   border-color: #5b9dff;
   color: #1a4fad;
-  box-shadow: 0 4px 12px rgba(91, 157, 255, 0.25);
-  transform: translateX(6px);
+  box-shadow: 0 4px 12px rgba(4, 24, 53, 0.253);
+  /* transform: translateX(6px); */
 }
 .profile-menu-icon {
    display: inline-flex;          /* biar ikut flex-centering */
@@ -143,4 +143,117 @@
   font-size: 26px;
   font-weight: 600;
   margin-bottom: 20px;
+}
+
+.profile-user-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-avatar-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-avatar-large {
+  width: 120px;
+  height: 120px;
+  border-radius: 999px;
+  object-fit: cover;
+  background: #f3f4f6;
+}
+
+/* tombol kamera */
+.profile-avatar-change-btn {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: none;
+  background: #2563eb;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.profile-avatar-change-btn:hover {
+  transform: translateY(-1px);
+}
+
+.profile-avatar-input {
+  display: none;
+}
+
+/* teks di bawah foto */
+.profile-user-info h3 {
+  margin-top: 10px;
+  margin-bottom: 4px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.profile-user-meta {
+  font-size: 0.85rem;
+  color: #6b7280;
+  text-align: center;
+}
+
+
+/* SKELETON SHIMMER */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #e3e6eb 0%,
+    #f0f2f5 40%,
+    #e3e6eb 80%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* skeleton untuk avatar */
+.skeleton-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 999px;
+}
+
+/* skeleton untuk teks */
+.skeleton-text-sm {
+  height: 16px;
+  width: 90px;
+  margin-top: 8px;
+}
+
+.skeleton-text-md {
+  height: 20px;
+  width: 140px;
+  margin-top: 8px;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.35s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
 }

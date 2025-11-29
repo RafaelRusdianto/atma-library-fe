@@ -11,9 +11,9 @@ import EditExistingBook from "./assets/pages/ManageBooks/EditExistingBook/EditEx
 
 import Navbar from "./assets/components/NavBar/navbar";
 import Footer from "./assets/components/Footer/Footer";
-import BorrowedHistory from "./assets/pages/BorrowedHistory/BorrowedHistory";
+import BorrowingHistory from "./assets/pages/BorrowingHistory/BorrowingHistory";
 import ProfileDetail from "./assets/pages/ProfileDetail/ProfileDetail";
-
+import ProfileLayout from "./assets/pages/ProfileLayout/ProfileLayout";
 
 function Layout() {
   const location = useLocation();
@@ -37,8 +37,12 @@ function Layout() {
         <Route path="/catalog" element={<Catalog />} />
         <Route path="/catalog/book/:id" element={<BookDetail />} />
         <Route path="/catalog/book/:id/peminjaman" element={<Peminjaman />} />
-         <Route path="/profile" element={<ProfileDetail />} />
-        <Route path="/profile/borrow-history" element={<BorrowedHistory />} />
+
+        <Route path="/profile" element={<ProfileLayout />}>
+            <Route index element={<ProfileDetail />} />
+            <Route path="borrowing-history" element={<BorrowingHistory />} />
+        </Route>
+       
         {/* <Route path="/profile/fine-history" element={<FinesHistory />} />
         <Route path="/profile/settings" element={<AccountSettings />} /> */}
       </Routes>
