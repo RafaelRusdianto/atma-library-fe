@@ -1,0 +1,142 @@
+/* Page Container */
+.cart-page-container {
+  margin: 40px auto 60px;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.cart-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+/* Loading text */
+.cart-loading {
+  padding: 40px 0;
+  text-align: center;
+  font-size: 16px;
+  color: #6b7280;
+}
+
+/* Card utama */
+.bh-table-card {
+  width: 100%;
+  max-width: 1000px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 18px 22px;
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  
+}
+
+/* Header tabel */
+.bh-table-header {
+  display: grid;
+  grid-template-columns: 2.8fr 1.6fr 1.4fr 1.2fr;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Area body yang scroll */
+.cart-table-body {
+  min-height: 545px;  
+  max-height: 545px;      /* tinggi card, sesuaikan kalau mau lebih */
+  overflow-y: auto;
+}
+
+/* Row */
+.bh-table-row {
+  display: grid;
+  grid-template-columns: 2.8fr 1.6fr 1.4fr 1.2fr;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+/* Kolom judul + cover */
+.bh-col-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bh-book-cover {
+  width: 42px;
+  height: 60px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.bh-book-title {
+  font-weight: 500;
+}
+
+/* Status pill */
+.bh-col-status {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.bh-status-pill {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.bh-status-draft {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+/* Empty state */
+.cart-empty {
+  min-height: 540px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #6b7280;
+}
+
+/* Area tombol di bawah card */
+.cart-actions {
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Submit button */
+.cart-submit-btn {
+  padding: 12px 26px;
+  background: #2563eb;
+  border: none;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.1s;
+  min-width: 230px;
+}
+
+.cart-submit-btn:hover:not(:disabled) {
+  background: #1d4ed8;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+  transform: translateY(-1px);
+}
+
+.cart-submit-btn:disabled {
+  background: #93c5fd;
+  cursor: not-allowed;
+  box-shadow: none;
+}

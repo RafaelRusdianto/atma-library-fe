@@ -14,6 +14,7 @@ import Footer from "./assets/components/Footer/Footer";
 import BorrowingHistory from "./assets/pages/BorrowingHistory/BorrowingHistory";
 import ProfileDetail from "./assets/pages/ProfileDetail/ProfileDetail";
 import ProfileLayout from "./assets/pages/ProfileLayout/ProfileLayout";
+import Cart from "./assets/pages/Cart/Cart";
 
 function Layout() {
   const location = useLocation();
@@ -26,26 +27,28 @@ function Layout() {
     <>
       <Navbar />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/managebooks" element={<ManageBooks />} />
-        <Route path="/managebooks/createnewbook" element={<CreateNewBook />} />
-        <Route path="/managebooks/editexistingbook" element={<EditExistingBook />} />
+       <div className="page-content">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
-        <Route path="/catalog" element={<Catalog />} />
-        <Route path="/catalog/book/:id" element={<BookDetail />} />
-        <Route path="/catalog/book/:id/peminjaman" element={<Peminjaman />} />
+          <Route path="/managebooks" element={<ManageBooks />} />
+          <Route path="/managebooks/createnewbook" element={<CreateNewBook />} />
+          <Route path="/managebooks/editexistingbook" element={<EditExistingBook />} />
 
-        <Route path="/profile" element={<ProfileLayout />}>
+          <Route path="/catalog" element={<Catalog />} />
+          <Route path="/catalog/book/:id" element={<BookDetail />} />
+          <Route path="/catalog/book/:id/peminjaman" element={<Peminjaman />} />
+          <Route path="/cart" element={<Cart />} />
+
+          <Route path="/profile" element={<ProfileLayout />}>
             <Route index element={<ProfileDetail />} />
             <Route path="borrowing-history" element={<BorrowingHistory />} />
-        </Route>
-       
-        {/* <Route path="/profile/fine-history" element={<FinesHistory />} />
-        <Route path="/profile/settings" element={<AccountSettings />} /> */}
-      </Routes>
+          </Route>
+        </Routes>
+      </div>
+
 
       {!hideFooter && <Footer />}
     </>

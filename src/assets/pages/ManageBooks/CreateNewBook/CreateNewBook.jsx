@@ -1,7 +1,6 @@
 import "./CreateNewBook.css";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import api from "../../../../config/api";
