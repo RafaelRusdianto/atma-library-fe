@@ -4,6 +4,7 @@ import Select from "react-select";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import api from "../../../../config/api";
 
 export default function CreateNewBook() {
     const navigate = useNavigate();
@@ -56,7 +57,7 @@ export default function CreateNewBook() {
             id_kategori: selectedGenres.map(g => g.value),
         };
 
-        axios.post("/api/petugas/buku", payload, {
+        axios.post("/petugas/buku", payload, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
