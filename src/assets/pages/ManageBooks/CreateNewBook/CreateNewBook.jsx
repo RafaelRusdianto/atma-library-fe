@@ -32,7 +32,7 @@ export default function CreateNewBook() {
     }
 
     useEffect(() => {
-        axios.get("/api/kategori")
+        axios.get("/kategori")
             .then(res => {
                 const list = res.data.data.map(k => ({
                     value: k.id_kategori,
