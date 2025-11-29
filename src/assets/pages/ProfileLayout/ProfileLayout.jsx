@@ -1,40 +1,37 @@
-// src/pages/Profile/ProfileLayout/ProfileLayout.jsx
+import { useNavigate, useLocation, Outlet } from "react-router-dom";
+import { User2, History, CreditCard, LogOut, Camera } from "lucide-react";
+import { useAuth } from "../../../context/AuthContext";
+import api from "../../../config/api";
+import "./ProfileLayout.css";
+import Swal from "sweetalert2";  
+
 import React, {
   createContext,
   useContext,
   useEffect,
   useState,
+  useRef,
 } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../../../context/AuthContext";
-import api from "../../../config/api";
 
-import {
-  User2,
-  History,
-  CreditCard,
-  LogOut,
-} from "lucide-react";
-import "./ProfileLayout.css";
 
-// ===== CONTEXT utk data profile =====
 const ProfileContext = createContext(null);
 export const useProfileData = () => useContext(ProfileContext);
 
-export default function ProfileLayout({ children }) {
+export default function ProfileLayout() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { logout } = useAuth();
+  const { logout, updateUser, role  } = useAuth();
 
   const [profile, setProfile] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState("");
 
-  // === FETCH PROFILE SEKALI DI SINI ===
+  const fileInputRef = useRef(null);
+
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const role = localStorage.getItem("role");
         const endpoint =
           role === "petugas" ? "/petugas/profile" : "/member/profile";
 
@@ -50,22 +47,95 @@ export default function ProfileLayout({ children }) {
     };
 
     fetchProfile();
-  }, []);
+  }, [role]);
 
   const isActive = (path) => location.pathname === path;
 
-  // bisa dikasih skeleton / pesan error di sini
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleAvatarChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const endpoint =
+      role === "petugas"
+        ? "/petugas/profile/update"
+        : "/member/profile/update";
+
+    const formData = new FormData();
+    formData.append("url_foto_profil", file); // <-- nama field backend
+ 
+
+    try {
+      const res = await api.post(endpoint, formData);
+      console.log("Foto profil berhasil diupdate:", res.data);
+      setProfile(res.data.data);
+      updateUser(res.data.data);
+    } catch (err) {
+      console.error("Gagal update foto profil:", err);
+      console.log("Server error:", err.response?.data);
+    }
+  };
+
+  const handleLogoutClick = () => {
+    Swal.fire({
+      title: "Log out?",
+      text: "You will be signed out from your account.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, log out",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#d9534f",
+      cancelButtonColor: "#6c757d",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout();
+        navigate("/login");
+
+        Swal.fire({
+          icon: "success",
+          title: "Logged out",
+          text: "You have been logged out successfully.",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      }
+    });
+  };
+
+
   if (isFetching) {
     return (
       <div className="profile-page">
         <div className="profile-content">
+          <aside className="profile-sidebar">
+
+            <div className="profile-user-card" style={{alignItems:"center"}}>
+              <div className="skeleton skeleton-avatar"></div>
+              <div className="skeleton skeleton-text-md"></div>
+              <div className="skeleton skeleton-text-sm"></div>
+            </div>
+
+            <div className="profile-menu-list">
+              <div className="skeleton skeleton-text-md"></div>
+              <div className="skeleton skeleton-text-md"></div>
+              <div className="skeleton skeleton-text-md"></div>
+            </div>
+
+            <div className="skeleton skeleton-text-md" style={{width:"100%", height:"40px"}}></div>
+
+          </aside>
+
           <main className="profile-main">
-            <p>Loading profile...</p>
+            <div className="settings-section-card skeleton" style={{height:"400px"}}></div>
           </main>
         </div>
       </div>
     );
   }
+
 
   if (error || !profile) {
     return (
@@ -88,17 +158,35 @@ export default function ProfileLayout({ children }) {
           {/* ==== SIDEBAR ==== */}
           <aside className="profile-sidebar">
             <div className="profile-user-card">
-              <img
-                src={profile?.url_foto_profil || "/icons/blank-pfp.png"}
-                className="profile-avatar-large"
-                alt="Profile Avatar"
-              />
+              <div className="profile-avatar-wrapper">
+                <img
+                  src={profile?.url_foto_profil || "/icons/blank-pfp.png"}
+                  className="profile-avatar-large"
+                  alt="Profile Avatar"
+                />
+                <button
+                  type="button"
+                  className="profile-avatar-change-btn"
+                  onClick={handleAvatarClick}
+                  title="Ganti foto profil"
+                >
+                  <Camera size={16} />
+                </button>
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  className="profile-avatar-input"
+                  onChange={handleAvatarChange}
+                />
+              </div>
+
               <div className="profile-user-info">
-                <h3>{profile?.nama || "User"}</h3>
-                <p>
-                  {profile?.id_member ??
-                    profile?.id_petugas ??
-                    "-"}
+                <h3>{profile?.nama || profile?.username || "User"}</h3>
+                <p className="profile-user-meta">
+                  {role === "petugas" ? "Staff" : "Member"} · ID:{" "}
+                  {profile?.id_member ?? profile?.id_petugas ?? "-"}
                 </p>
               </div>
             </div>
@@ -118,11 +206,11 @@ export default function ProfileLayout({ children }) {
 
               <button
                 className={`profile-menu-item ${
-                  isActive("/profile/borrow-history")
+                  isActive("/profile/borrowing-history")
                     ? "profile-menu-active"
                     : ""
                 }`}
-                onClick={() => navigate("/profile/borrow-history")}
+                onClick={() => navigate("/profile/borrowing-history")}
               >
                 <span className="profile-menu-icon">
                   <History size={25} />
@@ -147,10 +235,7 @@ export default function ProfileLayout({ children }) {
 
             <button
               className="profile-logout-btn"
-              onClick={() => {
-                logout();
-                navigate("/login");
-              }}
+              onClick={handleLogoutClick}
             >
               <span className="profile-menu-icon logout-icon">
                 <LogOut size={18} />
@@ -159,8 +244,10 @@ export default function ProfileLayout({ children }) {
             </button>
           </aside>
 
-          {/* ==== MAIN CONTENT ==== */}
-          <main className="profile-main">{children}</main>
+          {/* ==== MAIN CONTENT (sub page) ==== */}
+          <main className="profile-main">
+            <Outlet /> {/* ⬅️ di sini isi halaman kanan */}
+          </main>
         </div>
       </div>
     </ProfileContext.Provider>

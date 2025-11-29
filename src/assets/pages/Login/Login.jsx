@@ -24,12 +24,12 @@ export default function Login() {
       // SIMPAN TOKEN, ROLE, USER
       const token = res.data.token;   // ⬅️ ambil token
       const role = res.data.user.role;
+      const userData = res.data.user;
+
+      login(role, token, userData);
 
       console.log(res.data);
-  
 
-      // simpan state auth global
-      login(role, token);
 
       window.dispatchEvent(new Event("storageUpdate"));
       toast.success("Login Success!");

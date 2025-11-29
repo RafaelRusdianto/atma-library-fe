@@ -1,13 +1,23 @@
 import { useEffect, useState } from "react";
 import "./navbar.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
+
 
 function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation(); 
+  const isActive = (path) => location.pathname === path;
+  
+   // Ambil state dari AuthContext
+  const { isLoggedIn, role, user } = useAuth();
 
-  // Ambil state dari AuthContext
-  const { isLoggedIn, role } = useAuth();
+  console.log("USER NAVBAR:", user);
+  const fotoProfil = user?.url_foto_profil
+    ? user.url_foto_profil
+    : "/icons/blank-pfp.png";
+
+ 
 
   console.log("Navbar - isLoggedIn:", isLoggedIn, "role:", role);
   return (
@@ -21,25 +31,25 @@ function Navbar() {
       <div className="nav-center-col">
         <ul className="nav-links">
           {/*navbar utk umum*/}
-          <li onClick={() => navigate("/catalog")}>Catalog</li>
-          <li onClick={() => navigate("/support")}>Support</li>
+          <li className={isActive("/catalog") ? "nav-active" : ""} onClick={() => navigate("/catalog")}>Catalog</li>
+          <li className={isActive("/support") ? "nav-active" : ""}  onClick={() => navigate("/support")}>Support</li>
 
           {/*navbar utk user*/}
           {isLoggedIn && role === "member" && (
             <>
-              <li onClick={() => navigate("/ongoing")}>On-Going</li>
-              <li onClick={() => navigate("/fines")}>Fines</li>
-              <li onClick={() => navigate("/cart")}>Cart</li>
+              <li className={isActive("/ongoing") ? "nav-active" : ""}  onClick={() => navigate("/ongoing")}>On-Going</li>
+              <li className={isActive("/fines") ? "nav-active" : ""}  onClick={() => navigate("/fines")}>Fines</li>
+              <li className={isActive("/cart") ? "nav-active" : ""}  onClick={() => navigate("/cart")}>Cart</li>
             </>
           )}
 
           {/*navbar utk staff*/}
           {isLoggedIn && role === "petugas" && (
             <>
-              <li onClick={() => navigate("/managebooks")}>Manage Books</li>
-              <li onClick={() => navigate("/borrow-requests")}>Borrow Requests</li>
-              <li onClick={() => navigate("/members")}>Member List</li>
-              <li onClick={() => navigate("/reports")}>Reports</li>
+              <li className={isActive("/managebooks") ? "nav-active" : ""}  onClick={() => navigate("/managebooks")}>Manage Books</li>
+              <li className={isActive("/borrow-requests") ? "nav-active" : ""}  onClick={() => navigate("/borrow-requests")}>Borrow Requests</li>
+              <li className={isActive("/members") ? "nav-active" : ""}  onClick={() => navigate("/members")}>Member List</li>
+              <li className={isActive("/reports") ? "nav-active" : ""}  onClick={() => navigate("/reports")}>Reports</li>
             </>
           )}
 
@@ -55,7 +65,7 @@ function Navbar() {
           </>
         ) : (
           <button className="pfp-btn" onClick={() => navigate("/profile")}>
-            <img src="/icons/blank-pfp.png" alt="pfp" />
+            <img src={fotoProfil} alt="pfp" />
           </button>
         )}
       </div>

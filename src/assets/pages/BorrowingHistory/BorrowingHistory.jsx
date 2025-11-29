@@ -1,7 +1,9 @@
 import React from "react";
 import { Search, Calendar, ArrowUpDown } from "lucide-react";
-import ProfileLayout from "../ProfileLayout/ProfileLayout";
-import "./BorrowedHistory.css";
+import "./BorrowingHistory.css";
+// ❌ HAPUS: import ProfileLayout from "../ProfileLayout/ProfileLayout";
+
+
 
 const historyData = [
   {
@@ -36,9 +38,10 @@ const historyData = [
   },
 ];
 
+
 export default function BorrowedHistory() {
   return (
-    <ProfileLayout>
+    <>
       <h2 className="profile-section-title">Borrowing History</h2>
 
       {/* Search & filter bar */}
@@ -73,7 +76,6 @@ export default function BorrowedHistory() {
           <div className="bh-col-status">STATUS / FINE</div>
         </div>
 
-        {/* rows */}
         {historyData.map((item, idx) => (
           <div
             key={item.id}
@@ -118,7 +120,6 @@ export default function BorrowedHistory() {
           </div>
         ))}
 
-        {/* extra bottom spacing row (optional) */}
         <div className="bh-table-row bh-empty-row">
           <div className="bh-col-title" />
           <div className="bh-col-author" />
@@ -127,6 +128,6 @@ export default function BorrowedHistory() {
           <div className="bh-col-status" />
         </div>
       </section>
-    </ProfileLayout>
+    </>
   );
 }

@@ -13,12 +13,24 @@ export function AuthProvider({ children }) {
     () => localStorage.getItem("token") || ""
   );
 
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem("user");
+    return saved ? JSON.parse(saved) : null;
+  });
+
+
   // dipanggil saat login sukses
-  const login = (newRole, newToken) => {
+  const login = (newRole, newToken, userData) => {
     localStorage.setItem("auth", "true");
     localStorage.setItem("role", newRole);
+
     if (newToken) {
       localStorage.setItem("token", newToken);
+    }
+
+    if (userData) {
+      localStorage.setItem("user", JSON.stringify(userData));
+      setUser(userData); 
     }
 
     setIsLoggedIn(true);
@@ -38,8 +50,17 @@ export function AuthProvider({ children }) {
     setToken(null);
   };
 
+  //  dipakai setelah update profile / fetch profile lagi
+  const updateUser = (newUserData) => {
+    setUser((prev) => {
+      const merged = { ...(prev || {}), ...newUserData };
+      localStorage.setItem("user", JSON.stringify(merged));
+      return merged;
+    });
+  };
+
   return (
-    <AuthContext.Provider value={{ isLoggedIn, role, token, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, role, token, login, logout, updateUser, user }}>
       {children}
     </AuthContext.Provider>
   );
