@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import api from "../../../../config/api";
 
 export default function CreateNewBook() {
     const navigate = useNavigate();
@@ -31,7 +32,7 @@ export default function CreateNewBook() {
     }
 
     useEffect(() => {
-        axios.get("/api/kategori")
+        api.get("/kategori")
             .then(res => {
                 const list = res.data.data.map(k => ({
                     value: k.id_kategori,
@@ -56,12 +57,11 @@ export default function CreateNewBook() {
             id_kategori: selectedGenres.map(g => g.value),
         };
 
-        axios.post("/api/buku/create", payload)
+        api.post("/petugas/buku", payload,)
             .then(() => {
                 resetForm();
                 toast.success("Book added successfully!");
-            })
-            .catch(err => {
+            }).catch(err => {
                 console.error(err);
 
                 if (err.response?.data?.errors) {
