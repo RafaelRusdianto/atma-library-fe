@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { Search } from "lucide-react";
 import api from "../../../../config/api";
 import Select from "react-select";
+import Swal from "sweetalert2";
 
 export default function EditExistingBook() {
     const navigate = useNavigate();
@@ -53,23 +54,27 @@ export default function EditExistingBook() {
             .catch(err => console.error(err));
     }, []);
 
-    function handleSubmit(e) {
+    //fungsi utk save edit
+    function handleSave(e) {
         e.preventDefault();
+        if (!bookData.judul || !bookData.penulis) {
+            toast.error("Title and Author cannot be empty!");
+            return;
+        }
 
         const payload = {
-            judul: title,
-            penulis: author,
-            deskripsi: description,
-            penerbit: publisher,
-            ISBN: isbn,
-            tahun_terbit: year,
-            url_foto_cover: coverUrl ?? null,
+            judul: bookData.judul,
+            penulis: bookData.penulis,
+            deskripsi: bookData.deskripsi,
+            penerbit: bookData.penerbit,
+            ISBN: bookData.ISBN,
+            tahun_terbit: bookData.tahun_terbit,
+            url_foto_cover: bookData.url_foto_cover ?? null,
             id_kategori: selectedGenres.map(g => g.value),
         };
 
-        axios.post("/api/buku/{id_buku}", payload).then(() => {
-            resetForm();
-            toast.success("Book added successfully!");
+        api.post(`/petugas/buku/${bookData.id_buku}`, payload).then(() => {
+            toast.success("Book changes saved!");
         }).catch(err => {
             console.error(err);
 
@@ -83,11 +88,76 @@ export default function EditExistingBook() {
             }
             const message =
                 err.response?.data?.message ||
-                "Failed adding book. Please try again.";
+                "Failed saving changes. Please try again.";
 
             toast.error(message);
         });
     }
+    //fungsi utk delete buku
+    const handleDeleteBook = async () => {
+        if (!bookData.id_buku) return;
+
+        try {
+            //tampilkan konfirmasi
+            const result = await Swal.fire({
+                title: `Hapus buku "${bookData.judul}"?`,
+                text: "Tindakan ini tidak dapat dibatalkan. Anda yakin ingin melanjutkan?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Ya, hapus",
+                cancelButtonText: "Batal",
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                reverseButtons: true,
+            });
+
+            if (!result.isConfirmed) return;
+
+            //request delete ke backend
+            const res = await api.delete(`/petugas/buku/${bookData.id_buku}`);
+            console.log("DELETE RESPONSE:", res.data);
+
+            toast.success("Buku berhasil dihapus!");
+
+            //tampilkan Swal sukses
+            await Swal.fire({
+                title: "Buku terhapus",
+                text: `Buku "${bookData.judul}" berhasil dihapus.`,
+                icon: "success",
+                confirmButtonText: "OK",
+            });
+
+            //reset form n redirect
+            setBookData({
+                id_buku: "",
+                judul: "",
+                penulis: "",
+                ISBN: "",
+                penerbit: "",
+                tahun_terbit: "",
+                url_foto_cover: "",
+                deskripsi: "",
+                jumlah_copy: "",
+                id_kategori: ""
+            });
+            setSelectedGenres([]);
+            navigate("/managebooks");
+
+        } catch (err) {
+            console.error("Error deleting book:", err);
+            const msg = err?.response?.data?.message || "Gagal menghapus buku. Silakan coba lagi.";
+            toast.error(msg);
+
+            await Swal.fire({
+                title: "Gagal menghapus buku",
+                text: msg,
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+        } finally {
+            setIsDeleting(false);
+        }
+    };
 
     return (
         <div className="eb-wrapper">
@@ -155,12 +225,13 @@ export default function EditExistingBook() {
                             className="eb-cover-img"
                             alt={bookData.judul || "Book cover"}
                         />
-                        <button className="eb-change-cover">Change Cover</button>
-                        <button className="eb-delete-book">Delete Book</button>
+                        <button type="button" className="eb-delete-book" onClick={handleDeleteBook}>
+                            Delete Book
+                        </button>
                     </div>
 
                     {/* Kanan - Form Edit */}
-                    <form className="eb-form">
+                    <form className="eb-form" onSubmit={handleSave}>
                         <div className="eb-grid">
 
                             <div className="eb-field">
@@ -235,7 +306,7 @@ export default function EditExistingBook() {
                             </div>
 
                             <div className="eb-field">
-                                <label>Cover Image</label>
+                                <label>Cover Image URL</label>
                                 <input
                                     type="text"
                                     value={bookData.url_foto_cover}

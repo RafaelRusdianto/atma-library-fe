@@ -32,7 +32,7 @@ export default function CreateNewBook() {
     }
 
     useEffect(() => {
-        axios.get("/kategori")
+        api.get("/kategori")
             .then(res => {
                 const list = res.data.data.map(k => ({
                     value: k.id_kategori,
@@ -57,30 +57,27 @@ export default function CreateNewBook() {
             id_kategori: selectedGenres.map(g => g.value),
         };
 
-        axios.post("/petugas/buku", payload, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`
-            }
-        }).then(() => {
-            resetForm();
-            toast.success("Book added successfully!");
-        }).catch(err => {
-            console.error(err);
+        api.post("/petugas/buku", payload,)
+            .then(() => {
+                resetForm();
+                toast.success("Book added successfully!");
+            }).catch(err => {
+                console.error(err);
 
-            if (err.response?.data?.errors) {
-                const errorList = err.response.data.errors;
+                if (err.response?.data?.errors) {
+                    const errorList = err.response.data.errors;
 
-                Object.values(errorList).forEach(msgArr => {
-                    toast.error(msgArr[0]);
-                });
-                return;
-            }
-            const message =
-                err.response?.data?.message ||
-                "Failed adding book. Please try again.";
+                    Object.values(errorList).forEach(msgArr => {
+                        toast.error(msgArr[0]);
+                    });
+                    return;
+                }
+                const message =
+                    err.response?.data?.message ||
+                    "Failed adding book. Please try again.";
 
-            toast.error(message);
-        });
+                toast.error(message);
+            });
     }
 
 
