@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 export default function CreateNewBook() {
     const navigate = useNavigate();
@@ -56,28 +56,30 @@ export default function CreateNewBook() {
             id_kategori: selectedGenres.map(g => g.value),
         };
 
-        axios.post("/api/buku/create", payload)
-            .then(() => {
-                resetForm();
-                toast.success("Book added successfully!");
-            })
-            .catch(err => {
-                console.error(err);
+        axios.post("/api/petugas/buku", payload, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        }).then(() => {
+            resetForm();
+            toast.success("Book added successfully!");
+        }).catch(err => {
+            console.error(err);
 
-                if (err.response?.data?.errors) {
-                    const errorList = err.response.data.errors;
+            if (err.response?.data?.errors) {
+                const errorList = err.response.data.errors;
 
-                    Object.values(errorList).forEach(msgArr => {
-                        toast.error(msgArr[0]);
-                    });
-                    return;
-                }
-                const message =
-                    err.response?.data?.message ||
-                    "Failed adding book. Please try again.";
+                Object.values(errorList).forEach(msgArr => {
+                    toast.error(msgArr[0]);
+                });
+                return;
+            }
+            const message =
+                err.response?.data?.message ||
+                "Failed adding book. Please try again.";
 
-                toast.error(message);
-            });
+            toast.error(message);
+        });
     }
 
 
