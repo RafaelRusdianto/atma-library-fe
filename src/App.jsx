@@ -15,6 +15,7 @@ import BorrowingHistory from "./assets/pages/BorrowingHistory/BorrowingHistory";
 import ProfileDetail from "./assets/pages/ProfileDetail/ProfileDetail";
 import ProfileLayout from "./assets/pages/ProfileLayout/ProfileLayout";
 import Cart from "./assets/pages/Cart/Cart";
+import OnGoing from "./assets/pages/OnGoing/OnGoing";
 
 function Layout() {
   const location = useLocation();
@@ -41,6 +42,8 @@ function Layout() {
           <Route path="/catalog/book/:id" element={<BookDetail />} />
           <Route path="/catalog/book/:id/peminjaman" element={<Peminjaman />} />
           <Route path="/cart" element={<Cart />} />
+
+          <Route path="/on-going" element={<OnGoing />} />
 
           <Route path="/profile" element={<ProfileLayout />}>
             <Route index element={<ProfileDetail />} />
