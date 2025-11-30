@@ -38,12 +38,13 @@
 /* Header tabel */
 .bh-table-header {
   display: grid;
-  grid-template-columns: 2.8fr 1.6fr 1.4fr 1.2fr;
+  grid-template-columns:2.1fr 1.8fr 1.9fr 1.0fr;
   font-size: 13px;
   font-weight: 600;
   color: #6b7280;
   padding-bottom: 10px;
   border-bottom: 1px solid #e5e7eb;
+  padding-left: 10px;
 }
 
 /* Area body yang scroll */
@@ -56,10 +57,11 @@
 /* Row */
 .bh-table-row {
   display: grid;
-  grid-template-columns: 2.8fr 1.6fr 1.4fr 1.2fr;
+  grid-template-columns:2.1fr 1.8fr 1.9fr 1.0fr;
   align-items: center;
   padding: 14px 0;
   border-bottom: 1px solid #f1f5f9;
+  padding-left: 10px;
 }
 
 /* Kolom judul + cover */
