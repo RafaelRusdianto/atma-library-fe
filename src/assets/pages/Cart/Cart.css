@@ -20,10 +20,11 @@
   text-align: center;
   font-size: 16px;
   color: #6b7280;
+  min-height: 540px;
 }
 
-/* Card utama */
-.bh-table-card {
+/* Card utama (container tabel) */
+.cart-table-card {
   width: 100%;
   max-width: 1000px;
   background: #ffffff;
@@ -32,13 +33,12 @@
   box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
   display: flex;
   flex-direction: column;
-  
 }
 
-/* Header tabel */
-.bh-table-header {
+/* Header tabel khusus Cart */
+.cart-table-header {
   display: grid;
-  grid-template-columns:2.1fr 1.8fr 1.9fr 1.0fr;
+  grid-template-columns:  2.8fr 1.9fr 1.2fr;
   font-size: 13px;
   font-weight: 600;
   color: #6b7280;
@@ -47,21 +47,23 @@
   padding-left: 10px;
 }
 
-/* Area body yang scroll */
-.cart-table-body {
-  min-height: 545px;  
-  max-height: 545px;      /* tinggi card, sesuaikan kalau mau lebih */
-  overflow-y: auto;
-}
-
-/* Row */
-.bh-table-row {
+/* Row khusus Cart */
+.cart-table-row {
   display: grid;
-  grid-template-columns:2.1fr 1.8fr 1.9fr 1.0fr;
+  grid-template-columns: 2.8fr 1.9fr 1.2fr;
   align-items: center;
   padding: 14px 0;
   border-bottom: 1px solid #f1f5f9;
   padding-left: 10px;
+}
+
+/* Area body yang scroll */
+.cart-table-body {
+  min-height: 545px;
+  max-height: 545px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Kolom judul + cover */
@@ -82,26 +84,9 @@
   font-weight: 500;
 }
 
-/* Status pill */
-.bh-col-status {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.bh-status-pill {
-  padding: 4px 12px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.bh-status-draft {
-  background: #e5e7eb;
-  color: #374151;
-}
-
 /* Empty state */
 .cart-empty {
+  flex: 1;
   min-height: 540px;
   display: flex;
   align-items: center;
@@ -141,4 +126,59 @@
   background: #93c5fd;
   cursor: not-allowed;
   box-shadow: none;
+}
+
+/* Skeleton base */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: #e5e7eb;
+  border-radius: 999px;
+}
+
+/* Shimmer effect */
+.skeleton::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+  animation: skeleton-shimmer 1.2s infinite linear;
+}
+
+@keyframes skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Variasi ukuran skeleton */
+.skeleton-cover {
+  width: 40px;
+  height: 56px;
+  border-radius: 8px;
+  margin-right: 12px;
+}
+
+.skeleton-text-long {
+  width: 160px;
+  height: 12px;
+  border-radius: 6px;
+}
+
+.skeleton-text {
+  width: 100px;
+  height: 12px;
+  border-radius: 6px;
+}
+
+.skeleton-pill {
+  width: 80px;
+  height: 20px;
+  border-radius: 999px;
 }
