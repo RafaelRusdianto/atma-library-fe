@@ -1,0 +1,201 @@
+/* ================================
+   ON-GOING TABLE LAYOUT
+   ================================ */
+
+/* Header tabel */
+.ongoing-table-header {
+  display: grid;
+  grid-template-columns: 2.1fr 1.6fr 1.5fr 1.1fr 1.1fr; /* 5 kolom */
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-left: 10px;
+}
+
+/* Body scroll area */
+.ongoing-table-body {
+  min-height: 545px;
+  max-height: 545px;
+  overflow-y: auto;
+}
+
+/* Row */
+.ongoing-table-row {
+  display: grid;
+  grid-template-columns: 2.1fr 1.6fr 1.5fr 1.1fr 1.1fr;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid #f1f5f9;
+  padding-left: 10px;
+}
+
+/* ================================
+   STATUS PILL
+   ================================ */
+.bh-col-status {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.bh-status-pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.bh-status-borrowed {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* ================================
+   ACTION BUTTON (RETURN)
+   ================================ */
+
+.bh-col-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.bh-action-btn {
+  padding: 6px 14px;
+  border-radius: 10px;
+  border: none;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  background: #16a34a; /* Green */
+  color: #ffffff;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.1s;
+  margin-right: 75px;
+}
+
+/* Hover aktif */
+.bh-action-btn:hover:not(.bh-action-btn-disabled) {
+  background: #15803d;
+  box-shadow: 0 6px 16px rgba(22, 163, 74, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Tombol nonaktif */
+.bh-action-btn-disabled {
+  background: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Card utama untuk On-going (dipakai saat loading & saat ada data) */
+.ongoing-table-card {
+  width: 100%;
+  max-width: 1000px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 18px 22px;
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Biar loading tingginya sama dengan tinggi tabel (545px)
+   dan teksnya di tengah */
+.ongoing-table-card .cart-loading {
+  min-height: 545px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Skeleton base */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: #e5e7eb; /* gray-200 */
+  border-radius: 999px;
+}
+
+/* Shimmer effect */
+.skeleton::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.7),
+    transparent
+  );
+  animation: skeleton-shimmer 1.2s infinite linear;
+}
+
+@keyframes skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Variasi ukuran skeleton */
+.skeleton-cover {
+  width: 40px;
+  height: 56px;
+  border-radius: 8px;
+  margin-right: 12px;
+}
+
+.skeleton-text-long {
+  width: 160px;
+  height: 12px;
+  border-radius: 6px;
+}
+
+.skeleton-text {
+  width: 100px;
+  height: 12px;
+  border-radius: 6px;
+}
+
+.skeleton-pill {
+  width: 80px;
+  height: 20px;
+  border-radius: 999px;
+}
+
+/* ================================
+   ACTION BAR (RETURN ALL)
+   ================================ */
+
+.ongoing-actions {
+  margin-top: 18px;
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Tombol Return All */
+.ongoing-return-all-btn {
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #16a34a;
+  color: #ffffff;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.1s;
+}
+
+.ongoing-return-all-btn:hover:not(.ongoing-return-all-btn-disabled) {
+  background: #15803d;
+  box-shadow: 0 8px 18px rgba(22, 163, 74, 0.35);
+  transform: translateY(-1px);
+}
+
+.ongoing-return-all-btn-disabled {
+  background: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+  box-shadow: none;
+}
