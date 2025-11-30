@@ -37,7 +37,7 @@ function Navbar() {
           {/*navbar utk user*/}
           {isLoggedIn && role === "member" && (
             <>
-              <li className={isActive("/ongoing") ? "nav-active" : ""}  onClick={() => navigate("/ongoing")}>On-Going</li>
+              <li className={isActive("/on-going") ? "nav-active" : ""}  onClick={() => navigate("/on-going")}>On-Going</li>
               <li className={isActive("/fines") ? "nav-active" : ""}  onClick={() => navigate("/fines")}>Fines</li>
               <li className={isActive("/cart") ? "nav-active" : ""}  onClick={() => navigate("/cart")}>Cart</li>
             </>
