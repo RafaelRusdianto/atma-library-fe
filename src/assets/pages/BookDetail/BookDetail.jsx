@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import "./BookDetail.css";
 import api from "../../../config/api";
+import Swal from "sweetalert2";
+
 
 export default function BookDetail() {
     const navigate = useNavigate();
@@ -19,6 +21,38 @@ export default function BookDetail() {
     }, [id]);
 
     if (!book) return <p className="loading">Loading book details...</p>;
+
+    const handleBorrow = async () => {
+        try {
+            const res = await api.post("member/detailPeminjaman", {
+            id_buku: id, // BKU0001
+            });
+
+            console.log("ADD TO DRAFT RESPONSE:", res.data);
+
+            // SweetAlert success
+            Swal.fire({
+            icon: "success",
+            title: "Book Added!",
+            text: "The book has been successfully added to your borrow draft.",
+            confirmButtonColor: "#2563eb",
+            });
+
+            // TIDAK navigate, tetap di halaman ini
+        } catch (err) {
+            console.error("Error adding book to draft:", err);
+
+            Swal.fire({
+            icon: "error",
+            title: "Error",
+            text:
+                err?.response?.data?.message ||
+                "Failed to add this book to your borrow draft.",
+            confirmButtonColor: "#dc2626",
+            });
+        }
+        };
+
 
     return (
         < div className="book-detail-container" >
@@ -92,7 +126,7 @@ export default function BookDetail() {
                                 <button
                                     type="button"
                                     className="btn-pinjam"
-                                    onClick={() => navigate("/catalog/book/:id/peminjaman")}
+                                   onClick={handleBorrow}
                                 >
                                     Borrow
                                 </button>
