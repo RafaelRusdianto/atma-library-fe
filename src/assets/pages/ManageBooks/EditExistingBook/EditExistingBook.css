@@ -119,3 +119,33 @@
     border-radius: 6px;
     cursor: pointer;
 }
+
+/* button */
+.addcopy-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.addcopy-btn {
+    color: white;
+    padding: 0 20px;
+    background: #0968c0;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    height: 46px;
+    align-items: center;
+}
+
+.addcopy-btn:hover {
+    background: #105799;
+}
+
+.addcopy-input {
+    width: 120px;
+    text-align: center;
+    font-size: 16px;
+    padding: 4px;
+}
