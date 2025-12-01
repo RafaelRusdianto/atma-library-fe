@@ -10,14 +10,18 @@ export default function BookDetail() {
     const { id } = useParams(); // get book id from route
     const [book, setBook] = useState(null);
 
+    const isLoggedIn = localStorage.getItem("token") ? true : false;
+    const role = localStorage.getItem("role");
+    const isActive = (path) => location.pathname === path;
+
     useEffect(() => {
-        api.get(`/buku/${id}`).then((res)=>{
+        api.get(`/buku/${id}`).then((res) => {
             setBook(res.data.data);
             console.log("BOOK DETAIL: ", res.data.data);
         })
-        .catch((err)=>{
-            console.error("Error fetching book details:", err);
-        })
+            .catch((err) => {
+                console.error("Error fetching book details:", err);
+            })
     }, [id]);
 
     if (!book) return <p className="loading">Loading book details...</p>;
@@ -25,17 +29,17 @@ export default function BookDetail() {
     const handleBorrow = async () => {
         try {
             const res = await api.post("member/detailPeminjaman", {
-            id_buku: id, // BKU0001
+                id_buku: id, // BKU0001
             });
 
             console.log("ADD TO DRAFT RESPONSE:", res.data);
 
             // SweetAlert success
             Swal.fire({
-            icon: "success",
-            title: "Book Added!",
-            text: "The book has been successfully added to your borrow draft.",
-            confirmButtonColor: "#2563eb",
+                icon: "success",
+                title: "Book Added!",
+                text: "The book has been successfully added to your borrow draft.",
+                confirmButtonColor: "#2563eb",
             });
 
             // TIDAK navigate, tetap di halaman ini
@@ -43,15 +47,15 @@ export default function BookDetail() {
             console.error("Error adding book to draft:", err);
 
             Swal.fire({
-            icon: "error",
-            title: "Error",
-            text:
-                err?.response?.data?.message ||
-                "Failed to add this book to your borrow draft.",
-            confirmButtonColor: "#dc2626",
+                icon: "error",
+                title: "Error",
+                text:
+                    err?.response?.data?.message ||
+                    "Failed to add this book to your borrow draft.",
+                confirmButtonColor: "#dc2626",
             });
         }
-        };
+    };
 
 
     return (
@@ -123,13 +127,26 @@ export default function BookDetail() {
                             </div>
                             <div className="btn-section">
                                 {/* button-nya nanti deactivate kalo stok == 0 */}
-                                <button
-                                    type="button"
-                                    className="btn-pinjam"
-                                   onClick={handleBorrow}
-                                >
-                                    Borrow
-                                </button>
+                                {isLoggedIn && role === "member" && (
+                                    <button
+                                        type="button"
+                                        className="btn-pinjam"
+                                        onClick={handleBorrow}
+                                    >
+                                        Borrow
+                                    </button>
+                                )}
+                                {isLoggedIn && role === "petugas" && (
+                                    <button
+                                        type="button"
+                                        className="btn-pinjam"
+                                        onClick={() =>
+                                            navigate("/managebooks/editexistingbook", { state: { book } })
+                                        }
+                                    >
+                                        Edit
+                                    </button>
+                                )}
                             </div>
                         </td>
                     </tr>
