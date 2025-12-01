@@ -10,6 +10,8 @@ import Swal from "sweetalert2";
 export default function EditExistingBook() {
     const navigate = useNavigate();
 
+
+
     //search bar
     const [showDropdown, setShowDropdown] = useState(false);
     const [query, setQuery] = useState("");//utk search
@@ -159,6 +161,87 @@ export default function EditExistingBook() {
         }
     };
 
+    //utk add/delete copybuku
+    const [copyCount, setCopyCount] = useState(0);
+
+
+    // handle increment decrement
+    const handleIncreaseCopy = () => {
+        setCopyCount(prev => prev + 1);
+    };
+
+
+    const handleDecreaseCopy = () => {
+        setCopyCount(prev => (prev > 0 ? prev - 1 : 0));
+    };
+    //add copybuku
+    const addCopyToDB = async () => {
+        if (!bookData.id_buku) {
+            toast.error("Pilih buku dulu!");
+            return;
+        }
+
+        try {
+            const payload = {
+                id_buku: bookData.id_buku,
+                rak: "A1",
+                status: "tersedia"
+            };
+
+            const res = await api.post("/petugas/copyBuku", payload);
+
+            toast.success("Copy berhasil ditambahkan!");
+            fetchCopyCount();
+        } catch (err) {
+            console.error("COPY ERROR:", err);
+            console.log("FULL ERROR RESPONSE:", err.response);
+            console.log("ERROR STATUS:", err.response?.status);
+            console.log("ERROR DATA:", err.response?.data);
+            toast.error("Gagal menambah copy.");
+        }
+    };
+    //delete copybuku
+    const deleteLatestCopy = async () => {
+        try {
+            // ambil copy list utk buku ini
+            const res = await api.get(`/copyBuku`);
+            const list = res.data.data.filter(c => c.id_buku === bookData.id_buku);
+
+            if (list.length === 0) {
+                toast.error("Tidak ada copy untuk dihapus.");
+                return;
+            }
+
+            const latestCopy = list[list.length - 1]; // ambil copy terakhir
+
+            await api.delete(`/petugas/copyBuku/${latestCopy.id_buku_copy}`);
+
+            toast.success("Copy buku berhasil dihapus!");
+            fetchCopyCount();
+
+        } catch (err) {
+            console.error(err);
+            toast.error("Gagal menghapus copy.");
+        }
+    };
+
+    useEffect(() => {
+        fetchCopyCount();
+    }, [bookData.id_buku]);
+
+    const fetchCopyCount = async () => {
+        if (!bookData.id_buku) return;
+
+        try {
+            const res = await api.get(`/petugas/copyBuku/count/${bookData.id_buku}`);
+
+            setCopyCount(res.data.data.copy_count);
+        } catch (err) {
+            console.error("COUNT ERROR:", err);
+            setCopyCount(0);
+        }
+    };
+
     return (
         <div className="eb-wrapper">
             <div className="eb-container">
@@ -187,16 +270,24 @@ export default function EditExistingBook() {
                                     key={book.id_buku}
                                     className="dropdown-item"
                                     onClick={() => {
-                                        setBookData(book);
-                                        //set auto-fill genre
-                                        if (book.kategori) {
+                                        const selected = book;
+
+                                        setBookData(selected);
+
+                                        // auto-fill genre
+                                        if (selected.kategori) {
                                             setSelectedGenres(
-                                                book.kategori.map(k => ({
+                                                selected.kategori.map(k => ({
                                                     value: k.id_kategori,
                                                     label: k.nama_kategori
                                                 }))
                                             );
                                         }
+
+                                        // ⬅️ panggil setelah state ke-update
+                                        setTimeout(() => {
+                                            fetchCopyCount();
+                                        }, 0);
 
                                         setShowDropdown(false);
                                     }}
@@ -318,7 +409,16 @@ export default function EditExistingBook() {
 
                             <div className="eb-field">
                                 <label>Add Copy</label>
-                                <input type="number" value="0" />
+                                <div className="addcopy-wrapper">
+                                    <button type="button" className="addcopy-btn" onClick={deleteLatestCopy}>-</button>
+                                    <input
+                                        type="number"
+                                        value={copyCount}
+                                        readOnly
+                                        className="addcopy-input"
+                                    />
+                                    <button type="button" className="addcopy-btn" onClick={addCopyToDB}>+</button>
+                                </div>
                             </div>
 
                             <div className="eb-field eb-full">
