@@ -8,6 +8,7 @@ import Peminjaman from "./assets/pages/Peminjaman/Peminjaman";
 import ManageBooks from "./assets/pages/ManageBooks/ManageBooks";
 import CreateNewBook from "./assets/pages/ManageBooks/CreateNewBook/CreateNewBook";
 import EditExistingBook from "./assets/pages/ManageBooks/EditExistingBook/EditExistingBook";
+import Reports from "./assets/pages/Reports/Reports"
 
 import Navbar from "./assets/components/NavBar/navbar";
 import Footer from "./assets/components/Footer/Footer";
@@ -37,6 +38,8 @@ function Layout() {
         <Route path="/catalog" element={<Catalog />} />
         <Route path="/catalog/book/:id" element={<BookDetail />} />
         <Route path="/catalog/book/:id/peminjaman" element={<Peminjaman />} />
+        <Route path="/reports" element={<Reports />} />
+
 
         <Route path="/profile" element={<ProfileLayout />}>
             <Route index element={<ProfileDetail />} />
