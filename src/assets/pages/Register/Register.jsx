@@ -8,31 +8,55 @@ export default function Register() {
 
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
-    nama: '',
-    username: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
-    alamat: '',
-    no_telp: '',
+    nama: "",
+    username: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+    alamat: "",
+    no_telp: "",
   });
+
+  // helper: tentukan role dari email
+  const getRoleFromEmail = (email) => {
+    // bebas mau kamu ganti logiknya
+    // sekarang: kalau mengandung "@petugas" → dianggap petugas
+    if (email.toLowerCase().includes("@petugas")) {
+      return "petugas";
+    }
+    return "member";
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setErrors({}); // reset error
 
     try {
-      const res = await api.post("/register/member", formData);
+      const role = getRoleFromEmail(formData.email);
 
-      // sukses
-      localStorage.setItem("token", res.data.token);
-      toast.success("Register Success!");
+      // pilih endpoint berdasarkan role
+      const endpoint =
+        role === "petugas" ? "/register/petugas" : "/register/member";
+
+      const res = await api.post(endpoint, formData);
+
+      // kalau backend kirim token, simpan (biar tidak error kalau tidak ada)
+      if (res.data?.token) {
+        localStorage.setItem("token", res.data.token);
+      }
+
+      toast.success(
+        role === "petugas"
+          ? "Register Petugas berhasil! Silakan login."
+          : "Register Member berhasil! Silakan login."
+      );
+
+      console.log("REGISTER RESPONSE:", res.data);
       navigate("/login");
-      console.log(res.data);
-
     } catch (error) {
       console.log("REGISTER ERROR:", error.response?.data);
       const backend = error.response?.data;
+
       if (backend?.errors) {
         Object.values(backend.errors).forEach((msgArr) => {
           toast.error(msgArr[0]);
@@ -46,9 +70,9 @@ export default function Register() {
         toast.error(backend.message);
         return;
       }
+
       toast.error("Register failed, try again.");
     }
-
   };
 
   return (
@@ -61,7 +85,6 @@ export default function Register() {
         <h3 className="login-title">Create Your Account</h3>
 
         <form onSubmit={handleRegister}>
-
           <label>Nama</label>
           <input
             type="text"

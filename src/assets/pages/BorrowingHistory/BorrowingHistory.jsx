@@ -1,45 +1,48 @@
-import React from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Search, Calendar, ArrowUpDown } from "lucide-react";
 import "./BorrowingHistory.css";
-// ❌ HAPUS: import ProfileLayout from "../ProfileLayout/ProfileLayout";
-
-
-
-const historyData = [
-  {
-    id: 1,
-    title: "The Hobbit",
-    author: "J. R. R. Tolkien",
-    cover: "/covers/hobbit.jpg",
-    borrowDate: "13 Oct 2025",
-    returnDate: "17 Oct 2025",
-    statusType: "on-time",
-    statusText: "Returned on Time",
-  },
-  {
-    id: 2,
-    title: "Jurassic Park",
-    author: "Michael Crichton",
-    cover: "/covers/jurassic.jpg",
-    borrowDate: "20 Oct 2025",
-    returnDate: "30 Oct 2025",
-    statusType: "fine",
-    statusText: "Fine: Rp7.500",
-  },
-  {
-    id: 3,
-    title: "Moby-Dick; or, The Whale",
-    author: "Herman Melville",
-    cover: "/covers/mobydick.jpg",
-    borrowDate: "01 Nov 2025",
-    returnDate: "03 Nov 2025",
-    statusType: "on-time",
-    statusText: "Returned on Time",
-  },
-];
-
+import api from "../../../config/api"; // sama seperti di BookDetail
 
 export default function BorrowedHistory() {
+  const [historyData, setHistoryData] = useState([]);
+  const [search, setSearch] = useState("");
+  const [sortAsc, setSortAsc] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    api
+      .get("/member/history")
+      .then((res) => {
+        const data = res.data?.data || [];
+        setHistoryData(data);
+      })
+      .catch((err) => {
+        console.error("Error fetching borrowing history:", err);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const filtered = useMemo(() => {
+    const term = search.toLowerCase().trim();
+
+    let rows = historyData;
+
+    if (term) {
+      rows = rows.filter((item) =>
+        (item.title + " " + item.author).toLowerCase().includes(term)
+      );
+    }
+
+    rows = [...rows].sort((a, b) => {
+      const da = new Date(a.borrowDate);
+      const db = new Date(b.borrowDate);
+      return sortAsc ? da - db : db - da;
+    });
+
+    return rows;
+  }, [historyData, search, sortAsc]);
+
   return (
     <>
       <h2 className="profile-section-title">Borrowing History</h2>
@@ -51,15 +54,22 @@ export default function BorrowedHistory() {
           <input
             type="text"
             placeholder="Search by title or author"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </div>
 
+        {/* tombol filter date belum dipakai, cuma UI */}
         <button className="bh-toolbar-btn">
           <Calendar size={16} />
           <span>Filter by Date</span>
         </button>
 
-        <button className="bh-toolbar-btn bh-toolbar-btn-primary">
+        <button
+          className="bh-toolbar-btn bh-toolbar-btn-primary"
+          type="button"
+          onClick={() => setSortAsc((prev) => !prev)}
+        >
           <ArrowUpDown size={16} />
           <span>Sort by Borrow Date</span>
         </button>
@@ -76,49 +86,62 @@ export default function BorrowedHistory() {
           <div className="bh-col-status">STATUS / FINE</div>
         </div>
 
-        {historyData.map((item, idx) => (
-          <div
-            key={item.id}
-            className={
-              "bh-table-row" +
-              (idx === historyData.length - 1 ? " bh-last-row" : "")
-            }
-          >
-            <div className="bh-col-title">
-              <img
-                src={item.cover}
-                alt={item.title}
-                className="bh-book-cover"
-              />
-              <span className="bh-book-title">{item.title}</span>
-            </div>
-
-            <div className="bh-col-author">
-              <span className="bh-author-text">{item.author}</span>
-            </div>
-
-            <div className="bh-col-date">
-              <span>{item.borrowDate}</span>
-            </div>
-
-            <div className="bh-col-date">
-              <span>{item.returnDate}</span>
-            </div>
-
-            <div className="bh-col-status">
-              <span
-                className={
-                  "bh-status-pill " +
-                  (item.statusType === "fine"
-                    ? "bh-status-fine"
-                    : "bh-status-ok")
-                }
-              >
-                {item.statusText}
-              </span>
-            </div>
+        {loading && (
+          <div className="bh-table-row">
+            <div className="bh-col-title">Loading history...</div>
           </div>
-        ))}
+        )}
+
+        {!loading && filtered.length === 0 && (
+          <div className="bh-table-row">
+            <div className="bh-col-title">No borrowing history yet.</div>
+          </div>
+        )}
+
+        {!loading &&
+          filtered.map((item, idx) => (
+            <div
+              key={item.id_buku_copy + item.borrowDate}
+              className={
+                "bh-table-row" +
+                (idx === filtered.length - 1 ? " bh-last-row" : "")
+              }
+            >
+              <div className="bh-col-title">
+                <img
+                  src={item.cover}
+                  alt={item.title}
+                  className="bh-book-cover"
+                />
+                <span className="bh-book-title">{item.title}</span>
+              </div>
+
+              <div className="bh-col-author">
+                <span className="bh-author-text">{item.author}</span>
+              </div>
+
+              <div className="bh-col-date">
+                <span>{item.borrowDate}</span>
+              </div>
+
+              <div className="bh-col-date">
+                <span>{item.returnDate || "-"}</span>
+              </div>
+
+              <div className="bh-col-status">
+                <span
+                  className={
+                    "bh-status-pill " +
+                    (item.statusType === "fine"
+                      ? "bh-status-fine"
+                      : "bh-status-ok")
+                  }
+                >
+                  {item.statusText}
+                </span>
+              </div>
+            </div>
+          ))}
 
         <div className="bh-table-row bh-empty-row">
           <div className="bh-col-title" />
