@@ -17,15 +17,13 @@ function Support() {
 
   return (
     <div className="support-page">
-      {/* Hero card yang lebar di atas */}
-      <div className="support-hero-card">
-        <div className="support-hero-text">
-          <h1 className="support-title">Support Perpustakaan</h1>
-          <p className="support-subtitle">{data.deskripsi}</p>
-        </div>
+      {/* HEADER ATAS SAJA */}
+      <div className="header">
+        <h1>Support Perpustakaan</h1>
+        <p>{data.deskripsi}</p>
       </div>
 
-      {/* Dua kartu di bawah: Contact & Media Sosial */}
+      {/* DUA KARTU DI BAWAH: CONTACT & MEDIA SOSIAL */}
       <div className="support-grid">
         {/* Kartu Contact Person */}
         <div className="support-card">

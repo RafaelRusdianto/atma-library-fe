@@ -186,9 +186,15 @@
   white-space: nowrap;
 }
 
-/* Kolom Aksi */
+/* Kolom Status */
 .data-table th:nth-child(5),
 .data-table td:nth-child(5) {
+  text-align: center;
+}
+
+/* Kolom Aksi */
+.data-table th:nth-child(6),
+.data-table td:nth-child(6) {
   text-align: center;
 }
 
@@ -206,7 +212,7 @@
 .table-btn {
   border: none;
   border-radius: 999px;
-  padding: 5px 10px;
+  padding: 5px 12px;
   font-size: 12px;
   cursor: pointer;
   color: #ffffff;
@@ -218,7 +224,7 @@
   box-shadow: 0 6px 16px rgba(15, 23, 42, 0.2);
 }
 
-/* Warna tombol */
+/* Warna tombol utama */
 .detail-btn {
   background-color: #6b7280;
 }
@@ -229,6 +235,30 @@
 
 .delete-btn {
   background-color: #ef4444;
+}
+
+/* Tombol status aktif/nonaktif */
+.status-toggle-btn {
+  background-color: #e5e7eb;
+  color: #4b5563;
+}
+
+.status-toggle-btn--aktif {
+  background-color: #f97316; /* oranye untuk Nonaktifkan */
+  color: #ffffff;
+}
+
+.status-toggle-btn--nonaktif {
+  background-color: #22c55e; /* hijau untuk Aktifkan */
+  color: #ffffff;
+}
+
+/* Kalau mau efek disabled look */
+.status-toggle-btn--disabled {
+  background-color: #f3f4f6;
+  color: #d1d5db;
+  cursor: default;
+  box-shadow: none;
 }
 
 @media (max-width: 900px) {
