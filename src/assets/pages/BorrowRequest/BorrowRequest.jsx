@@ -201,6 +201,44 @@ const handleApproveAll = async () => {
   }
 };
 
+// Reject semua peminjaman pending
+const handleRejectAll = async () => {
+  if (loans.length === 0) {
+    toast.info("There are no pending requests to reject.");
+    return;
+  }
+
+  const confirm = await Swal.fire({
+      title: "Reject all requests?",
+      text: "All pending borrow requests will be rejected.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, reject all",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#dc2626",
+    });
+
+  if (!confirm.isConfirmed) return;
+
+  try {
+    setProcessingKey("ALL-REJECT");
+    const payload = {
+      status: "rejected",
+      nomor_pinjam: loans.map(l => l.nomor_pinjam), // pastikan ini array integer
+    };
+    const res = await api.put("/petugas/peminjaman/approve/all", payload);
+    console.log("REJECT ALL RESPONSE:", res.data);
+
+    await Swal.fire({ icon: "success", title: "All Rejected", text: "All pending borrow requests have been rejected.", timer: 1600, showConfirmButton: false });
+    loadRequests();
+  } catch (err) {
+    console.error("Reject-all error:", err);
+    toast.error(err?.response?.data?.message || "Failed to reject all requests. Please try again.");
+  } finally {
+    setProcessingKey(null);
+  }
+};
+
 
   // =============== LOADING SKELETON ===============
   if (loading) {
@@ -334,7 +372,9 @@ const handleApproveAll = async () => {
             </div>
           )}
         </div>
-          <div className="request-actions request-actions-top">
+        
+      </div>
+      <div className="request-actions request-actions-bo">
           <button
             type="button"
             onClick={handleApproveAll}
@@ -346,10 +386,23 @@ const handleApproveAll = async () => {
                 : "")
             }
           >
-            {processingKey === "ALL" ? "Approving..." : "Approve All Pending"}
+            {processingKey === "ALL" ? "Approving..." : "Approve All"}
+          </button>
+
+          <button
+            type="button"
+            onClick={handleRejectAll}
+            disabled={loans.length === 0 || processingKey === "ALL-REJECT"}
+            className={
+              "request-approve-all-btn request-reject-all-btn " +
+              (loans.length === 0 || processingKey === "ALL-REJECT"
+                ? "request-approve-all-btn-disabled"
+                : "")
+            }
+          >
+            {processingKey === "ALL-REJECT" ? "Rejecting..." : "Reject All"}
           </button>
         </div>
-      </div>
     </div>
   );
 }

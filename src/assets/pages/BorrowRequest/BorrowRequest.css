@@ -182,12 +182,13 @@
 }
 
 .request-btn-reject {
-  background: #e0ecff;
-  color: #1d4ed8;
+  background: linear-gradient(135deg, #eb2525, #d81d1d);
+  color: #ffffff;
 }
 
 .request-btn-reject:hover {
-  background: #c7dbff;
+  background: linear-gradient(135deg, #d81d1d, #af1e1e);
+  box-shadow: 0 6px 16px rgba(235, 37, 37, 0.35);
   transform: translateY(-1px);
 }
 
@@ -204,8 +205,10 @@
 
 /* ACTION BAR (APPROVE ALL) */
 .request-actions {
+  padding-top: 50px;
   display: flex;
   justify-content: center;
+  gap: 14px;
 }
 
 .request-approve-all-btn {
@@ -227,10 +230,42 @@
   transform: translateY(-1px);
 }
 
+
+
 .request-approve-all-btn-disabled {
   background: #c7dbff;
   cursor: not-allowed;
   box-shadow: none;
+  pointer-events: none;
+}
+
+.request-reject-all-btn {
+  background: linear-gradient(135deg, #eb2525, #d81d1d);
+}
+
+.request-reject-all-btn:hover:not(.request-approve-all-btn-disabled) {
+  background: linear-gradient(135deg, #d81d1d, #af1e1e);
+  box-shadow: 0 8px 20px rgba(235, 37, 37, 0.35);
+  transform: translateY(-1px);
+}
+
+.request-reject-all-btn.request-approve-all-btn-disabled {
+  background: rgba(235, 37, 37, 0.18);
+  color: rgb(253, 253, 253);
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+  pointer-events: none;
+}
+
+.request-reject-all-btn {
+  background: linear-gradient(135deg, #eb2525, #d81d1d);
+}
+
+.request-reject-all-btn:hover:not(.request-reject-all-btn-disabled) {
+  background: linear-gradient(135deg, #d81d1d8d, #af1e1e84);
+  box-shadow: 0 8px 20px rgba(235, 37, 37, 0.35);
+  transform: translateY(-1px);
 }
 
 /* SIMPLE SKELETON (pakai yang sama dengan OnGoing jika sudah ada) */
