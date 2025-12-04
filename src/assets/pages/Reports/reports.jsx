@@ -32,8 +32,8 @@ export default function ReportsPage() {
           api.get("/petugas/reports/fines"),
         ]);
 
-        const summaryPayload = summaryRes.data?.data || summaryRes.data || {};
-        const catPayload = catRes.data?.data || {};
+        const summaryPayload =summaryRes.data;
+        const catPayload = catRes.data;
 
         console.log(catPayload.data);
         console.log(summaryPayload.data);
@@ -106,23 +106,32 @@ export default function ReportsPage() {
             <p className="report-caption">Total loans per month</p>
           </div>
           <div className="chart-wrapper">
-            <ResponsiveContainer width="100%" height={320}>
-              <LineChart data={monthlyTrend}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="bulan" />
-                <YAxis allowDecimals={false} />
-                <Tooltip />
-                <Line
-                  type="monotone"
-                  dataKey="total"
-                  stroke="#2563eb"
-                  strokeWidth={3}
-                  dot={{ r: 4 }}
-                  activeDot={{ r: 6 }}
-                  name="Total Loans"
-                />
-              </LineChart>
-            </ResponsiveContainer>
+            <div className="chart-inner">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart
+                  data={monthlyTrend}
+                  margin={{ top: 8, right: 16, left: -6, bottom: 16 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis
+                    dataKey="bulan"
+                    tick={{ fontSize: 12 }}
+                    tickMargin={8}
+                  />
+                  <YAxis allowDecimals={false} tick={{ fontSize: 12 }} />
+                  <Tooltip />
+                  <Line
+                    type="monotone"
+                    dataKey="total"
+                    stroke="#2563eb"
+                    strokeWidth={3}
+                    dot={{ r: 4 }}
+                    activeDot={{ r: 6 }}
+                    name="Total Loans"
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
 
@@ -132,26 +141,32 @@ export default function ReportsPage() {
             <p className="report-caption">Loan volume by category/genre</p>
           </div>
           <div className="chart-wrapper">
-            <ResponsiveContainer width="100%" height={320}>
-              <BarChart data={volumeByCategory}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis
-                  dataKey="nama_kategori"
-                  interval={0}
-                  angle={-15}
-                  textAnchor="end"
-                  height={70}
-                />
-                <YAxis allowDecimals={false} />
-                <Tooltip />
-                <Bar
-                  dataKey="total_peminjaman"
-                  fill="#2563eb"
-                  radius={[6, 6, 0, 0]}
-                  maxBarSize={48}
-                />
-              </BarChart>
-            </ResponsiveContainer>
+            <div className="chart-inner">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={volumeByCategory}
+                  margin={{ top: 8, right: 8, left: -10, bottom: 24 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                  <XAxis
+                    dataKey="nama_kategori"
+                    interval={0}
+                    angle={-18}
+                    textAnchor="end"
+                    height={74}
+                    tick={{ fontSize: 12 }}
+                  />
+                  <YAxis allowDecimals={false} tick={{ fontSize: 12 }} />
+                  <Tooltip />
+                  <Bar
+                    dataKey="total_peminjaman"
+                    fill="#2563eb"
+                    radius={[6, 6, 0, 0]}
+                    maxBarSize={48}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
 
@@ -160,15 +175,19 @@ export default function ReportsPage() {
             <h3 className="report-subtitle">Latest Loans</h3>
             <p className="report-caption">Last 5 loans</p>
           </div>
+
           <div className="list-wrapper">
+
             {loans.slice(0, 5).map((loan) => (
               <div className="list-row" key={loan.nomor_pinjam}>
+
                 <div>
                   <div className="list-title">#{loan.nomor_pinjam}</div>
                   <div className="list-subtitle">
                     {loan.nama_member || "Member"} · {loan.status}
                   </div>
                 </div>
+
                 <div className="list-meta">
                   <span>{loan.tgl_pinjam}</span>
                   <span>{loan.jumlah_buku} buku</span>
@@ -178,7 +197,9 @@ export default function ReportsPage() {
             {loans.length === 0 && !loading && (
               <div className="list-empty">No loan data yet.</div>
             )}
+
           </div>
+
         </div>
 
         <div className="chart-card list-card">
@@ -186,7 +207,9 @@ export default function ReportsPage() {
             <h3 className="report-subtitle">Latest Fine Payments</h3>
             <p className="report-caption">Last 5 transactions</p>
           </div>
+
           <div className="list-wrapper">
+
             {fines.slice(0, 5).map((fine) => (
               <div className="list-row" key={fine.id_pembayaran}>
                 <div>
@@ -202,9 +225,11 @@ export default function ReportsPage() {
                 </div>
               </div>
             ))}
+
             {fines.length === 0 && !loading && (
               <div className="list-empty">No fine payments yet.</div>
             )}
+            
           </div>
         </div>
       </div>
