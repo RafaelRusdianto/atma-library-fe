@@ -1,145 +1,141 @@
 .report-container {
-  padding: 32px;
-  max-width: 900px;
-  max-width: 1200px;
-  margin: 0 auto;
-  font-family: 'Inter', sans-serif;
+    padding: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'Inter', sans-serif;
 }
 
 .report-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 16px;
 }
 
 .report-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: #1e293b;
-  /* slate-800 */
-  color: #1e293b;
-  margin-bottom: 6px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 6px;
 }
 
 .report-subtitle {
-  font-size: 14px;
-  color: #64748b;
-  /* slate-500 */
-  margin-bottom: 24px;
-  color: #64748b;
-  margin-bottom: 6px;
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 6px;
 }
 
 .report-error {
-  color: #dc2626;
-  margin-bottom: 12px;
-  font-size: 14px;
+    color: #dc2626;
+    margin-bottom: 12px;
+    font-size: 14px;
 }
 
 .report-kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
-  margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
 .kpi-card {
-  background: linear-gradient(135deg, #f8fafc, #ffffff);
-  border: 1px solid #e5e7eb;
-  border-radius: 14px;
-  padding: 12px 14px;
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    background: linear-gradient(135deg, #f8fafc, #ffffff);
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 12px 14px;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
 }
 
 .kpi-label {
-  font-size: 13px;
-  color: #6b7280;
-  margin-bottom: 6px;
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 6px;
 }
 
 .kpi-value {
-  font-size: 22px;
-  font-weight: 700;
-  color: #0f172a;
+    font-size: 22px;
+    font-weight: 700;
+    color: #0f172a;
 }
 
 .report-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
 }
 
 @media (min-width: 1100px) {
-  .report-grid {
-    grid-template-columns: 1fr 1fr;
-  }
+    .report-grid {
+        grid-template-columns: 1fr 1fr;
+    }
 }
 
 .chart-card {
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 .list-card {
-  min-height: 320px;
+    min-height: 320px;
 }
 
 .chart-card-header {
-  margin-bottom: 6px;
+    margin-bottom: 6px;
 }
 
 .report-caption {
-  font-size: 12px;
-  color: #94a3b8;
-  margin-top: -2px;
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: -2px;
 }
 
 .chart-wrapper {
-  width: 100%;
-  height: 350px;
-  height: 320px;
+    width: 100%;
+    height: 320px;
 }
 
 .list-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .list-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .list-row:last-child {
-  border-bottom: none;
+    border-bottom: none;
 }
 
 .list-title {
-  font-weight: 600;
-  color: #0f172a;
+    font-weight: 600;
+    color: #0f172a;
 }
 
 .list-subtitle {
-  font-size: 13px;
-  color: #6b7280;
+    font-size: 13px;
+    color: #6b7280;
 }
 
 .list-meta {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-  font-size: 13px;
-  color: #475569;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    font-size: 13px;
+    color: #475569;
 }
 
 .list-empty {
-  text-align: center;
-  color: #9ca3af;
-  padding: 16px 0;
-  font-size: 14px;
+    text-align: center;
+    color: #9ca3af;
+    padding: 16px 0;
+    font-size: 14px;
 }
