@@ -4,6 +4,7 @@
   align-items: center;
   gap: 12px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 /* search box */
@@ -16,7 +17,10 @@
   align-items: center;
   gap: 8px;
   border: 1px solid #e5e7eb;
+  height: 45px;
 }
+
+
 
 .bh-search-box input {
   border: none;
@@ -51,6 +55,42 @@
   background: #0052cc;
   color: #ffffff;
   border-color: #0052cc;
+}
+
+.bh-toolbar-btn-ghost {
+  background: #ffffff;
+  border-color: #e5e7eb;
+  color: #374151;
+}
+
+.bh-date-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  padding: 8px 12px;
+}
+
+.bh-date-filter input[type="date"] {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 13px;
+}
+
+.bh-date-filter input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}
+
+.bh-date-icon {
+  color: #6b7280;
+}
+
+.bh-date-sep {
+  font-size: 13px;
+  color: #6b7280;
 }
 
 /* card tabel utama */
@@ -123,20 +163,97 @@
   font-weight: 500;
 }
 
-.bh-status-ok {
+.bh-status-returned {
   background: #e6fcd9;
   color: #188038;
 }
 
-.bh-status-fine {
-  background: #fff6c7;
-  color: #b45309;
+.bh-status-rejected {
+  background: #fde7e9;
+  color: #c62828;
+}
+
+
+.bh-status-default {
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: #e5e7eb;
+  border-radius: 8px;
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  animation: skeleton-shimmer 1.2s infinite;
+}
+
+.skeleton-text {
+  height: 12px;
+  width: 60px;
+}
+
+.skeleton-text-long {
+  height: 12px;
+  width: 120px;
+}
+
+.skeleton-pill {
+  height: 24px;
+  width: 72px;
+  border-radius: 999px;
+}
+
+.skeleton-input {
+  height: 36px;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* empty spacer row */
 .bh-empty-row {
   min-height: 40px;
   border-bottom: none;
+}
+
+.bh-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 14px 0;
+}
+
+.bh-page-btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.bh-page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bh-page-info {
+  font-size: 13px;
+  color: #4b5563;
 }
 
 /* responsive */
