@@ -19,7 +19,6 @@ import OnGoing from "./assets/pages/OnGoing/OnGoing";
 import BorrowRequest from "./assets/pages/BorrowRequest/Borrowrequest"; 
 import FineHistory from "./assets/pages/FineHistory/FineHistory";
 import Fines from "./assets/pages/Fines/Fines";
-
 function Layout() {
   const location = useLocation();
 
@@ -31,7 +30,7 @@ function Layout() {
     <>
       <Navbar />
 
-       <div className="page-content">
+       <div>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

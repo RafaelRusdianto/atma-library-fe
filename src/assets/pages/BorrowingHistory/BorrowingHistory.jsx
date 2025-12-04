@@ -41,7 +41,9 @@ export default function BorrowedHistory() {
 
   // Tentukan warna pill berdasarkan status (cover beberapa variasi teks)
   const renderStatusPill = (status) => {
-    if (status === "returned") {
+    const normalized = (status || "").toString().toLowerCase().trim();
+
+    if (normalized === "returned") {
       return (
         <span className="bh-status-pill bh-status-returned">
           Returned
@@ -49,7 +51,7 @@ export default function BorrowedHistory() {
       );
     }
 
-    if (status === "rejected") {
+    if (normalized === "rejected") {
       return (
         <span className="bh-status-pill bh-status-rejected">
           Rejected
@@ -58,7 +60,11 @@ export default function BorrowedHistory() {
     }
 
     // default (status lain)
-    return <span className="bh-status-pill bh-status-default">{status}</span>;
+    return (
+      <span className="bh-status-pill bh-status-default">
+        {status || "Unknown"}
+      </span>
+    );
   };
 
 
@@ -81,16 +87,14 @@ export default function BorrowedHistory() {
       <h2 className="profile-section-title">Borrowing History</h2>
       <div className="bh-toolbar">
         <div className="bh-search-box skeleton skeleton-input" />
-        <div className="bh-toolbar-btn skeleton skeleton-pill" />
-        <div className="bh-toolbar-btn bh-toolbar-btn-primary skeleton skeleton-pill" />
       </div>
       <section className="bh-table-card">
         <div className="bh-table-header">
-          <div className="bh-col-title">BOOK TITLE</div>
-          <div className="bh-col-author">AUTHOR</div>
-          <div className="bh-col-date">BORROWED ON</div>
-          <div className="bh-col-date">RETURNED ON</div>
-          <div className="bh-col-status">STATUS</div>
+          <div className="bh-col-title">Book Title</div>
+          <div className="bh-col-author">Author</div>
+          <div className="bh-col-date">Borrowed on</div>
+          <div className="bh-col-date">Returned on</div>
+          <div className="bh-col-status">Status</div>
         </div>
         {[1, 2, 3].map((i) => (
           <div className="bh-table-row" key={`sk-${i}`}>
@@ -150,7 +154,7 @@ export default function BorrowedHistory() {
 
         {/* body */}
         {filteredRows.length === 0 ? (
-          <div className="bh-empty">No returned books found.</div>
+          <div className="bh-empty">No returned/rejected books found.</div>
         ) : (
           paginatedRows.map((item, idx) => (
             <div
