@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
-import { useProfileData } from "../ProfileLayout/ProfileLayout"; // ⬅️ cuma ambil context, BUKAN Layout
+import { useProfileData } from "../ProfileLayout/ProfileLayout"; 
 
 export default function ProfileDetail() {
   // ambil data dari context yang dibuat di ProfileLayout
@@ -270,7 +270,7 @@ export default function ProfileDetail() {
     <div className="settings-page">
       <h2 className="settings-title">Settings</h2>
 
-      {/* ACCOUNT DETAILS */}
+      {/* account details */}
       <section className="settings-section-card">
         <h3 className="settings-section-heading">Account Details</h3>
 

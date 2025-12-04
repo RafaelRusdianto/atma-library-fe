@@ -180,7 +180,7 @@ export default function ProfileLayout() {
     >
       <div className="profile-page">
         <div className="profile-content">
-          {/* ==== SIDEBAR ==== */}
+          {/* sidebar */}
           <aside
             className={
               "profile-sidebar" + (!isMember ? " profile-sidebar-staff" : "")

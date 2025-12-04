@@ -11,6 +11,7 @@
   display: flex;
   gap: 32px;
   align-items: flex-start;
+  width: 100%;
 }
 
 /* ========== SIDEBAR ========== */
@@ -274,5 +275,75 @@
 @keyframes fadeIn {
   to {
     opacity: 1;
+  }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .profile-page {
+    padding: 30px 24px;
+  }
+
+  .profile-sidebar {
+    width: 340px;
+    height: auto;
+  }
+
+  .profile-avatar-large {
+    width: 130px;
+    height: 130px;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-page {
+    padding: 20px 16px;
+  }
+
+  .profile-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .profile-sidebar {
+    width: 100%;
+    padding: 18px 14px;
+  }
+
+  .profile-menu-item {
+    font-size: 16px;
+  }
+
+  .profile-main {
+    width: 100%;
+  }
+}
+
+@media (max-width: 540px) {
+  .profile-page {
+    padding: 16px 12px;
+  }
+
+  .profile-sidebar {
+    padding: 16px 12px;
+    border-radius: 14px;
+  }
+
+  .profile-user-info h3 {
+    font-size: 20px;
+  }
+
+  .profile-user-info p {
+    font-size: 14px;
+  }
+
+  .profile-menu-item {
+    font-size: 15px;
+    padding: 10px 12px;
+  }
+
+  .profile-logout-btn {
+    font-size: 14px;
+    padding: 12px 0;
   }
 }
