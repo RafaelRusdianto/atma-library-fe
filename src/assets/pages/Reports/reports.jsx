@@ -86,7 +86,7 @@ export default function ReportsPage() {
         <div className="kpi-card">
           <p className="kpi-label">Collected Fines</p>
           <p className="kpi-value">
-            {loading ? "-" : `$${formatNumber(summary.total_denda_bayar)}`}
+            {loading ? "-" : `Rp ${formatNumber(summary.total_denda_bayar)}`}
           </p>
         </div>
       </div>
