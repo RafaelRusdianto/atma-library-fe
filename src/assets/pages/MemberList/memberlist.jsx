@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 function MemberList() {
   const [members, setMembers] = useState([]);
   const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [selectedMember, setSelectedMember] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -26,12 +27,7 @@ function MemberList() {
       const res = await api.get("/petugas/members");
       const list = res.data.data ?? res.data;
 
-      const withNumber = list.map((m, idx) => ({
-        ...m,
-        displayNumber: idx + 1,
-      }));
-
-      setMembers(withNumber);
+      setMembers(list);
     } catch (error) {
       console.error("Failed to fetch member's data:", error);
       toast.error("Failed to fetch member's data.");
@@ -63,11 +59,11 @@ function MemberList() {
     setSelectedMember(m);
     setIsEditing(false);
     setEditForm({
-      nama: m.nama ?? "",
-      email: m.email ?? "",
-      username: m.username ?? "",
-      no_telp: m.no_telp ?? "",
-      alamat: m.alamat ?? "",
+      nama: m.nama,
+      email: m.email,
+      username: m.username,
+      no_telp: m.no_telp,
+      alamat: m.alamat,
     });
   };
 
@@ -75,11 +71,11 @@ function MemberList() {
     setSelectedMember(m);
     setIsEditing(true);
     setEditForm({
-      nama: m.nama ?? "",
-      email: m.email ?? "",
-      username: m.username ?? "",
-      no_telp: m.no_telp ?? "",
-      alamat: m.alamat ?? "",
+      nama: m.nama,
+      email: m.email,
+      username: m.username,
+      no_telp: m.no_telp,
+      alamat: m.alamat,
     });
   };
 
@@ -92,6 +88,7 @@ function MemberList() {
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
+
     if (!selectedMember) return;
 
     try {
@@ -122,7 +119,7 @@ function MemberList() {
     }
   };
 
-  // toggle status: dipakai HANYA di detail card
+  // toggle status
   const handleToggleStatus = async (id_member) => {
     try {
       const res = await api.put(
@@ -153,17 +150,30 @@ function MemberList() {
     }
   };
 
+  // filter seacrh bar
   const filtered = members.filter((m) => {
     const q = search.toLowerCase();
     return (
       (m.nama ?? "").toLowerCase().includes(q) ||
       (m.email ?? "").toLowerCase().includes(q) ||
-      String(m.id_member ?? "").toLowerCase().includes(q) // pake id_member asli
+      String(m.id_member ?? "").toLowerCase().includes(q) 
     );
   });
 
+  // pagination 
+  const pageSize = 10;
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const safePage = Math.min(currentPage, totalPages);
+  const startIndex = (safePage - 1) * pageSize;
+  const pageData = filtered.slice(startIndex, startIndex + pageSize);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search]);
+
   return (
     <div className="member-page">
+
       <div className="member-header">
         <div>
           <h1 className="member-title">Member List</h1>
@@ -267,11 +277,11 @@ function MemberList() {
                   onClick={() => {
                     setIsEditing(false);
                     setEditForm({
-                      nama: selectedMember.nama ?? "",
-                      email: selectedMember.email ?? "",
-                      username: selectedMember.username ?? "",
-                      no_telp: selectedMember.no_telp ?? "",
-                      alamat: selectedMember.alamat ?? "",
+                      nama: selectedMember.nama,
+                      email: selectedMember.email,
+                      username: selectedMember.username,
+                      no_telp: selectedMember.no_telp,
+                      alamat: selectedMember.alamat,
                     });
                   }}
                 >
@@ -372,9 +382,9 @@ function MemberList() {
               </tr>
             </thead>
             <tbody>
-              {filtered.map((m, index) => (
+              {pageData.map((m, index) => (
                 <tr key={m.id_member}>
-                  <td>{index + 1}</td>
+                  <td>{startIndex + index + 1}</td>
                   <td>{m.nama}</td>
                   <td>{m.email}</td>
                   <td>{m.username}</td>
@@ -413,6 +423,28 @@ function MemberList() {
               )}
             </tbody>
           </table>
+        )}
+
+        {filtered.length > 0 && totalPages > 1 && (
+          <div className="table-pagination">
+            <button
+              className="table-btn pagination-btn"
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={safePage === 1}
+            >
+              Prev
+            </button>
+            <span className="pagination-info">
+              Page {safePage} of {totalPages}
+            </span>
+            <button
+              className="table-btn pagination-btn"
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={safePage === totalPages}
+            >
+              Next
+            </button>
+          </div>
         )}
       </div>
     </div>

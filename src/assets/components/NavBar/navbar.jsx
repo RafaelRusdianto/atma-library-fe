@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import "./navbar.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
-import "./navbar.css";
 
 
 function Navbar() {
@@ -17,12 +17,7 @@ function Navbar() {
   
    // Ambil state dari AuthContext
   const { isLoggedIn, role, user } = useAuth();
-
-  console.log("USER NAVBAR:", user);
-  console.log("Navbar - isLoggedIn:", isLoggedIn, "role:", role);
-
   const fotoProfil = user.url_foto_profil;
-
   return (
     <nav className="navbar">
       <div className="nav-left-col">
