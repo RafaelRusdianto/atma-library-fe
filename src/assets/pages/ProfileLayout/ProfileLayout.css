@@ -26,6 +26,13 @@
   justify-content: space-between;
 }
 
+.profile-sidebar-staff {
+  height: auto;
+  min-height: 0;
+  justify-content: flex-start;
+  gap: 18px;
+}
+
 .profile-user-card {
   display: flex;
   flex-direction: column;
@@ -59,6 +66,17 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.profile-staff-note {
+  margin-top: 6px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px dashed #d1d5db;
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.4;
 }
 
 .profile-menu-item {
@@ -114,6 +132,7 @@
   font-weight: 500;
   cursor: pointer;
   transition: 0.2s ease;
+  margin-top: auto;
 }
 
 .profile-logout-btn svg {

@@ -1,45 +1,129 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import api from "../../../config/api";
 import { Search, Calendar, ArrowUpDown } from "lucide-react";
 import "./BorrowingHistory.css";
-// ❌ HAPUS: import ProfileLayout from "../ProfileLayout/ProfileLayout";
-
-
-
-const historyData = [
-  {
-    id: 1,
-    title: "The Hobbit",
-    author: "J. R. R. Tolkien",
-    cover: "/covers/hobbit.jpg",
-    borrowDate: "13 Oct 2025",
-    returnDate: "17 Oct 2025",
-    statusType: "on-time",
-    statusText: "Returned on Time",
-  },
-  {
-    id: 2,
-    title: "Jurassic Park",
-    author: "Michael Crichton",
-    cover: "/covers/jurassic.jpg",
-    borrowDate: "20 Oct 2025",
-    returnDate: "30 Oct 2025",
-    statusType: "fine",
-    statusText: "Fine: Rp7.500",
-  },
-  {
-    id: 3,
-    title: "Moby-Dick; or, The Whale",
-    author: "Herman Melville",
-    cover: "/covers/mobydick.jpg",
-    borrowDate: "01 Nov 2025",
-    returnDate: "03 Nov 2025",
-    statusType: "on-time",
-    statusText: "Returned on Time",
-  },
-];
-
 
 export default function BorrowedHistory() {
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const pageSize = 5;
+
+  // Format tanggal: 2025-01-01 → "01 Jan 2025"
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "-";
+    const d = new Date(dateStr);
+    return d.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
+  // Ambil data from backend
+  const loadHistory = async () => {
+    try {
+      const res = await api.get("/member/peminjaman/riwayat"); // ⬅️ sesuaikan endpoint kamu
+      console.log("BORROWED HISTORY RESPONSE:", res.data);
+
+      setRows(res.data.data || []);
+    } catch (err) {
+      console.error("Error loading borrowed history:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadHistory();
+  }, []);
+
+  // Tentukan warna pill berdasarkan status (cover beberapa variasi teks)
+  const renderStatusPill = (status) => {
+    const normalized = (status || "").toString().toLowerCase().trim();
+
+    if (normalized === "returned") {
+      return (
+        <span className="bh-status-pill bh-status-returned">
+          Returned
+        </span>
+      );
+    }
+
+    if (normalized === "rejected") {
+      return (
+        <span className="bh-status-pill bh-status-rejected">
+          Rejected
+        </span>
+      );
+    }
+
+    // default (status lain)
+    return (
+      <span className="bh-status-pill bh-status-default">
+        {status || "Unknown"}
+      </span>
+    );
+  };
+
+
+  // Search filter
+  const filteredRows = rows.filter((item) =>
+    (item.judul + " " + item.penulis)
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  );
+
+  const totalPages = Math.max(1, Math.ceil(filteredRows.length / pageSize));
+  const safePage = Math.min(page, totalPages);
+  const paginatedRows = filteredRows.slice(
+    (safePage - 1) * pageSize,
+    safePage * pageSize
+  );
+
+  const renderSkeleton = () => (
+    <>
+      <h2 className="profile-section-title">Borrowing History</h2>
+      <div className="bh-toolbar">
+        <div className="bh-search-box skeleton skeleton-input" />
+      </div>
+      <section className="bh-table-card">
+        <div className="bh-table-header">
+          <div className="bh-col-title">Book Title</div>
+          <div className="bh-col-author">Author</div>
+          <div className="bh-col-date">Borrowed on</div>
+          <div className="bh-col-date">Returned on</div>
+          <div className="bh-col-status">Status</div>
+        </div>
+        {[1, 2, 3].map((i) => (
+          <div className="bh-table-row" key={`sk-${i}`}>
+            <div className="bh-col-title">
+              <div className="bh-book-cover skeleton" />
+              <div className="bh-book-title skeleton skeleton-text-long" />
+            </div>
+            <div className="bh-col-author">
+              <div className="skeleton skeleton-text" />
+            </div>
+            <div className="bh-col-date">
+              <div className="skeleton skeleton-text" />
+            </div>
+            <div className="bh-col-date">
+              <div className="skeleton skeleton-text" />
+            </div>
+            <div className="bh-col-status">
+              <div className="skeleton skeleton-pill" />
+            </div>
+          </div>
+        ))}
+      </section>
+    </>
+  );
+
+  if (loading) {
+    return renderSkeleton();
+  }
+
   return (
     <>
       <h2 className="profile-section-title">Borrowing History</h2>
@@ -51,82 +135,91 @@ export default function BorrowedHistory() {
           <input
             type="text"
             placeholder="Search by title or author"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-
-        <button className="bh-toolbar-btn">
-          <Calendar size={16} />
-          <span>Filter by Date</span>
-        </button>
-
-        <button className="bh-toolbar-btn bh-toolbar-btn-primary">
-          <ArrowUpDown size={16} />
-          <span>Sort by Borrow Date</span>
-        </button>
       </div>
 
       {/* History table card */}
       <section className="bh-table-card">
-        {/* header row */}
+        {/* header */}
         <div className="bh-table-header">
           <div className="bh-col-title">BOOK TITLE</div>
           <div className="bh-col-author">AUTHOR</div>
           <div className="bh-col-date">BORROWED ON</div>
           <div className="bh-col-date">RETURNED ON</div>
-          <div className="bh-col-status">STATUS / FINE</div>
+          <div className="bh-col-status">STATUS</div>
         </div>
 
-        {historyData.map((item, idx) => (
-          <div
-            key={item.id}
-            className={
-              "bh-table-row" +
-              (idx === historyData.length - 1 ? " bh-last-row" : "")
-            }
-          >
-            <div className="bh-col-title">
-              <img
-                src={item.cover}
-                alt={item.title}
-                className="bh-book-cover"
-              />
-              <span className="bh-book-title">{item.title}</span>
-            </div>
+        {/* body */}
+        {filteredRows.length === 0 ? (
+          <div className="bh-empty">No returned/rejected books found.</div>
+        ) : (
+          paginatedRows.map((item, idx) => (
+            <div
+              key={`${item.nomor_pinjam}-${item.id_buku_copy}`}
+              className={
+                "bh-table-row" +
+                (idx === paginatedRows.length - 1 ? " bh-last-row" : "")
+              }
+            >
+              {/* Title + cover */}
+              <div className="bh-col-title">
+                <img
+                  src={item.url_foto_cover}
+                  alt={item.judul}
+                  className="bh-book-cover"
+                />
+                <span className="bh-book-title">{item.judul}</span>
+              </div>
 
-            <div className="bh-col-author">
-              <span className="bh-author-text">{item.author}</span>
-            </div>
+              {/* Author */}
+              <div className="bh-col-author">
+                <span className="bh-author-text">{item.penulis}</span>
+              </div>
 
-            <div className="bh-col-date">
-              <span>{item.borrowDate}</span>
-            </div>
+              {/* Borrow date */}
+              <div className="bh-col-date">
+                {formatDate(item.tgl_pinjam)}
+              </div>
 
-            <div className="bh-col-date">
-              <span>{item.returnDate}</span>
-            </div>
+              {/* Return date */}
+              <div className="bh-col-date">
+                {formatDate(item.tgl_kembali)}
+              </div>
 
+              {/* Status / Fine */}
             <div className="bh-col-status">
-              <span
-                className={
-                  "bh-status-pill " +
-                  (item.statusType === "fine"
-                    ? "bh-status-fine"
-                    : "bh-status-ok")
-                }
-              >
-                {item.statusText}
-              </span>
+              {renderStatusPill(item.status_detail)}
             </div>
-          </div>
-        ))}
+            </div>
+          ))
+        )}
 
-        <div className="bh-table-row bh-empty-row">
-          <div className="bh-col-title" />
-          <div className="bh-col-author" />
-          <div className="bh-col-date" />
-          <div className="bh-col-date" />
-          <div className="bh-col-status" />
-        </div>
+        {filteredRows.length > 0 && (
+          <div className="bh-pagination">
+            <button
+              type="button"
+              className="bh-page-btn"
+              disabled={safePage === 1}
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+            >
+              Prev
+            </button>
+            <span className="bh-page-info">
+              Page {safePage} / {totalPages}
+            </span>
+            <button
+              type="button"
+              className="bh-page-btn"
+              disabled={safePage === totalPages}
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            >
+              Next
+            </button>
+          </div>
+        )}
       </section>
     </>
   );

@@ -89,6 +89,8 @@ export default function CartPage() {
   };
 
   const borrowDate = draft ? formatDate(draft.tgl_pinjam) : "-";
+  // Enable submit when there is at least one item in cart
+  const hasPending = cart.length > 0;
 
   if (loading) {
     return (
@@ -163,15 +165,16 @@ export default function CartPage() {
       </div>
 
       <div className="cart-actions">
-        {cart.length > 0 && (
-          <button
-            className="cart-submit-btn"
-            onClick={handleSubmit}
-            disabled={submitting}
-          >
-            {submitting ? "Submitting..." : "Submit Borrow Request"}
-          </button>
-        )}
+        <button
+          className={
+            "cart-submit-btn" +
+            (!hasPending || submitting ? " cart-submit-btn-disabled" : "")
+          }
+          onClick={handleSubmit}
+          disabled={!hasPending || submitting}
+        >
+          {submitting ? "Submitting..." : "Submit Borrow Request"}
+        </button>
       </div>
     </div>
   );

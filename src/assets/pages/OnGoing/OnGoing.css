@@ -39,14 +39,41 @@
   justify-content: flex-start;
 }
 
+.bh-status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  min-width: 96px;
+  background: transparent;
+  border: none;
+}
+
 .bh-status-pending {
-  background: #fef3c7;
-  color: #92400e;
+  background: rgba(234, 179, 8, 0.24);
+  color: #854d0e;
 }
 
 .bh-status-borrowed {
-  background: #dcfce7;
-  color: #166534;
+  background: rgba(37, 99, 235, 0.16);
+  color: #1d4ed8;
+}
+
+/* Force colors in case other page styles leak in */
+.ongoing-table-body .bh-status-pill.bh-status-borrowed {
+  background: rgba(37, 99, 235, 0.16) !important;
+  color: #1d4ed8 !important;
+   box-shadow: 0 6px 14px rgba(69, 128, 255, 0.16) 
+}
+
+.ongoing-table-body .bh-status-pill.bh-status-pending {
+  background: rgba(255, 217, 0, 0.4);
+  color: #8a6d00;
+  box-shadow: 0 6px 14px rgba(255, 200, 0, 0.25);
 }
 
 /* ================================
@@ -65,7 +92,7 @@
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
-  background: #16a34a; /* Green */
+  background: linear-gradient(135deg, #2563eb, #1d4ed8); /* Blue */
   color: #ffffff;
   transition: background 0.15s, transform 0.1s, box-shadow 0.1s;
   margin-right: 75px;
@@ -73,8 +100,8 @@
 
 /* Hover aktif */
 .bh-action-btn:hover:not(.bh-action-btn-disabled) {
-  background: #15803d;
-  box-shadow: 0 6px 16px rgba(22, 163, 74, 0.35);
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
   transform: translateY(-1px);
 }
 
@@ -171,7 +198,7 @@
   width: 100%;
   max-width: 1000px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 /* Tombol Return All */
@@ -179,23 +206,53 @@
   padding: 10px 22px;
   border-radius: 999px;
   border: none;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  background: #16a34a;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
   color: #ffffff;
   transition: background 0.15s, transform 0.1s, box-shadow 0.1s;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25);
+   /* background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 32px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+
+  transition: all 0.15s ease; */
 }
 
 .ongoing-return-all-btn:hover:not(.ongoing-return-all-btn-disabled) {
-  background: #15803d;
-  box-shadow: 0 8px 18px rgba(22, 163, 74, 0.35);
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
   transform: translateY(-1px);
 }
 
 .ongoing-return-all-btn-disabled {
-  background: #e5e7eb;
-  color: #9ca3af;
+  background:  #bcd2ff;
+  color: #e5e7ff;
   cursor: not-allowed;
   box-shadow: none;
+   transform: none;
+    cursor: not-allowed;
+  opacity: 0.7;
 }
+
+/* .fine-pay-selected-btn:hover:not(:disabled) {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(37, 99, 235, 0.35);
+}
+
+/* Disabled state: tombol pucat & tidak bisa diklik */
+/* .fine-pay-selected-btn:disabled {
+  background: #bcd2ff;
+  color: #e5e7ff;
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+  box-shadow: none;
+} */ 

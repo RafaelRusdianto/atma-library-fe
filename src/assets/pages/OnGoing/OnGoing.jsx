@@ -8,7 +8,6 @@ export default function OnGoingPage() {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  //index peminjaman yg on-going
   const loadOnGoing = async () => {
     try {
       const res = await api.get("/peminjaman/getPendingAndBorrowed");
@@ -38,9 +37,72 @@ export default function OnGoingPage() {
     });
   };
 
-  // kembaliin 1 buku
+  // --- helper: bayar 1 denda sekarang di halaman ini ---
+  const payFineNow = async (fineId, fineAmount) => {
+    // pilih metode bayar
+    const choose = await Swal.fire({
+      title: "Choose payment method",
+      html: `
+        <p style="margin-bottom: 4px; font-size: 14px;">
+          You are about to pay a fine of <strong>${fineAmount.toLocaleString(
+            "id-ID"
+          )}</strong>.
+        </p>
+      `,
+      input: "select",
+      inputOptions: {
+        cash: "Cash (pay at desk)",
+        transfer: "Bank Transfer",
+        qris: "QRIS",
+        ewallet: "E-Wallet",
+      },
+      inputPlaceholder: "Select method",
+      showCancelButton: true,
+      confirmButtonText: "Pay",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!choose.isConfirmed || !choose.value) {
+      return;
+    }
+
+    const metode = choose.value; // cash / transfer / qris / ewallet
+
+    try {
+      const payload = {
+        id_denda: [fineId], // bayar 1 denda saja
+        metode,
+      };
+
+      const res = await api.post("/member/denda/bayar", payload);
+
+      toast.success(res.data?.message || "Fine payment success.");
+      await Swal.fire({
+        icon: "success",
+        title: "Payment Success",
+        html: `
+          <p style="font-size: 14px;">
+            Fine <strong>Rp${fineAmount.toLocaleString(
+              "id-ID"
+            )}</strong> has been paid.<br/>
+            Method: <strong>${metode}</strong>
+          </p>
+        `,
+      });
+
+      // reload ongoing & fines nanti akan otomatis kosong untuk denda ini
+      loadOnGoing();
+    } catch (err) {
+      console.error("Error paying fine:", err);
+      toast.error(
+        err?.response?.data?.message || "Failed to pay the fine. Please try again."
+      );
+    }
+  };
+
+  // --- kembaliin 1 buku - CEK DENDA & PILIH BAYAR SEKARANG / NANTI ---
   const handleReturn = async (item) => {
-    if (item.status_peminjaman !== "borrowed") return;
+    if (item.status_detail !== "borrowed") return;
 
     const confirm = await Swal.fire({
       title: "Return this book?",
@@ -61,14 +123,64 @@ export default function OnGoingPage() {
       });
 
       console.log("RETURN RESPONSE:", res.data);
+      const { is_late, fine_amount, fine_id } = res.data.data || {};
 
-      await Swal.fire({
-        icon: "success",
-        title: "Book Returned",
-        text: "The book has been successfully returned.",
-        timer: 1700,
-        showConfirmButton: false,
-      });
+      // kalau ada denda
+      if (is_late && fine_amount > 0 && fine_id) {
+        const payChoice = await Swal.fire({
+          icon: "warning",
+          title: "Book Returned with Fine",
+          html: `
+            <p style="margin-bottom: 6px; font-size: 14px;">
+              The book <strong>"${item.judul}"</strong> has been returned.
+            </p>
+            <p style="margin-bottom: 6px; font-size: 14px;">
+              There is a late fine of <strong>Rp${fine_amount.toLocaleString(
+                "id-ID"
+              )}</strong>.
+            </p>
+            <p style="font-size: 13px; color:#4b5563;">
+              You can pay it now or later on the <strong>Fines</strong> page.
+            </p>
+          `,
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: "Pay Now",
+          denyButtonText: "Pay Later",
+          confirmButtonColor: "#16a34a",
+          denyButtonColor: "#2563eb",
+        });
+
+        if (payChoice.isConfirmed) {
+          // BAYAR SEKARANG di halaman ini
+          await payFineNow(fine_id, fine_amount);
+        } else if (payChoice.isDenied) {
+          // BAYAR NANTI → denda akan muncul di halaman Fines
+          await Swal.fire({
+            icon: "info",
+            title: "Fine Recorded",
+            html: `
+              <p style="margin-bottom: 4px; font-size: 14px;">
+                The fine has been recorded as <strong>unpaid</strong>.
+              </p>
+              <p style="font-size: 13px;">
+                You can pay it later from the <strong>Fines</strong> menu.
+              </p>
+            `,
+            timer: 2200,
+            showConfirmButton: false,
+          });
+        }
+      } else {
+        // tidak ada denda
+        await Swal.fire({
+          icon: "success",
+          title: "Book Returned",
+          text: "The book has been successfully returned.",
+          timer: 1700,
+          showConfirmButton: false,
+        });
+      }
 
       loadOnGoing();
     } catch (err) {
@@ -80,9 +192,9 @@ export default function OnGoingPage() {
     }
   };
 
-  // kembaliin semua buku
+  // kembaliin semua buku (tanpa logika denda di sini dulu)
   const handleReturnAll = async () => {
-    const hasBorrowed = rows.some((r) => r.status_peminjaman === "borrowed");
+    const hasBorrowed = rows.some((r) => r.status_detail === "borrowed");
     if (!hasBorrowed) {
       toast.info("There are no borrowed books to return.");
       return;
@@ -122,9 +234,9 @@ export default function OnGoingPage() {
     }
   };
 
-  const hasBorrowed = rows.some((r) => r.status_peminjaman === "borrowed");
+  const hasBorrowed = rows.some((r) => r.status_detail === "borrowed");
 
-  // tampilan laoding
+  // loading state
   if (loading) {
     return (
       <div className="cart-page-container">
@@ -163,7 +275,6 @@ export default function OnGoingPage() {
       <h2 className="cart-title">On-going Borrow</h2>
 
       <div className="bh-table-card ongoing-table-card">
-        {/* HEADER */}
         <div className="ongoing-table-header">
           <div>Book Title</div>
           <div>Author</div>
@@ -172,13 +283,12 @@ export default function OnGoingPage() {
           <div>Action</div>
         </div>
 
-        {/* BODY */}
         <div className="ongoing-table-body">
           {rows.length === 0 ? (
             <div className="cart-empty">You have no on-going borrowings.</div>
           ) : (
             rows.map((item, idx) => {
-              const isBorrowed = item.status_peminjaman === "borrowed";
+              const isBorrowed = item.status_detail === "borrowed";
 
               return (
                 <div
@@ -231,7 +341,6 @@ export default function OnGoingPage() {
         </div>
       </div>
 
-      {/* ACTION BAR – RETURN ALL */}
       <div className="ongoing-actions">
         <button
           type="button"
