@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import api from "../../../config/api";
 import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
   BarChart,
   Bar,
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
 } from "recharts";
 import "./Reports.css";
-import api from "../../../config/api";
 
 export default function ReportsPage() {
   const [summary, setSummary] = useState({});
@@ -35,6 +35,9 @@ export default function ReportsPage() {
         const summaryPayload = summaryRes.data?.data || summaryRes.data || {};
         const catPayload = catRes.data?.data || {};
 
+        console.log(catPayload.data);
+        console.log(summaryPayload.data);
+
         setSummary(summaryPayload);
         setMonthlyTrend(catPayload.monthly_trend || []);
         setVolumeByCategory(catPayload.volume_by_category || []);
@@ -42,7 +45,7 @@ export default function ReportsPage() {
         setFines(finesRes.data?.data || []);
       } catch (err) {
         console.error("Error fetching reports:", err);
-        setError("Failed to load reports. Please try again.");
+        setError("Gagal memuat laporan. Coba muat ulang.");
       } finally {
         setLoading(false);
       }
@@ -62,41 +65,44 @@ export default function ReportsPage() {
         <div>
           <h2 className="report-title">Library Reports</h2>
           <p className="report-subtitle">
-            Summary of loans, categories, and latest fine transactions.
+            Borrowing summary, categories, and latest fine transactions.
           </p>
         </div>
       </div>
 
       {error && <p className="report-error">{error}</p>}
 
-      {/* KPI Cards */}
       <div className="report-kpi-grid">
         <div className="kpi-card">
           <p className="kpi-label">Total Books</p>
-          <p className="kpi-value">{loading ? "-" : formatNumber(summary.total_buku)}</p>
+          <p className="kpi-value">
+            {loading ? "-" : formatNumber(summary.total_buku)}
+          </p>
         </div>
         <div className="kpi-card">
           <p className="kpi-label">Total Members</p>
-          <p className="kpi-value">{loading ? "-" : formatNumber(summary.total_member)}</p>
+          <p className="kpi-value">
+            {loading ? "-" : formatNumber(summary.total_member)}
+          </p>
         </div>
         <div className="kpi-card">
           <p className="kpi-label">Active Loans</p>
-          <p className="kpi-value">{loading ? "-" : formatNumber(summary.detail_aktif)}</p>
+          <p className="kpi-value">
+            {loading ? "-" : formatNumber(summary.detail_aktif)}
+          </p>
         </div>
         <div className="kpi-card">
-          <p className="kpi-label">Collected Fines</p>
+          <p className="kpi-label">Total Fines Collected</p>
           <p className="kpi-value">
             {loading ? "-" : `Rp ${formatNumber(summary.total_denda_bayar)}`}
           </p>
         </div>
       </div>
 
-      {/* Charts & Lists */}
       <div className="report-grid">
-        {/* Loan Trend */}
         <div className="chart-card">
           <div className="chart-card-header">
-            <h3 className="report-subtitle">Loan Trend</h3>
+            <h3 className="report-subtitle">Borrowing Trend</h3>
             <p className="report-caption">Total loans per month</p>
           </div>
           <div className="chart-wrapper">
@@ -120,13 +126,10 @@ export default function ReportsPage() {
           </div>
         </div>
 
-        {/* Loans by Category */}
         <div className="chart-card">
           <div className="chart-card-header">
             <h3 className="report-subtitle">Loans by Category</h3>
-            <p className="report-caption">
-              Distribution of loan volume by category/genre
-            </p>
+            <p className="report-caption">Loan volume by category/genre</p>
           </div>
           <div className="chart-wrapper">
             <ResponsiveContainer width="100%" height={320}>
@@ -152,7 +155,6 @@ export default function ReportsPage() {
           </div>
         </div>
 
-        {/* Latest Loans */}
         <div className="chart-card list-card">
           <div className="chart-card-header">
             <h3 className="report-subtitle">Latest Loans</h3>
@@ -169,17 +171,16 @@ export default function ReportsPage() {
                 </div>
                 <div className="list-meta">
                   <span>{loan.tgl_pinjam}</span>
-                  <span>{loan.jumlah_buku} books</span>
+                  <span>{loan.jumlah_buku} buku</span>
                 </div>
               </div>
             ))}
             {loans.length === 0 && !loading && (
-              <div className="list-empty">No loan data available.</div>
+              <div className="list-empty">No loan data yet.</div>
             )}
           </div>
         </div>
 
-        {/* Latest Fine Payments */}
         <div className="chart-card list-card">
           <div className="chart-card-header">
             <h3 className="report-subtitle">Latest Fine Payments</h3>
@@ -190,7 +191,7 @@ export default function ReportsPage() {
               <div className="list-row" key={fine.id_pembayaran}>
                 <div>
                   <div className="list-title">
-                    $ {formatNumber(fine.total_bayar)}
+                    Rp {formatNumber(fine.total_bayar)}
                   </div>
                   <div className="list-subtitle">
                     {fine.nama_member || "Member"} · {fine.keterangan || "-"}
