@@ -32,8 +32,8 @@ export default function ReportsPage() {
           api.get("/petugas/reports/fines"),
         ]);
 
-        const summaryPayload =summaryRes.data;
-        const catPayload = catRes.data;
+        const summaryPayload = summaryRes.data?.data || summaryRes.data || {};
+        const catPayload = catRes.data?.data || catRes.data || {};
 
         console.log(catPayload.data);
         console.log(summaryPayload.data);
