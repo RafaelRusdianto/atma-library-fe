@@ -150,16 +150,14 @@
   border-radius: 999px;
   font-size: 12px;
   font-weight: 600;
-}
-
-.fh-status-pending {
-  background: #fef3c7;
-  color: #92400e;
+  width: 65px;
 }
 
 .fh-status-paid {
   background: #e6fcd9;
   color: #188038;
+  box-shadow: 0 6px 14px rgba(188, 255, 177, 0.25);
+  text-align: center;
 }
 
 /* ACTION BUTTONS */

@@ -98,8 +98,10 @@ export default function FineHistoryPage() {
   );
 
   const renderSkeleton = () => (
+    <>
+    <h2 className="profile-section-title">Fine Payment History</h2>
     <div className="fh-page-container">
-      <h2 className="fh-title">Fine Payment History</h2>
+      
       <div className="fh-table-card">
         <div className="fh-table-header">
           <div>Book</div>
@@ -129,14 +131,15 @@ export default function FineHistoryPage() {
         </div>
       </div>
     </div>
+    </>
   );
 
   if (loading) return renderSkeleton();
 
   return (
+    <>
+      <h2 className="profile-section-title">Fine Payment History</h2>
     <div className="fh-page-container">
-      <h2 className="fh-title">Fine Payment History</h2>
-
       <div className="fh-table-card">
         <div className="fh-table-header">
           <div>Book</div>
@@ -190,5 +193,6 @@ export default function FineHistoryPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
