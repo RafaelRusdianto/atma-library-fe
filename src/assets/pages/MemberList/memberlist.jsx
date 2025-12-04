@@ -175,7 +175,7 @@ function MemberList() {
           <input
             type="text"
             className="member-search-input"
-            placeholder="Search name / email / member number..."
+            placeholder="Search by name / email / member number..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
