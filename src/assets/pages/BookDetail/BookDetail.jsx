@@ -102,7 +102,7 @@ export default function BookDetail() {
                                             <td className="book-detail-value">{book.ISBN || "-"}</td>
                                         </tr>
                                         <tr>
-                                            <td className="label">Stok</td>
+                                            <td className="label">Stock</td>
                                             <td className="book-detail-value">{book.stok || "-"}</td>
                                             {/* HITUNG LEWAT QUERY COPY BUKU */}
                                         </tr>

@@ -4,54 +4,55 @@ import "./Support.css";
 function Support() {
   const data = {
     deskripsi:
-      "Hubungi kami jika membutuhkan bantuan terkait peminjaman buku, keanggotaan, atau layanan perpustakaan lainnya.",
-    email: "perpustakaan@atma.ac.id",
-    telepon: "(0274) 123456",
-    whatsapp: "+62 812-3456-7890",
-    alamat: "Jl. Babarsari No. 1, Yogyakarta",
+      "Contact us if you need help regarding book borrowing, membership, or other library services.",
+    email: "atmalibrary@uajy.ac.id",
+    telepon: "(0274) 563248",
+    whatsapp: "+62 111-2222-3333",
+    alamat: "742 Evergreen Terrace, Springfield",
     instagram: "https://instagram.com/atma.library",
     facebook: "https://facebook.com/atmalibrary",
     twitter: "https://x.com/atmalibrary",
-    jam_operasional: "Senin - Jumat, 08.00 - 16.00 WIB",
+    jam_operasional: "Monday - Friday, 08.00 - 16.00 WIB",
   };
 
   return (
     <div className="support-page">
-      {/* HEADER ATAS SAJA */}
+      {/* HEADER */}
       <div className="header">
-        <h1>Support Perpustakaan</h1>
+        <h1>Library Support</h1>
         <p>{data.deskripsi}</p>
       </div>
 
-      {/* DUA KARTU DI BAWAH: CONTACT & MEDIA SOSIAL */}
+      {/* GRID SECTION */}
       <div className="support-grid">
-        {/* Kartu Contact Person */}
+
+        {/* CONTACT CARD */}
         <div className="support-card">
-          <h2 className="card-title">Contact Person</h2>
+          <h2 className="card-title">Contact Information</h2>
           <p className="contact-item">
             <strong>Email:</strong> {data.email}
           </p>
           <p className="contact-item">
-            <strong>Telepon:</strong> {data.telepon}
+            <strong>Phone:</strong> {data.telepon}
           </p>
           <p className="contact-item">
             <strong>WhatsApp:</strong> {data.whatsapp}
           </p>
           <p className="contact-item">
-            <strong>Alamat:</strong> {data.alamat}
+            <strong>Address:</strong> {data.alamat}
           </p>
           <p className="support-note">
-            Jam operasional: {data.jam_operasional}
+            Operational Hours: {data.jam_operasional}
           </p>
         </div>
 
-        {/* Kartu Media Sosial */}
+        {/* SOCIAL MEDIA CARD */}
         <div className="support-card">
-          <h2 className="card-title">Media Sosial</h2>
+          <h2 className="card-title">Social Media</h2>
           <p className="social-desc">
-            Ikuti kami di media sosial untuk update koleksi dan informasi
-            terbaru.
+            Follow us on social media for updates on collections and the latest library information.
           </p>
+
           <div className="social-links">
             {/* Instagram */}
             <a
@@ -83,7 +84,7 @@ function Support() {
               <span>Facebook</span>
             </a>
 
-            {/* X / Twitter */}
+            {/* X (Twitter) */}
             <a
               className="social-pill twitter"
               href={data.twitter}

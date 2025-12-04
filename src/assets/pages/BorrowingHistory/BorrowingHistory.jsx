@@ -24,7 +24,7 @@ export default function BorrowedHistory() {
   // Ambil data from backend
   const loadHistory = async () => {
     try {
-      const res = await api.get("/member/peminjaman/riwayat"); // ⬅️ sesuaikan endpoint kamu
+      const res = await api.get("/member/peminjaman/riwayat"); // sesuaikan endpoint
       console.log("BORROWED HISTORY RESPONSE:", res.data);
 
       setRows(res.data.data || []);
@@ -190,9 +190,9 @@ export default function BorrowedHistory() {
               </div>
 
               {/* Status / Fine */}
-            <div className="bh-col-status">
-              {renderStatusPill(item.status_detail)}
-            </div>
+              <div className="bh-col-status">
+                {renderStatusPill(item.status_detail)}
+              </div>
             </div>
           ))
         )}

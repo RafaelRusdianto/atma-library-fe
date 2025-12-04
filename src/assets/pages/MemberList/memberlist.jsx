@@ -34,15 +34,15 @@ function MemberList() {
 
       setMembers(withNumber);
     } catch (error) {
-      console.error("Gagal mengambil data members:", error);
-      toast.error("Gagal mengambil data member.");
+      console.error("Failed to fetch member's data:", error);
+      toast.error("Failed to fetch member's data.");
     } finally {
       setLoading(false);
     }
   };
 
   const handleDelete = async (id_member) => {
-    if (!confirm("Yakin ingin menghapus member ini?")) return;
+    if (!confirm("Are you sure you want to delete this member?")) return;
 
     try {
       await api.delete(`/petugas/members/${id_member}`);
@@ -53,10 +53,10 @@ function MemberList() {
         setIsEditing(false);
       }
 
-      toast.success("Member berhasil dihapus.");
+      toast.success("Member deleted successfully!");
     } catch (error) {
-      console.error("Gagal menghapus member:", error);
-      toast.error("Gagal menghapus member.");
+      console.error("Failed to delete member's data:", error);
+      toast.error("Failed to delete member's data.");
     }
   };
 
@@ -106,9 +106,9 @@ function MemberList() {
 
       setSelectedMember((prev) => (prev ? { ...prev, ...editForm } : prev));
       setIsEditing(false);
-      toast.success("Data member berhasil diperbarui.");
+      toast.success("Member's data updated successfully.");
     } catch (error) {
-      console.error("Gagal mengupdate member:", error);
+      console.error("Failed to update member's data:", error);
 
       const backendMsg =
         error.response?.data?.message ||
@@ -116,9 +116,9 @@ function MemberList() {
           Object.values(error.response.data.errors).flat().join(", "));
 
       if (backendMsg) {
-        toast.error(`Terjadi kesalahan: ${backendMsg}`);
+        toast.error(`Something went wrong when updating data: ${backendMsg}`);
       } else {
-        toast.error("Terjadi kesalahan saat mengupdate member.");
+        toast.error("Something went wrong when updating data.");
       }
     }
   };
@@ -144,10 +144,13 @@ function MemberList() {
         );
       }
 
-      toast.success("Status member berhasil diubah.");
+      toast.success(`Status set to ${newStatus === "aktif" || newStatus === "active"
+        ? "Active"
+        : "Inactive"
+        }`);
     } catch (error) {
-      console.error("Gagal mengubah status member:", error);
-      toast.error("Gagal mengubah status member.");
+      console.error("Failed to update status:", error);
+      toast.error("Failed to update status.");
     }
   };
 
@@ -165,14 +168,14 @@ function MemberList() {
       <div className="member-header">
         <div>
           <h1 className="member-title">Member List</h1>
-          <p className="member-subtitle">Kelola data anggota perpustakaan</p>
+          <p className="member-subtitle">Manage library members</p>
         </div>
 
         <div className="member-header-actions">
           <input
             type="text"
             className="member-search-input"
-            placeholder="Cari nama / email / nomor member..."
+            placeholder="Search name / email / member number..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -184,7 +187,7 @@ function MemberList() {
           {!isEditing ? (
             <>
               <div className="detail-header">
-                <h2>Detail Member</h2>
+                <h2>Member Detail</h2>
                 <button
                   className="detail-close-btn"
                   onClick={() => setSelectedMember(null)}
@@ -195,31 +198,31 @@ function MemberList() {
 
               <div className="detail-grid">
                 <div>
-                  <p className="detail-label">Nama Lengkap</p>
+                  <p className="detail-label">Full Name</p>
                   <p className="detail-value">{selectedMember.nama}</p>
                 </div>
 
                 <div>
-                  <p className="detail-label">Email</p>
+                  <p className="detail-label">Email Address</p>
                   <p className="detail-value">{selectedMember.email}</p>
                 </div>
 
                 <div>
-                  <p className="detail-label">Nomor Member</p>
+                  <p className="detail-label">Member ID</p>
                   <p className="detail-value">
                     {selectedMember.nomor_member || "-"}
                   </p>
                 </div>
 
                 <div>
-                  <p className="detail-label">No. Telp</p>
+                  <p className="detail-label">Telephone Number</p>
                   <p className="detail-value">
                     {selectedMember.no_telp || "-"}
                   </p>
                 </div>
 
                 <div>
-                  <p className="detail-label">Alamat</p>
+                  <p className="detail-label">Address</p>
                   <p className="detail-value">
                     {selectedMember.alamat || "-"}
                   </p>
@@ -279,7 +282,7 @@ function MemberList() {
 
               <div className="detail-grid">
                 <div>
-                  <p className="detail-label">Nama Lengkap</p>
+                  <p className="detail-label">Full Name</p>
                   <input
                     type="text"
                     className="detail-input"
@@ -291,7 +294,7 @@ function MemberList() {
                 </div>
 
                 <div>
-                  <p className="detail-label">Email</p>
+                  <p className="detail-label">Email Address</p>
                   <input
                     type="email"
                     className="detail-input"
@@ -303,7 +306,7 @@ function MemberList() {
                 </div>
 
                 <div>
-                  <p className="detail-label">Nomor Member</p>
+                  <p className="detail-label">Member ID</p>
                   <input
                     type="text"
                     className="detail-input"
@@ -315,7 +318,7 @@ function MemberList() {
                 </div>
 
                 <div>
-                  <p className="detail-label">No. Telp</p>
+                  <p className="detail-label">Telephone Number</p>
                   <input
                     type="text"
                     className="detail-input"
@@ -327,7 +330,7 @@ function MemberList() {
                 </div>
 
                 <div>
-                  <p className="detail-label">Alamat</p>
+                  <p className="detail-label">Address</p>
                   <input
                     type="text"
                     className="detail-input"
@@ -345,10 +348,10 @@ function MemberList() {
                   className="table-btn detail-btn"
                   onClick={() => setIsEditing(false)}
                 >
-                  Batal
+                  Cancel
                 </button>
                 <button type="submit" className="table-btn edit-btn">
-                  Simpan Perubahan
+                  Save Changes
                 </button>
               </div>
             </form>
@@ -358,17 +361,17 @@ function MemberList() {
 
       <div className="member-card">
         {loading ? (
-          <p className="loading-text">Loading data members...</p>
+          <p className="loading-text">Loading members...</p>
         ) : (
           <table className="data-table">
             <thead>
               <tr>
                 <th>No</th>
-                <th>Nama Lengkap</th>
-                <th>Email</th>
-                <th>Nomor Member</th>
+                <th>Full Name</th>
+                <th>Email Address</th>
+                <th>Member ID</th>
                 <th>Status</th>
-                <th>Aksi</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -407,7 +410,7 @@ function MemberList() {
               {filtered.length === 0 && (
                 <tr>
                   <td colSpan={6} className="empty-text">
-                    Tidak ada data member.
+                    No members found.
                   </td>
                 </tr>
               )}
