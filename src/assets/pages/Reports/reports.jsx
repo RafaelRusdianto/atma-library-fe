@@ -8,37 +8,207 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  BarChart,
+  Bar,
 } from "recharts";
 import "./Reports.css";
 
-export default function ReportPeminjamanHarian() {
-  const [data, setData] = useState([]);
+export default function ReportsPage() {
+  const [summary, setSummary] = useState({});
+  const [monthlyTrend, setMonthlyTrend] = useState([]);
+  const [volumeByCategory, setVolumeByCategory] = useState([]);
+  const [loans, setLoans] = useState([]);
+  const [fines, setFines] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    api.get("/petugas/peminjaman-per-hari")
-      .then((res) => setData(res.data.data || []))
-      .catch((err) => console.error("Error fetching report:", err));
+    const fetchAll = async () => {
+      try {
+        const [summaryRes, catRes, loansRes, finesRes] = await Promise.all([
+          api.get("/petugas/reports/summary"),
+          api.get("/petugas/reports/borrowing-by-category"),
+          api.get("/petugas/reports/loans"),
+          api.get("/petugas/reports/fines"),
+        ]);
+
+        const summaryPayload = summaryRes.data?.data || summaryRes.data || {};
+        const catPayload = catRes.data?.data || {};
+
+        console.log(catPayload.data);
+        console.log(summaryPayload.data);
+
+        setSummary(summaryPayload);
+        setMonthlyTrend(catPayload.monthly_trend || []);
+        setVolumeByCategory(catPayload.volume_by_category || []);
+        setLoans(loansRes.data?.data || []);
+        setFines(finesRes.data?.data || []);
+      } catch (err) {
+        console.error("Error fetching reports:", err);
+        setError("Gagal memuat laporan. Coba muat ulang.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAll();
   }, []);
+
+  const formatNumber = (num) =>
+    typeof num === "number"
+      ? num.toLocaleString("en-US")
+      : (parseInt(num, 10) || 0).toLocaleString("en-US");
 
   return (
     <div className="report-container">
-      <h2 className="report-title">Laporan Peminjaman Buku Per Hari</h2>
+      <div className="report-header">
+        <div>
+          <h2 className="report-title">Library Reports</h2>
+          <p className="report-subtitle">
+            Ringkasan peminjaman, kategori, serta transaksi denda terkini.
+          </p>
+        </div>
+      </div>
 
-      <div className="chart-wrapper">
-        <ResponsiveContainer width="100%" height={350}>
-          <LineChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="tanggal" />
-            <YAxis allowDecimals={false} />
-            <Tooltip />
-            <Line
-              type="monotone"
-              dataKey="total"
-              stroke="#2563eb"
-              strokeWidth={3}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+      {error && <p className="report-error">{error}</p>}
+
+      <div className="report-kpi-grid">
+        <div className="kpi-card">
+          <p className="kpi-label">Total Buku</p>
+          <p className="kpi-value">
+            {loading ? "-" : formatNumber(summary.total_buku)}
+          </p>
+        </div>
+        <div className="kpi-card">
+          <p className="kpi-label">Total Member</p>
+          <p className="kpi-value">
+            {loading ? "-" : formatNumber(summary.total_member)}
+          </p>
+        </div>
+        <div className="kpi-card">
+          <p className="kpi-label">Peminjaman Aktif</p>
+          <p className="kpi-value">
+            {loading ? "-" : formatNumber(summary.detail_aktif)}
+          </p>
+        </div>
+        <div className="kpi-card">
+          <p className="kpi-label">Denda Terkumpul</p>
+          <p className="kpi-value">
+            {loading ? "-" : `Rp ${formatNumber(summary.total_denda_bayar)}`}
+          </p>
+        </div>
+      </div>
+
+      <div className="report-grid">
+        <div className="chart-card">
+          <div className="chart-card-header">
+            <h3 className="report-subtitle">Tren Peminjaman</h3>
+            <p className="report-caption">Total peminjaman per bulan</p>
+          </div>
+          <div className="chart-wrapper">
+            <ResponsiveContainer width="100%" height={320}>
+              <LineChart data={monthlyTrend}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="bulan" />
+                <YAxis allowDecimals={false} />
+                <Tooltip />
+                <Line
+                  type="monotone"
+                  dataKey="total"
+                  stroke="#2563eb"
+                  strokeWidth={3}
+                  dot={{ r: 4 }}
+                  activeDot={{ r: 6 }}
+                  name="Total Loans"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        <div className="chart-card">
+          <div className="chart-card-header">
+            <h3 className="report-subtitle">Peminjaman per Kategori</h3>
+            <p className="report-caption">
+              Distribusi volume peminjaman berdasarkan kategori/genre
+            </p>
+          </div>
+          <div className="chart-wrapper">
+            <ResponsiveContainer width="100%" height={320}>
+              <BarChart data={volumeByCategory}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis
+                  dataKey="nama_kategori"
+                  interval={0}
+                  angle={-15}
+                  textAnchor="end"
+                  height={70}
+                />
+                <YAxis allowDecimals={false} />
+                <Tooltip />
+                <Bar
+                  dataKey="total_peminjaman"
+                  fill="#2563eb"
+                  radius={[6, 6, 0, 0]}
+                  maxBarSize={48}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        <div className="chart-card list-card">
+          <div className="chart-card-header">
+            <h3 className="report-subtitle">Peminjaman Terbaru</h3>
+            <p className="report-caption">5 pinjaman terakhir</p>
+          </div>
+          <div className="list-wrapper">
+            {loans.slice(0, 5).map((loan) => (
+              <div className="list-row" key={loan.nomor_pinjam}>
+                <div>
+                  <div className="list-title">#{loan.nomor_pinjam}</div>
+                  <div className="list-subtitle">
+                    {loan.nama_member || "Member"} · {loan.status}
+                  </div>
+                </div>
+                <div className="list-meta">
+                  <span>{loan.tgl_pinjam}</span>
+                  <span>{loan.jumlah_buku} buku</span>
+                </div>
+              </div>
+            ))}
+            {loans.length === 0 && !loading && (
+              <div className="list-empty">Belum ada data peminjaman.</div>
+            )}
+          </div>
+        </div>
+
+        <div className="chart-card list-card">
+          <div className="chart-card-header">
+            <h3 className="report-subtitle">Pembayaran Denda Terbaru</h3>
+            <p className="report-caption">5 transaksi terakhir</p>
+          </div>
+          <div className="list-wrapper">
+            {fines.slice(0, 5).map((fine) => (
+              <div className="list-row" key={fine.id_pembayaran}>
+                <div>
+                  <div className="list-title">
+                    Rp {formatNumber(fine.total_bayar)}
+                  </div>
+                  <div className="list-subtitle">
+                    {fine.nama_member || "Member"} · {fine.keterangan || "-"}
+                  </div>
+                </div>
+                <div className="list-meta">
+                  <span>{fine.tgl_bayar}</span>
+                </div>
+              </div>
+            ))}
+            {fines.length === 0 && !loading && (
+              <div className="list-empty">Belum ada pembayaran denda.</div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
