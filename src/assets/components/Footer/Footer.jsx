@@ -17,19 +17,8 @@ export default function Footer() {
 
         <div className="footer-section">
           <h4>Library Services</h4>
-          <a onClick={() => navigate("/")}>Catalog</a>
-          <a>Borrow & Return</a>
-          <a>E-Resources</a>
-          <a>Study Room Booking</a>
-          <a>Fines & Payments</a>
-        </div>
-
-        <div className="footer-section">
-          <h4>Help & Support</h4>
-          <a>FAQ</a>
-          <a>Ask a Librarian</a>
-          <a>Contact Us</a>
-          <a>Library Regulations</a>
+          <a onClick={() => navigate("/catalog")}>Catalog</a>
+          <a onClick={() => navigate("/support")}>Support</a>
         </div>
 
         <div className="footer-section">

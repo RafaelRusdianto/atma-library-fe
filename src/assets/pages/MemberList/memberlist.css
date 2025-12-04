@@ -1,6 +1,5 @@
 .member-page {
   padding: 28px 72px;
-  background: radial-gradient(circle at top left, #e0edff 0, #f5f7fb 45%, #f9fafb 100%);
   min-height: calc(100vh - 80px);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -244,12 +243,14 @@
 }
 
 .status-toggle-btn--aktif {
-  background-color: #f97316; /* oranye untuk Nonaktifkan */
+  background-color: #f97316;
+  /* oranye untuk Nonaktifkan */
   color: #ffffff;
 }
 
 .status-toggle-btn--nonaktif {
-  background-color: #22c55e; /* hijau untuk Aktifkan */
+  background-color: #22c55e;
+  /* hijau untuk Aktifkan */
   color: #ffffff;
 }
 
