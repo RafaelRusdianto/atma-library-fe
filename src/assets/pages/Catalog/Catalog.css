@@ -58,6 +58,20 @@ body {
     text-align: left;
 }
 
+.clear-btn {
+    margin-top: 15px;
+    padding: 6px 10px;
+    background: #d0d0d0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 4px;
+}
+
+.clear-btn:hover {
+    background: #ddd;
+}
+
 /*CHECKBOX*/
 .filter-option {
     display: flex;
@@ -67,7 +81,7 @@ body {
     cursor: pointer;
 }
 
-.filter-option input[type="checkbox"] {
+.filter-option input[type="radio"] {
     margin: 0;
     width: 16px;
     height: 16px;
@@ -78,19 +92,6 @@ body {
     cursor: pointer;
     font-weight: normal;
     margin: 0;
-}
-
-.year-inputs {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.year-inputs input {
-    width: 50%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 0.9rem;
 }
 
 /* Main Area */
@@ -124,6 +125,17 @@ body {
 }
 
 /* Book Section */
+
+.book-grid {
+    display: flex;
+    flex-wrap: wrap;
+    /* <- BIAR WRAP */
+    gap: 20px;
+    /* jarak antar kartu */
+    justify-content: flex-start;
+    /* mulai dari kiri */
+}
+
 .book-section {
     margin-bottom: 2rem;
 }
