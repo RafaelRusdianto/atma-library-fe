@@ -6,28 +6,28 @@
 
 /* Header atas */
 .member-header {
-  max-width: 1100px;
-  margin: 0 auto 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .member-title {
-  margin: 0 0 4px;
-  font-size: 24px;
+  font-size: 2rem;
   font-weight: 700;
-  color: #111827;
 }
 
 .member-subtitle {
-  margin: 0;
-  font-size: 13px;
-  color: #6b7280;
+  color: #666;
+  margin-top: 0.25rem;
 }
 
 /* Search only, tanpa tombol tambah */
+.member-search-container {
+  max-width: 1100px;
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: center;
+}
+
 .member-header-actions {
   display: flex;
   align-items: center;
@@ -35,12 +35,15 @@
 }
 
 .member-search-input {
-  padding: 8px 12px;
+  width: 100%;
+  max-width: 1100px;
+  padding: 10px 16px;
   border-radius: 999px;
   border: 1px solid #d1d5db;
-  font-size: 13px;
-  min-width: 260px;
+  font-size: 14px;
   outline: none;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
 .member-search-input:focus {

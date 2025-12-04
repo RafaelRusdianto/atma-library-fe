@@ -107,7 +107,7 @@ export default function BorrowRequestPage() {
       console.error("Approve loan error:", err);
       toast.error(
         err?.response?.data?.message ||
-          "Failed to approve this loan. Please try again."
+        "Failed to approve this loan. Please try again."
       );
     } finally {
       setProcessingKey(null);
@@ -156,7 +156,7 @@ export default function BorrowRequestPage() {
       console.error("Reject loan error:", err);
       toast.error(
         err?.response?.data?.message ||
-          "Failed to reject this loan. Please try again."
+        "Failed to reject this loan. Please try again."
       );
     } finally {
       setProcessingKey(null);
@@ -164,13 +164,13 @@ export default function BorrowRequestPage() {
   };
 
   // Approve semua peminjaman pending
-const handleApproveAll = async () => {
-  if (loans.length === 0) {
-    toast.info("There are no pending requests to approve.");
-    return;
-  }
+  const handleApproveAll = async () => {
+    if (loans.length === 0) {
+      toast.info("There are no pending requests to approve.");
+      return;
+    }
 
-  const confirm = await Swal.fire({
+    const confirm = await Swal.fire({
       title: "Approve all requests?",
       text: "All pending borrow requests will be approved.",
       icon: "warning",
@@ -180,35 +180,35 @@ const handleApproveAll = async () => {
       confirmButtonColor: "#16a34a",
     });
 
-  if (!confirm.isConfirmed) return;
+    if (!confirm.isConfirmed) return;
 
-  try {
-    setProcessingKey("ALL");
-    const payload = {
-      status: "approved",
-      nomor_pinjam: loans.map(l => l.nomor_pinjam), // pastikan ini array integer
-    };
-    const res = await api.put("/petugas/peminjaman/approve/all", payload);
-    console.log("APPROVE ALL RESPONSE:", res.data);
+    try {
+      setProcessingKey("ALL");
+      const payload = {
+        status: "approved",
+        nomor_pinjam: loans.map(l => l.nomor_pinjam), // pastikan ini array integer
+      };
+      const res = await api.put("/petugas/peminjaman/approve/all", payload);
+      console.log("APPROVE ALL RESPONSE:", res.data);
 
-    await Swal.fire({ icon: "success", title: "All Approved", text: "All pending borrow requests have been approved.", timer: 1600, showConfirmButton: false });
-    loadRequests();
-  } catch (err) {
-    console.error("Approve-all error:", err);
-    toast.error(err?.response?.data?.message || "Failed to approve all requests. Please try again.");
-  } finally {
-    setProcessingKey(null);
-  }
-};
+      await Swal.fire({ icon: "success", title: "All Approved", text: "All pending borrow requests have been approved.", timer: 1600, showConfirmButton: false });
+      loadRequests();
+    } catch (err) {
+      console.error("Approve-all error:", err);
+      toast.error(err?.response?.data?.message || "Failed to approve all requests. Please try again.");
+    } finally {
+      setProcessingKey(null);
+    }
+  };
 
-// Reject semua peminjaman pending
-const handleRejectAll = async () => {
-  if (loans.length === 0) {
-    toast.info("There are no pending requests to reject.");
-    return;
-  }
+  // Reject semua peminjaman pending
+  const handleRejectAll = async () => {
+    if (loans.length === 0) {
+      toast.info("There are no pending requests to reject.");
+      return;
+    }
 
-  const confirm = await Swal.fire({
+    const confirm = await Swal.fire({
       title: "Reject all requests?",
       text: "All pending borrow requests will be rejected.",
       icon: "warning",
@@ -218,33 +218,36 @@ const handleRejectAll = async () => {
       confirmButtonColor: "#dc2626",
     });
 
-  if (!confirm.isConfirmed) return;
+    if (!confirm.isConfirmed) return;
 
-  try {
-    setProcessingKey("ALL-REJECT");
-    const payload = {
-      status: "rejected",
-      nomor_pinjam: loans.map(l => l.nomor_pinjam), // pastikan ini array integer
-    };
-    const res = await api.put("/petugas/peminjaman/approve/all", payload);
-    console.log("REJECT ALL RESPONSE:", res.data);
+    try {
+      setProcessingKey("ALL-REJECT");
+      const payload = {
+        status: "rejected",
+        nomor_pinjam: loans.map(l => l.nomor_pinjam), // pastikan ini array integer
+      };
+      const res = await api.put("/petugas/peminjaman/approve/all", payload);
+      console.log("REJECT ALL RESPONSE:", res.data);
 
-    await Swal.fire({ icon: "success", title: "All Rejected", text: "All pending borrow requests have been rejected.", timer: 1600, showConfirmButton: false });
-    loadRequests();
-  } catch (err) {
-    console.error("Reject-all error:", err);
-    toast.error(err?.response?.data?.message || "Failed to reject all requests. Please try again.");
-  } finally {
-    setProcessingKey(null);
-  }
-};
+      await Swal.fire({ icon: "success", title: "All Rejected", text: "All pending borrow requests have been rejected.", timer: 1600, showConfirmButton: false });
+      loadRequests();
+    } catch (err) {
+      console.error("Reject-all error:", err);
+      toast.error(err?.response?.data?.message || "Failed to reject all requests. Please try again.");
+    } finally {
+      setProcessingKey(null);
+    }
+  };
 
 
   // =============== LOADING SKELETON ===============
   if (loading) {
     return (
       <div className="request-page-container">
-        <h2 className="request-title">Borrow Requests</h2>
+        <div className="request-header">
+          <h2 className="request-title">Borrow Requests</h2>
+          <p className="request-subtitle">Manage incoming book loan requests: approve or decline requests from users.</p>
+        </div>
 
         <div className="request-cards">
           {[1, 2].map((i) => (
@@ -277,8 +280,10 @@ const handleRejectAll = async () => {
   // =============== MAIN UI ===============
   return (
     <div className="request-page-container">
-      <h2 className="request-title">Borrow Requests</h2>
-
+      <div className="request-header">
+        <h2 className="request-title">Borrow Requests</h2>
+        <p className="request-subtitle">Manage incoming book loan requests: approve or decline requests from users.</p>
+      </div>
       <div className="request-shell">
         <div className="request-shell-body">
           {/* CARD LIST PER PEMINJAMAN */}
@@ -372,37 +377,37 @@ const handleRejectAll = async () => {
             </div>
           )}
         </div>
-        
+
       </div>
       <div className="request-actions request-actions-bo">
-          <button
-            type="button"
-            onClick={handleApproveAll}
-            disabled={loans.length === 0 || processingKey === "ALL"}
-            className={
-              "request-approve-all-btn " +
-              (loans.length === 0 || processingKey === "ALL"
-                ? "request-approve-all-btn-disabled"
-                : "")
-            }
-          >
-            {processingKey === "ALL" ? "Approving..." : "Approve All"}
-          </button>
+        <button
+          type="button"
+          onClick={handleApproveAll}
+          disabled={loans.length === 0 || processingKey === "ALL"}
+          className={
+            "request-approve-all-btn " +
+            (loans.length === 0 || processingKey === "ALL"
+              ? "request-approve-all-btn-disabled"
+              : "")
+          }
+        >
+          {processingKey === "ALL" ? "Approving..." : "Approve All"}
+        </button>
 
-          <button
-            type="button"
-            onClick={handleRejectAll}
-            disabled={loans.length === 0 || processingKey === "ALL-REJECT"}
-            className={
-              "request-approve-all-btn request-reject-all-btn " +
-              (loans.length === 0 || processingKey === "ALL-REJECT"
-                ? "request-approve-all-btn-disabled"
-                : "")
-            }
-          >
-            {processingKey === "ALL-REJECT" ? "Rejecting..." : "Reject All"}
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={handleRejectAll}
+          disabled={loans.length === 0 || processingKey === "ALL-REJECT"}
+          className={
+            "request-approve-all-btn request-reject-all-btn " +
+            (loans.length === 0 || processingKey === "ALL-REJECT"
+              ? "request-approve-all-btn-disabled"
+              : "")
+          }
+        >
+          {processingKey === "ALL-REJECT" ? "Rejecting..." : "Reject All"}
+        </button>
+      </div>
     </div>
   );
 }

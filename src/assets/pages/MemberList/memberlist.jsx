@@ -171,7 +171,7 @@ function MemberList() {
           <p className="member-subtitle">Manage library members</p>
         </div>
 
-        <div className="member-header-actions">
+        <div className="member-search-container">
           <input
             type="text"
             className="member-search-input"

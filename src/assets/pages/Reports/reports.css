@@ -1,30 +1,23 @@
 .reports-page {
   padding: 28px 72px;
-  background: radial-gradient(circle at top left, #e0edff 0, #f5f7fb 45%, #f9fafb 100%);
   min-height: calc(100vh - 80px);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 /* Header */
 .reports-header {
-  max-width: 1100px;
-  margin: 0 auto 18px;
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .reports-title {
-  margin: 0 0 4px;
-  font-size: 24px;
+  font-size: 2rem;
   font-weight: 700;
-  color: #111827;
 }
 
 .reports-subtitle {
-  margin: 0;
-  font-size: 13px;
-  color: #6b7280;
+  color: #666;
+  margin-top: 0.25rem;
 }
 
 /* Summary cards */
