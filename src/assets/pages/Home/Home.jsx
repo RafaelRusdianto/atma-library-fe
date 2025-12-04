@@ -1,9 +1,38 @@
 import "./Home.css";
 import { Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import api from "../../../config/api";
 
 export default function Home() {
   const navigate = useNavigate();
+
+  const [query, setQuery] = useState("");
+  const [filteredBooks, setFilteredBooks] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  useEffect(() => {
+    if (query.trim() === "") {
+      setFilteredBooks([]);
+      return;
+    }
+
+    api
+      .get(`/buku/search?q=${query}`)
+      .then((res) => setFilteredBooks(res.data.data || []))
+      .catch((err) => console.error("Error searching books:", err));
+  }, [query]);
+
+  const handleSearchClick = () => {
+    if (!query.trim()) return;
+
+    if (filteredBooks.length === 0) {
+      setShowDropdown(false);
+      return;
+    }
+
+    navigate(`/catalog?search=${encodeURIComponent(query)}`);
+  };
 
   // kategori yang ditampilkan di "Explore Our Collections"
   const collections = [
@@ -39,13 +68,55 @@ export default function Home() {
             Search the library catalog by title, author, or ISBN...
           </p>
 
-          <div className="hero-search">
-            <Search className="search-icon-home" size={20} />
-            <input
-              type="text"
-              placeholder="Enter title, author, or ISBN here"
-            />
-            <button>Search</button>
+          <div
+            className="hero-search-wrapper"
+            tabIndex={0}
+            onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
+            onFocus={() => query.length > 0 && setShowDropdown(true)}
+          >
+            <div className="hero-search">
+              <Search className="search-icon-home" size={20} />
+              <input
+                type="text"
+                placeholder="Enter title, author, or ISBN here"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setShowDropdown(e.target.value.length > 0);
+                }}
+              />
+              <button onClick={handleSearchClick}>Search</button>
+            </div>
+
+            {/* DROPDOWN HASIL SEARCH */}
+            {showDropdown && (
+            <div className="hero-dropdown">
+              {filteredBooks.length === 0 ? (
+                <div className="hero-dropdown-item no-result">
+                  Buku tidak ditemukan
+                </div>
+              ) : (
+                filteredBooks.map((book) => (
+                  <div
+                    key={book.id_buku}
+                    className="hero-dropdown-item"
+                    onMouseDown={() => navigate(`/catalog/book/${book.id_buku}`)}
+                  >
+                    <img
+                      src={book.url_foto_cover}
+                      alt={book.judul}
+                      className="hero-dropdown-thumb"
+                    />
+                    <div>
+                      <p className="hero-dropdown-title">{book.judul}</p>
+                      <p className="hero-dropdown-author">{book.penulis}</p>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+
           </div>
         </div>
       </section>
