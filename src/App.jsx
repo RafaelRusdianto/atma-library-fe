@@ -8,6 +8,9 @@ import Peminjaman from "./assets/pages/Peminjaman/Peminjaman";
 import ManageBooks from "./assets/pages/ManageBooks/ManageBooks";
 import CreateNewBook from "./assets/pages/ManageBooks/CreateNewBook/CreateNewBook";
 import EditExistingBook from "./assets/pages/ManageBooks/EditExistingBook/EditExistingBook";
+import MemberList from "./assets/pages/MemberList/MemberList";
+import Support from "./assets/pages/Support/Support";
+import Reports from "./assets/pages/Reports/reports";
 
 import Navbar from "./assets/components/NavBar/navbar";
 import Footer from "./assets/components/Footer/Footer";
@@ -23,7 +26,6 @@ function Layout() {
   const location = useLocation();
 
   const noFooterPages = ["/login", "/register"];
-
   const hideFooter = noFooterPages.includes(location.pathname);
 
   return (
@@ -56,9 +58,12 @@ function Layout() {
             <Route path="borrowing-history" element={<BorrowingHistory />} />
             <Route path="fine-history" element={<FineHistory />} />
           </Route>
+
+          <Route path="/members" element={<MemberList />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/reports" element={<Reports />} />
         </Routes>
       </div>
-
 
       {!hideFooter && <Footer />}
     </>
