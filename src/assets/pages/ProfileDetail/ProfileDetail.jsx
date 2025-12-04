@@ -70,6 +70,20 @@ export default function ProfileDetail() {
   };
 
   const handleUpdateProfile = async () => {
+    const requiredFields = [
+      { key: "nama", label: "Nama" },
+      { key: "username", label: "Username" },
+      { key: "email", label: "Email" },
+      { key: "no_telp", label: "Nomor Telepon" },
+      { key: "alamat", label: "Alamat" },
+    ];
+
+    for (let field of requiredFields) {
+      if (!formData[field.key] || formData[field.key].trim() === "") {
+        toast.error(`${field.label} cannot be empty.`);
+        return;
+      }
+    }
     try {
       setIsUpdatingProfile(true);
 
@@ -92,30 +106,31 @@ export default function ProfileDetail() {
       const updatedData = res.data.data;
       setProfile(updatedData); // update context → profileLayout & profileDetail ikut berubah
       updateUser(updatedData);
-      toast.success("Profil berhasil diperbarui.");
+      toast.success("Changes saved to profile.");
     } catch (err) {
       console.error("Error updating profile:", err);
 
       const errors = err?.response?.data?.errors;
 
-      // Kalau ada error spesifik dari validator
       if (errors) {
         if (errors.email && errors.email.length > 0) {
-          toast.error(errors.email[0]);       
+          toast.error(errors.email[0]);
           return;
         }
 
         if (errors.username && errors.username.length > 0) {
-          toast.error(errors.username[0]);    
+          toast.error(errors.username[0]);
           return;
         }
-
       }
 
       // Fallback
+      const msg =
         err?.response?.data?.message ||
-        "Gagal memperbarui profil. Silakan coba lagi.";
+        "Failed to update profile. Please try again.";
+
       toast.error(msg);
+
     } finally {
       setIsUpdatingProfile(false);
     }
@@ -137,12 +152,12 @@ export default function ProfileDetail() {
 
   const handleChangePassword = async () => {
     if (!passwordData.currentPassword || !passwordData.newPassword) {
-      toast.error("Isi semua field password.");
+      toast.error("Fill all password.");
       return;
     }
 
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      toast.error("Konfirmasi password tidak sesuai.");
+      toast.error("Password does not match.");
       return;
     }
 
@@ -162,13 +177,13 @@ export default function ProfileDetail() {
       const res = await api.post(endpoint, payload);
       console.log("CHANGE PASSWORD RESPONSE:", res.data);
 
-      toast.success("Password berhasil diubah.");
+      toast.success("Password changed successfully.");
       resetPasswordForm();
     } catch (err) {
       console.error("Error changing password:", err);
       const msg =
         err?.response?.data?.message ||
-        "Gagal mengubah password. Silakan coba lagi.";
+        "Failed to change password. Please try again.";
       toast.error(msg);
     } finally {
       setIsUpdatingPassword(false);
@@ -176,7 +191,7 @@ export default function ProfileDetail() {
   };
 
   // === DELETE ACCOUNT ===
-const handleDeleteAccount = async () => {
+  const handleDeleteAccount = async () => {
     const result = await Swal.fire({
       title: "Delete account?",
       text: "This action cannot be undone. Are you sure you want to continue?",
@@ -358,7 +373,7 @@ const handleDeleteAccount = async () => {
       {/* SECURITY */}
       <h2 className="settings-title">Security</h2>
       <section className="settings-section-card">
-         <h3 className="settings-section-heading">Change Password</h3>
+        <h3 className="settings-section-heading">Change Password</h3>
 
         <div className="settings-grid-2col">
           <div className="settings-field">
