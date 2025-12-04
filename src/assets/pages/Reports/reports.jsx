@@ -1,210 +1,215 @@
-import React, { useEffect, useState } from "react";
-import "./reports.css";
+import { useEffect, useState } from "react";
 import api from "../../../config/api";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+} from "recharts";
+import "./Reports.css";
 
-function Reports() {
-  const [summary, setSummary] = useState(null);
-  const [activeTab, setActiveTab] = useState("loans"); // "loans" | "fines"
+export default function ReportsPage() {
+  const [summary, setSummary] = useState({});
+  const [monthlyTrend, setMonthlyTrend] = useState([]);
+  const [volumeByCategory, setVolumeByCategory] = useState([]);
   const [loans, setLoans] = useState([]);
   const [fines, setFines] = useState([]);
-  const [loadingLoans, setLoadingLoans] = useState(true);
-  const [loadingFines, setLoadingFines] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    fetchSummary();
-    fetchLoans();
-    fetchFines();
+    const fetchAll = async () => {
+      try {
+        const [summaryRes, catRes, loansRes, finesRes] = await Promise.all([
+          api.get("/petugas/reports/summary"),
+          api.get("/petugas/reports/borrowing-by-category"),
+          api.get("/petugas/reports/loans"),
+          api.get("/petugas/reports/fines"),
+        ]);
+
+        const summaryPayload = summaryRes.data?.data || summaryRes.data || {};
+        const catPayload = catRes.data?.data || {};
+
+        console.log(catPayload.data);
+        console.log(summaryPayload.data);
+
+        setSummary(summaryPayload);
+        setMonthlyTrend(catPayload.monthly_trend || []);
+        setVolumeByCategory(catPayload.volume_by_category || []);
+        setLoans(loansRes.data?.data || []);
+        setFines(finesRes.data?.data || []);
+      } catch (err) {
+        console.error("Error fetching reports:", err);
+        setError("Gagal memuat laporan. Coba muat ulang.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAll();
   }, []);
 
-  const fetchSummary = async () => {
-    try {
-      const res = await api.get("/petugas/reports/summary");
-      setSummary(res.data);
-    } catch (error) {
-      console.error("Gagal mengambil summary report:", error);
-    }
-  };
-
-  const fetchLoans = async () => {
-    try {
-      const res = await api.get("/petugas/reports/loans");
-      setLoans(res.data.data ?? res.data);
-    } catch (error) {
-      console.error("Gagal mengambil laporan peminjaman:", error);
-    } finally {
-      setLoadingLoans(false);
-    }
-  };
-
-  const fetchFines = async () => {
-    try {
-      const res = await api.get("/petugas/reports/fines");
-      setFines(res.data.data ?? res.data);
-    } catch (error) {
-      console.error("Gagal mengambil laporan denda:", error);
-    } finally {
-      setLoadingFines(false);
-    }
-  };
+  const formatNumber = (num) =>
+    typeof num === "number"
+      ? num.toLocaleString("en-US")
+      : (parseInt(num, 10) || 0).toLocaleString("en-US");
 
   return (
-    <div className="reports-page">
-      {/* Header */}
-      <div className="reports-header">
+    <div className="report-container">
+      <div className="report-header">
         <div>
-          <h1 className="reports-title">Reports</h1>
-          <p className="reports-subtitle">
-            Ringkasan aktivitas perpustakaan dan laporan transaksi peminjaman
-            serta pembayaran denda.
+          <h2 className="report-title">Library Reports</h2>
+          <p className="report-subtitle">
+            Ringkasan peminjaman, kategori, serta transaksi denda terkini.
           </p>
         </div>
       </div>
 
-      {/* Summary cards, tanpa background biru */}
-      {summary && (
-        <div className="reports-summary-card">
-          <div className="summary-grid">
-            <div className="summary-item">
-              <p className="summary-label">Total Buku</p>
-              <p className="summary-value">{summary.total_buku}</p>
-            </div>
-            <div className="summary-item">
-              <p className="summary-label">Total Member</p>
-              <p className="summary-value">{summary.total_member}</p>
-            </div>
-            <div className="summary-item">
-              <p className="summary-label">Peminjaman Aktif</p>
-              <p className="summary-value">{summary.peminjaman_aktif}</p>
-            </div>
-            <div className="summary-item">
-              <p className="summary-label">Total Denda Terbayar</p>
-              <p className="summary-value">
-                Rp {Number(summary.total_denda_bayar || 0).toLocaleString("id-ID")}
-              </p>
-            </div>
+      {error && <p className="report-error">{error}</p>}
+
+      <div className="report-kpi-grid">
+        <div className="kpi-card">
+          <p className="kpi-label">Total Buku</p>
+          <p className="kpi-value">
+            {loading ? "-" : formatNumber(summary.total_buku)}
+          </p>
+        </div>
+        <div className="kpi-card">
+          <p className="kpi-label">Total Member</p>
+          <p className="kpi-value">
+            {loading ? "-" : formatNumber(summary.total_member)}
+          </p>
+        </div>
+        <div className="kpi-card">
+          <p className="kpi-label">Peminjaman Aktif</p>
+          <p className="kpi-value">
+            {loading ? "-" : formatNumber(summary.detail_aktif)}
+          </p>
+        </div>
+        <div className="kpi-card">
+          <p className="kpi-label">Denda Terkumpul</p>
+          <p className="kpi-value">
+            {loading ? "-" : `Rp ${formatNumber(summary.total_denda_bayar)}`}
+          </p>
+        </div>
+      </div>
+
+      <div className="report-grid">
+        <div className="chart-card">
+          <div className="chart-card-header">
+            <h3 className="report-subtitle">Tren Peminjaman</h3>
+            <p className="report-caption">Total peminjaman per bulan</p>
+          </div>
+          <div className="chart-wrapper">
+            <ResponsiveContainer width="100%" height={320}>
+              <LineChart data={monthlyTrend}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="bulan" />
+                <YAxis allowDecimals={false} />
+                <Tooltip />
+                <Line
+                  type="monotone"
+                  dataKey="total"
+                  stroke="#2563eb"
+                  strokeWidth={3}
+                  dot={{ r: 4 }}
+                  activeDot={{ r: 6 }}
+                  name="Total Loans"
+                />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
         </div>
-      )}
 
-      {/* Tabs */}
-      <div className="reports-tabs-card">
-        <div className="tabs-header">
-          <button
-            className={`tab-btn ${activeTab === "loans" ? "active" : ""}`}
-            onClick={() => setActiveTab("loans")}
-          >
-            Peminjaman
-          </button>
-          <button
-            className={`tab-btn ${activeTab === "fines" ? "active" : ""}`}
-            onClick={() => setActiveTab("fines")}
-          >
-            Denda
-          </button>
+        <div className="chart-card">
+          <div className="chart-card-header">
+            <h3 className="report-subtitle">Peminjaman per Kategori</h3>
+            <p className="report-caption">
+              Distribusi volume peminjaman berdasarkan kategori/genre
+            </p>
+          </div>
+          <div className="chart-wrapper">
+            <ResponsiveContainer width="100%" height={320}>
+              <BarChart data={volumeByCategory}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis
+                  dataKey="nama_kategori"
+                  interval={0}
+                  angle={-15}
+                  textAnchor="end"
+                  height={70}
+                />
+                <YAxis allowDecimals={false} />
+                <Tooltip />
+                <Bar
+                  dataKey="total_peminjaman"
+                  fill="#2563eb"
+                  radius={[6, 6, 0, 0]}
+                  maxBarSize={48}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
-        <div className="tabs-content">
-          {activeTab === "loans" ? (
-            <>
-              <div className="tabs-title-row">
-                <h2 className="tabs-title">Laporan Peminjaman Terbaru</h2>
+        <div className="chart-card list-card">
+          <div className="chart-card-header">
+            <h3 className="report-subtitle">Peminjaman Terbaru</h3>
+            <p className="report-caption">5 pinjaman terakhir</p>
+          </div>
+          <div className="list-wrapper">
+            {loans.slice(0, 5).map((loan) => (
+              <div className="list-row" key={loan.nomor_pinjam}>
+                <div>
+                  <div className="list-title">#{loan.nomor_pinjam}</div>
+                  <div className="list-subtitle">
+                    {loan.nama_member || "Member"} · {loan.status}
+                  </div>
+                </div>
+                <div className="list-meta">
+                  <span>{loan.tgl_pinjam}</span>
+                  <span>{loan.jumlah_buku} buku</span>
+                </div>
               </div>
-              {loadingLoans ? (
-                <p className="loading-text">Loading data peminjaman...</p>
-              ) : (
-                <table className="data-table">
-                  <thead>
-                    <tr>
-                      <th>No</th>
-                      <th>Nomor Pinjam</th>
-                      <th>Tanggal Pinjam</th>
-                      <th>Tanggal Kembali</th>
-                      <th>Member</th>
-                      <th>Jumlah Buku</th>
-                      <th>Status</th>
-                      <th>Total Denda</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {loans.map((item, index) => (
-                      <tr key={item.nomor_pinjam ?? index}>
-                        <td>{index + 1}</td>
-                        <td>{item.nomor_pinjam}</td>
-                        <td>{item.tgl_pinjam}</td>
-                        <td>{item.tgl_kembali}</td>
-                        <td>{item.nama_member}</td>
-                        <td className="text-center">{item.jumlah_buku}</td>
-                        <td>
-                          <span className={`status-pill status-${item.status}`}>
-                            {item.status}
-                          </span>
-                        </td>
-                        <td>
-                          Rp{" "}
-                          {Number(item.total_denda || 0).toLocaleString("id-ID")}
-                        </td>
-                      </tr>
-                    ))}
-                    {loans.length === 0 && (
-                      <tr>
-                        <td colSpan="8" className="empty-text">
-                          Tidak ada data peminjaman.
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              )}
-            </>
-          ) : (
-            <>
-              <div className="tabs-title-row">
-                <h2 className="tabs-title">Laporan Pembayaran Denda Terbaru</h2>
+            ))}
+            {loans.length === 0 && !loading && (
+              <div className="list-empty">Belum ada data peminjaman.</div>
+            )}
+          </div>
+        </div>
+
+        <div className="chart-card list-card">
+          <div className="chart-card-header">
+            <h3 className="report-subtitle">Pembayaran Denda Terbaru</h3>
+            <p className="report-caption">5 transaksi terakhir</p>
+          </div>
+          <div className="list-wrapper">
+            {fines.slice(0, 5).map((fine) => (
+              <div className="list-row" key={fine.id_pembayaran}>
+                <div>
+                  <div className="list-title">
+                    Rp {formatNumber(fine.total_bayar)}
+                  </div>
+                  <div className="list-subtitle">
+                    {fine.nama_member || "Member"} · {fine.keterangan || "-"}
+                  </div>
+                </div>
+                <div className="list-meta">
+                  <span>{fine.tgl_bayar}</span>
+                </div>
               </div>
-              {loadingFines ? (
-                <p className="loading-text">Loading data denda...</p>
-              ) : (
-                <table className="data-table">
-                  <thead>
-                    <tr>
-                      <th>No</th>
-                      <th>ID Pembayaran</th>
-                      <th>Tanggal Bayar</th>
-                      <th>Member</th>
-                      <th>Total Bayar</th>
-                      <th>Keterangan</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {fines.map((item, index) => (
-                      <tr key={item.id_pembayaran ?? index}>
-                        <td>{index + 1}</td>
-                        <td>{item.id_pembayaran}</td>
-                        <td>{item.tgl_bayar}</td>
-                        <td>{item.nama_member}</td>
-                        <td>
-                          Rp{" "}
-                          {Number(item.total_bayar || 0).toLocaleString("id-ID")}
-                        </td>
-                        <td>{item.keterangan}</td>
-                      </tr>
-                    ))}
-                    {fines.length === 0 && (
-                      <tr>
-                        <td colSpan="6" className="empty-text">
-                          Tidak ada data pembayaran denda.
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              )}
-            </>
-          )}
+            ))}
+            {fines.length === 0 && !loading && (
+              <div className="list-empty">Belum ada pembayaran denda.</div>
+            )}
+          </div>
         </div>
       </div>
     </div>
   );
 }
-
-export default Reports;
