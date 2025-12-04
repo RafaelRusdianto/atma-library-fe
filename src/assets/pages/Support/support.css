@@ -1,7 +1,6 @@
 .support-page {
   padding: 32px 72px;
-  background-color: #f3f4f6;
-  /* atau #ffffff kalau mau putih */
+  background-color: #f9fafb;
   min-height: calc(100vh - 80px);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }

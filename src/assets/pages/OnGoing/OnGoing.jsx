@@ -45,8 +45,8 @@ export default function OnGoingPage() {
       html: `
         <p style="margin-bottom: 4px; font-size: 14px;">
           You are about to pay a fine of <strong>${fineAmount.toLocaleString(
-            "id-ID"
-          )}</strong>.
+        "id-ID"
+      )}</strong>.
         </p>
       `,
       input: "select",
@@ -83,8 +83,8 @@ export default function OnGoingPage() {
         html: `
           <p style="font-size: 14px;">
             Fine <strong>Rp${fineAmount.toLocaleString(
-              "id-ID"
-            )}</strong> has been paid.<br/>
+          "id-ID"
+        )}</strong> has been paid.<br/>
             Method: <strong>${metode}</strong>
           </p>
         `,
@@ -136,8 +136,8 @@ export default function OnGoingPage() {
             </p>
             <p style="margin-bottom: 6px; font-size: 14px;">
               There is a late fine of <strong>Rp${fine_amount.toLocaleString(
-                "id-ID"
-              )}</strong>.
+            "id-ID"
+          )}</strong>.
             </p>
             <p style="font-size: 13px; color:#4b5563;">
               You can pay it now or later on the <strong>Fines</strong> page.
@@ -187,7 +187,7 @@ export default function OnGoingPage() {
       console.error("Return error:", err);
       toast.error(
         err?.response?.data?.message ||
-          "Failed to return this book. Please try again."
+        "Failed to return this book. Please try again."
       );
     }
   };
@@ -229,7 +229,7 @@ export default function OnGoingPage() {
       console.error("Return-all error:", err);
       toast.error(
         err?.response?.data?.message ||
-          "Failed to return all books. Please try again."
+        "Failed to return all books. Please try again."
       );
     }
   };
@@ -240,7 +240,7 @@ export default function OnGoingPage() {
   if (loading) {
     return (
       <div className="cart-page-container">
-        <h2 className="cart-title">On-going Borrow</h2>
+        <h2 className="cart-title">On-going</h2>
 
         <div className="bh-table-card ongoing-table-card">
           <div className="ongoing-table-header">
@@ -272,7 +272,7 @@ export default function OnGoingPage() {
 
   return (
     <div className="cart-page-container">
-      <h2 className="cart-title">On-going Borrow</h2>
+      <h2 className="cart-title">On-going</h2>
 
       <div className="bh-table-card ongoing-table-card">
         <div className="ongoing-table-header">

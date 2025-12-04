@@ -95,7 +95,7 @@ export default function CartPage() {
   if (loading) {
     return (
       <div className="cart-page-container">
-        <h2 className="cart-title">Borrow Cart</h2>
+        <h2 className="cart-title">Cart</h2>
 
         <div className="bh-table-card cart-table-card">
           <div className="cart-table-header">
@@ -125,7 +125,7 @@ export default function CartPage() {
 
   return (
     <div className="cart-page-container">
-      <h2 className="cart-title">Borrow Cart</h2>
+      <h2 className="cart-title">Cart</h2>
 
       <div className="bh-table-card cart-table-card">
         {/* HEADER */}
