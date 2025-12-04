@@ -93,7 +93,7 @@ export default function Home() {
             <div className="hero-dropdown">
               {filteredBooks.length === 0 ? (
                 <div className="hero-dropdown-item no-result">
-                  Buku tidak ditemukan
+                  Not Found !
                 </div>
               ) : (
                 filteredBooks.map((book) => (
