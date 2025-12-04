@@ -5,7 +5,7 @@
     padding: 20px 40px;
     font-family: "Inter", sans-serif;
     color: #222;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .book-detail-container table {
@@ -31,7 +31,7 @@
     word-break: break-word;
     font-size: 32px;
     font-weight: 700;
-    margin: 15px 10;
+    margin: 15px 10px 10px 0;
 }
 
 .book-status {
@@ -125,6 +125,7 @@
 /* bagian kanan */
 .book-cover-img {
     width: 300px;
+    max-width: 100%;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
     display: block;
@@ -152,4 +153,96 @@
 .btn-pinjam:hover {
     background: #005fcc;
     transform: scale(1.025);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+    .book-detail-container {
+        padding: 16px 20px;
+    }
+
+    .book-cover-td {
+        width: 280px;
+        padding-left: 16px;
+    }
+
+    .book-title-detail {
+        font-size: 28px;
+    }
+
+    .details-section,
+    .abstract-section {
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .book-detail-container {
+        padding: 14px;
+    }
+
+    .book-detail-container table {
+        display: block;
+    }
+
+    .book-detail-container tbody,
+    .book-detail-container tr {
+        display: block;
+    }
+
+    .book-detail-container td {
+        display: block;
+        width: 100%;
+    }
+
+    .book-cover-td {
+        padding-left: 0;
+        margin-top: 16px;
+        text-align: center;
+    }
+
+    .book-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .details-table .label {
+        width: 140px;
+    }
+
+    .details-table .book-detail-value {
+        padding-left: 0;
+    }
+
+    .details-section,
+    .abstract-section {
+        margin-top: 24px;
+    }
+}
+
+@media (max-width: 540px) {
+    .book-detail-container {
+        padding: 12px;
+    }
+
+    .book-title-detail {
+        font-size: 24px;
+    }
+
+    .book-author {
+        font-size: 14px;
+    }
+
+    .book-cover-img {
+        width: 220px;
+    }
+
+    .btn-pinjam {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    .btn-section {
+        justify-content: stretch;
+    }
 }
