@@ -59,8 +59,6 @@ export default function Home() {
             <div
               key={item.id}
               className="collection-card"
-              // sekarang kalau diklik akan ke halaman catalog
-              // nanti kalau mau bisa pakai query param: `/catalog?category=${item.id}`
               onClick={() => navigate("/catalog")}
             >
               <img src={item.img} alt={item.title} />
@@ -74,7 +72,7 @@ export default function Home() {
       <section className="vision-quotes-section">
         <div className="vq-grid">
 
-          {/* LEFT COLUMN — Vision */}
+          {/* Kiri — Vision */}
           <div className="quotes-column">
             <h2 className="section-heading">Our Vision & Mission</h2>
 
@@ -122,7 +120,7 @@ export default function Home() {
       </section>
 
 
-      {/* Map Section – muncul sebelum Footer */}
+      {/* Map Section */}
       <section className="map-section">
         <h2>Visit Our Library</h2>
         <p className="map-text">
@@ -130,7 +128,6 @@ export default function Home() {
         </p>
 
         <div className="map-wrapper">
-          {/* GANTI src di bawah dengan embed map perpustakaanmu sendiri */}
           <iframe
             title="Library Location Map"
             className="map-iframe"
