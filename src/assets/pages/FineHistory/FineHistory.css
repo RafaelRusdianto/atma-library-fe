@@ -1,0 +1,367 @@
+/* PAGE CONTAINER */
+.fh-page-container {
+  margin: 40px auto 60px;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fh-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.fh-shell {
+  width: min(900px, 96vw);
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 18px 20px 20px;
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.12);
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fh-shell-body {
+  max-height: 560px;
+  overflow-y: auto;
+  padding: 6px 4px;
+}
+
+/* CARD */
+.fh-table-card {
+  width: 100%;
+  max-width: 1100px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 18px 22px;
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+.fh-table-header {
+  display: grid;
+  grid-template-columns: 2.6fr 1.2fr 1fr 1fr 1.2fr 1fr;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-left: 10px;
+}
+
+/* BODY */
+.fh-table-body {
+  max-height: 545px;
+  overflow-y: auto;
+}
+
+.fh-table-row {
+  display: grid;
+  grid-template-columns: 2.6fr 1.2fr 1fr 1.1fr 1fr 1fr;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid #f1f5f9;
+  padding-left: 10px;
+}
+
+/* MEMBER COLUMN */
+.fh-col-member {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fh-member-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.fh-member-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.fh-member-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.fh-member-id {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* BOOK COLUMN */
+.fh-col-book {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fh-book-cover {
+  width: 42px;
+  height: 60px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.fh-book-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.fh-book-title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.fh-book-author {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.fh-book-copy {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* STATUS */
+.fh-col-status {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.fh-status-pill {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.fh-status-pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.fh-status-paid {
+  background: #e6fcd9;
+  color: #188038;
+}
+
+/* ACTION BUTTONS */
+.fh-col-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-right: 12px;
+}
+
+.fh-btn {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: none;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.1s;
+}
+
+.fh-btn-approve {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+}
+
+.fh-btn-approve:hover {
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+  transform: translateY(-1px);
+}
+
+.fh-btn-reject {
+  background: #e0ecff;
+  color: #1d4ed8;
+}
+
+.fh-btn-reject:hover {
+  background: #c7dbff;
+  transform: translateY(-1px);
+}
+
+/* EMPTY STATE */
+.fh-empty {
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #6b7280;
+  width: 100%;
+}
+
+/* ACTION BAR (APPROVE ALL) */
+.fh-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.fh-approve-all-btn {
+  padding: 10px 28px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.1s;
+  min-width: 230px;
+}
+
+.fh-approve-all-btn:hover:not(.fh-approve-all-btn-disabled) {
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+  transform: translateY(-1px);
+}
+
+.fh-approve-all-btn-disabled {
+  background: #c7dbff;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* SIMPLE SKELETON (pakai yang sama dengan OnGoing jika sudah ada) */
+.skeleton {
+  background: #e5e7eb;
+  border-radius: 999px;
+  animation: requestSkeletonPulse 1.4s infinite ease-in-out;
+}
+
+@keyframes requestSkeletonPulse {
+  0% { opacity: 0.55; }
+  50% { opacity: 1; }
+  100% { opacity: 0.55; }
+}
+
+.skeleton-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+}
+
+.skeleton-cover {
+  width: 42px;
+  height: 60px;
+  border-radius: 6px;
+}
+
+.skeleton-text-long {
+  width: 70%;
+  height: 12px;
+  border-radius: 999px;
+}
+
+.skeleton-text {
+  width: 60%;
+  height: 12px;
+  border-radius: 999px;
+}
+
+.skeleton-pill {
+  width: 70px;
+  height: 20px;
+  border-radius: 999px;
+}
+
+.fh-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.fh-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 16px 18px 14px;
+  border: 1px solid #d8dee7;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.12);
+  min-height: 230px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+}
+
+.fh-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fh-loan-id {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #9ca3af;
+}
+
+.fh-loan-date {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.fh-card-member {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fh-card-books {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.fh-book-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fh-book-copy-old {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.fh-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.fh-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 10px 4px;
+  font-size: 14px;
+  border-top: 1px solid #e5e7eb;
+}
