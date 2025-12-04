@@ -169,8 +169,10 @@
 }
 
 .fine-status-unpaid {
-  background: #fde7e9;
-  color: #c62828;
+  background: #ffdee1;
+  color: #d82828;
+  box-shadow: 0 6px 14px rgba(253, 159, 159, 0.25);
+  
 }
 
 /* Empty state */

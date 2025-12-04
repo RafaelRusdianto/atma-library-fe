@@ -21,6 +21,7 @@ export default function ProfileLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const { logout, updateUser, role  } = useAuth();
+  const isMember = role === "member";
 
   const [profile, setProfile] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
@@ -48,6 +49,30 @@ export default function ProfileLayout() {
 
     fetchProfile();
   }, [role]);
+
+  // Blokir akses menu member jika role petugas
+  useEffect(() => {
+    if (!isMember) {
+      const restricted =
+        location.pathname.includes("/profile/borrowing-history") ||
+        location.pathname.includes("/profile/fine-history");
+      if (restricted) {
+        navigate("/profile", { replace: true });
+      }
+    }
+  }, [isMember, location.pathname, navigate]);
+
+  // Blokir akses menu member jika role adalah petugas
+  useEffect(() => {
+    if (!isMember) {
+      const restricted =
+        location.pathname.includes("/profile/borrowing-history") ||
+        location.pathname.includes("/profile/fine-history");
+      if (restricted) {
+        navigate("/profile", { replace: true });
+      }
+    }
+  }, [isMember, location.pathname, navigate]);
 
   const isActive = (path) => location.pathname === path;
 
@@ -156,7 +181,11 @@ export default function ProfileLayout() {
       <div className="profile-page">
         <div className="profile-content">
           {/* ==== SIDEBAR ==== */}
-          <aside className="profile-sidebar">
+          <aside
+            className={
+              "profile-sidebar" + (!isMember ? " profile-sidebar-staff" : "")
+            }
+          >
             <div className="profile-user-card">
               <div className="profile-avatar-wrapper">
                 <img
@@ -204,33 +233,41 @@ export default function ProfileLayout() {
                 Profile Details
               </button>
 
-              <button
-                className={`profile-menu-item ${
-                  isActive("/profile/borrowing-history")
-                    ? "profile-menu-active"
-                    : ""
-                }`}
-                onClick={() => navigate("/profile/borrowing-history")}
-              >
-                <span className="profile-menu-icon">
-                  <History size={25} />
-                </span>
-                Borrowing History
-              </button>
+              {isMember ? (
+                <>
+                  <button
+                    className={`profile-menu-item ${
+                      isActive("/profile/borrowing-history")
+                        ? "profile-menu-active"
+                        : ""
+                    }`}
+                    onClick={() => navigate("/profile/borrowing-history")}
+                  >
+                    <span className="profile-menu-icon">
+                      <History size={25} />
+                    </span>
+                    Borrowing History
+                  </button>
 
-              <button
-                className={`profile-menu-item ${
-                  isActive("/profile/fine-history")
-                    ? "profile-menu-active"
-                    : ""
-                }`}
-                onClick={() => navigate("/profile/fine-history")}
-              >
-                <span className="profile-menu-icon">
-                  <CreditCard size={25} />
-                </span>
-                Fine History
-              </button>
+                  <button
+                    className={`profile-menu-item ${
+                      isActive("/profile/fine-history")
+                        ? "profile-menu-active"
+                        : ""
+                    }`}
+                    onClick={() => navigate("/profile/fine-history")}
+                  >
+                    <span className="profile-menu-icon">
+                      <CreditCard size={25} />
+                    </span>
+                    Fine History
+                  </button>
+                </>
+              ) : (
+                <div >
+                 
+                </div>
+              )}
             </div>
 
             <button
