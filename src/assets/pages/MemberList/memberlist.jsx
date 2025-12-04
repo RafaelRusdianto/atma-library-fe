@@ -12,7 +12,7 @@ function MemberList() {
   const [editForm, setEditForm] = useState({
     nama: "",
     email: "",
-    nomor_member: "",
+    username: "",
     no_telp: "",
     alamat: "",
   });
@@ -26,10 +26,9 @@ function MemberList() {
       const res = await api.get("/petugas/members");
       const list = res.data.data ?? res.data;
 
-      // nomor member urut 1,2,3,...
       const withNumber = list.map((m, idx) => ({
         ...m,
-        nomor_member: idx + 1,
+        displayNumber: idx + 1,
       }));
 
       setMembers(withNumber);
@@ -66,7 +65,7 @@ function MemberList() {
     setEditForm({
       nama: m.nama ?? "",
       email: m.email ?? "",
-      nomor_member: m.nomor_member ?? "",
+      username: m.username ?? "",
       no_telp: m.no_telp ?? "",
       alamat: m.alamat ?? "",
     });
@@ -78,7 +77,7 @@ function MemberList() {
     setEditForm({
       nama: m.nama ?? "",
       email: m.email ?? "",
-      nomor_member: m.nomor_member ?? "",
+      username: m.username ?? "",
       no_telp: m.no_telp ?? "",
       alamat: m.alamat ?? "",
     });
@@ -159,7 +158,7 @@ function MemberList() {
     return (
       (m.nama ?? "").toLowerCase().includes(q) ||
       (m.email ?? "").toLowerCase().includes(q) ||
-      (m.nomor_member ?? "").toLowerCase().includes(q)
+      String(m.id_member ?? "").toLowerCase().includes(q) // pake id_member asli
     );
   });
 
@@ -208,9 +207,9 @@ function MemberList() {
                 </div>
 
                 <div>
-                  <p className="detail-label">Member ID</p>
+                  <p className="detail-label">Username</p>
                   <p className="detail-value">
-                    {selectedMember.nomor_member || "-"}
+                    {selectedMember.username || "-"}
                   </p>
                 </div>
 
@@ -270,7 +269,7 @@ function MemberList() {
                     setEditForm({
                       nama: selectedMember.nama ?? "",
                       email: selectedMember.email ?? "",
-                      nomor_member: selectedMember.nomor_member ?? "",
+                      username: selectedMember.username ?? "",
                       no_telp: selectedMember.no_telp ?? "",
                       alamat: selectedMember.alamat ?? "",
                     });
@@ -306,14 +305,12 @@ function MemberList() {
                 </div>
 
                 <div>
-                  <p className="detail-label">Member ID</p>
+                  <p className="detail-label">Username</p>
                   <input
                     type="text"
                     className="detail-input"
-                    value={editForm.nomor_member}
-                    onChange={(e) =>
-                      handleEditChange("nomor_member", e.target.value)
-                    }
+                    value={editForm.username}
+                    onChange={(e) => handleEditChange("username", e.target.value)}
                   />
                 </div>
 
@@ -369,7 +366,7 @@ function MemberList() {
                 <th>No</th>
                 <th>Full Name</th>
                 <th>Email Address</th>
-                <th>Member ID</th>
+                <th>Username</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
@@ -380,7 +377,7 @@ function MemberList() {
                   <td>{index + 1}</td>
                   <td>{m.nama}</td>
                   <td>{m.email}</td>
-                  <td>{m.nomor_member}</td>
+                  <td>{m.username}</td>
                   <td>{m.status}</td>
                   <td>
                     <div className="action-buttons">
