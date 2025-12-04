@@ -40,15 +40,18 @@ export default function LibraryCatalog() {
     const [randBooks, setRecommendation] = useState([]);//fetch 8 rand books, utk fungsi setRec
     const [showDropdown, setShowDropdown] = useState(false);//utk dropdown
 
+    const [genreBooks, setGenreBooks] = useState([]);//utk buku sesuai genre
+
+
     //recommendations
     useEffect(() => {
         api.get("/books/random")
-        .then((res) => {
-            setRecommendation(res.data.data);
-        })
-        .catch((err) => {
-            console.error("Error fetching books:", err);
-        });
+            .then((res) => {
+                setRecommendation(res.data.data);
+            })
+            .catch((err) => {
+                console.error("Error fetching books:", err);
+            });
     }, []);
 
     //search bar
@@ -59,8 +62,8 @@ export default function LibraryCatalog() {
         }
 
         api.get(`/buku/search?q=${query}`)
-        .then((res) => setFilteredBooks(res.data.data))
-        .catch((err) => console.error("Error searching books:", err));
+            .then((res) => setFilteredBooks(res.data.data))
+            .catch((err) => console.error("Error searching books:", err));
     }, [query]);//inputan search
 
     return (
@@ -74,45 +77,75 @@ export default function LibraryCatalog() {
                 {/* Sidebar Filters */}
                 <aside className="sidebar">
                     <h3>Filters</h3>
-                    <div className="filter-group">
-                        <label className="filter-label">Availability</label>
-                        <div className="filter-option">
-                            <input type="checkbox" id="available" />
-                            <label htmlFor="available">Available Now</label>
-                        </div>
-                    </div>
 
+                    {/* FICTION */}
                     <div className="filter-group">
                         <label className="filter-label">Fiction</label>
-                        {["Fantasy", "Science Fiction", "Dystopian", "Horror", "Mystery / Thriller",
+                        {[
+                            "Fantasy", "Science Fiction", "Dystopian", "Horror", "Mystery / Thriller",
                             "Adventure", "Action", "Contemporary Fiction", "Historical Fiction",
-                            "Classic Literature", "Literary Fiction", "Mythology"].map((f) => (
-                                <div key={f} className="filter-option">
-                                    <input type="checkbox" id={f} />
-                                    <label htmlFor={f}>{f}</label>
-                                </div>
-                            ))}
+                            "Classic Literature", "Literary Fiction", "Mythology"
+                        ].map((f) => (
+                            <div key={f} className="filter-option">
+                                <input
+                                    type="radio"
+                                    name="genre"
+                                    id={f}
+                                    value={f}
+                                    onChange={(e) => {
+                                        api.post("/buku/byKategori", {
+                                            kategori: e.target.value
+                                        })
+                                            .then((res) => setGenreBooks(res.data.data.slice(0, 12)))
+                                            .catch((err) => console.error(err));
+                                    }}
+                                />
+                                <label htmlFor={f}>{f}</label>
+                            </div>
+                        ))}
                     </div>
 
+                    {/* NON-FICTION */}
                     <div className="filter-group">
                         <label className="filter-label">Non-Fiction</label>
-                        {["Memoir / Biography", "Self-Help", "Personal Development", "Psychology",
+                        {[
+                            "Memoir / Biography", "Self-Help", "Personal Development", "Psychology",
                             "Economics", "History", "Philosophy", "Business / Entrepreneurship",
-                            "Political Commentary"].map((f) => (
-                                <div key={f} className="filter-option">
-                                    <input type="checkbox" id={f} />
-                                    <label htmlFor={f}>{f}</label>
-                                </div>
-                            ))}
+                            "Political Commentary"
+                        ].map((f) => (
+                            <div key={f} className="filter-option">
+                                <input
+                                    type="radio"
+                                    name="genre"
+                                    id={f}
+                                    value={f}
+                                    onChange={(e) => {
+                                        api.post("/buku/byKategori", {
+                                            kategori: e.target.value
+                                        })
+                                            .then((res) => setGenreBooks(res.data.data.slice(0, 12)))
+                                            .catch((err) => console.error(err));
+                                    }}
+
+                                />
+                                <label htmlFor={f}>{f}</label>
+                            </div>
+                        ))}
                     </div>
 
-                    <div className="filter-group">
-                        <label className="filter-label">Publication Year</label>
-                        <div className="year-inputs">
-                            <input type="number" placeholder="From" />
-                            <input type="number" placeholder="To" />
-                        </div>
-                    </div>
+                    {/* CLEAR ALL BUTTON */}
+                    <button
+                        className="clear-btn"
+                        onClick={() => {
+                            document
+                                .querySelectorAll('input[name="genre"]')
+                                .forEach((r) => (r.checked = false));
+
+                            setGenreBooks([]); // ← WAJIB
+                        }}
+                    >
+                        Clear All Filters
+                    </button>
                 </aside>
 
                 {/* Main Area */}
@@ -142,7 +175,7 @@ export default function LibraryCatalog() {
                                         className="dropdown-item"
                                         onClick={() => navigate(`/catalog/book/${book.id_buku}`)}
                                     >
-                                        <img src={book.url_foto_cover}className="dropdown-thumb" />
+                                        <img src={book.url_foto_cover} className="dropdown-thumb" />
                                         <div>
                                             <p className="dropdown-title">{book.judul}</p>
                                             <p className="dropdown-author">{book.penulis}</p>
@@ -154,8 +187,16 @@ export default function LibraryCatalog() {
                     </div>
 
                     {/* Sections */}
-                    <BookSection title="Recommendations" books={randBooks} />
 
+                    <BookSection title="Recommendations" books={randBooks} />
+                    <div className="book-section">
+                        <h2 className="section-title">Filtered</h2>
+                        <div className="book-grid">
+                            {genreBooks.map((b, i) => (
+                                <BookCard key={i} book={b} />
+                            ))}
+                        </div>
+                    </div>
                     {/* <BookSection title="Kategori 1" books={books1} /> */}
                     {/* <BookSection title="Kategori 2" books={books2} /> */}
                 </main>

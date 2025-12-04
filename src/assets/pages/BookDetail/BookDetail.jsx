@@ -74,8 +74,9 @@ export default function BookDetail() {
                             <div className="book-header">
                                 <div className="book-info">
                                     <p className="book-author">By {book.penulis}</p>
-                                    <p className="book-status">Available</p>
-                                    {/* NANTI GANTI AVAILABILITY LEWAT QUERY */}
+                                    <p className="book-status" style={{ color: book.stok > 0 ? "green" : "red" }}>
+                                        {book.stok > 0 ? "Available" : "Unavailable"}
+                                    </p>
                                 </div>
                             </div>
 
@@ -132,8 +133,10 @@ export default function BookDetail() {
                                         type="button"
                                         className="btn-pinjam"
                                         onClick={handleBorrow}
+                                        disabled={book.stok === 0}
+                                        style={{ opacity: book.stok === 0 ? 0.4 : 1, cursor: book.stok === 0 ? "not-allowed" : "pointer" }}
                                     >
-                                        Borrow
+                                        {book.stok === 0 ? "Unavailable" : "Borrow"}
                                     </button>
                                 )}
                                 {isLoggedIn && role === "petugas" && (
