@@ -16,6 +16,9 @@ import ProfileDetail from "./assets/pages/ProfileDetail/ProfileDetail";
 import ProfileLayout from "./assets/pages/ProfileLayout/ProfileLayout";
 import Cart from "./assets/pages/Cart/Cart";
 import OnGoing from "./assets/pages/OnGoing/OnGoing";
+import BorrowRequest from "./assets/pages/BorrowRequest/Borrowrequest"; 
+import FineHistory from "./assets/pages/FineHistory/FineHistory";
+import Fines from "./assets/pages/Fines/Fines";
 
 function Layout() {
   const location = useLocation();
@@ -37,6 +40,9 @@ function Layout() {
           <Route path="/managebooks" element={<ManageBooks />} />
           <Route path="/managebooks/createnewbook" element={<CreateNewBook />} />
           <Route path="/managebooks/editexistingbook" element={<EditExistingBook />} />
+          <Route path="/borrow-requests" element={<BorrowRequest />} />
+
+
 
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/catalog/book/:id" element={<BookDetail />} />
@@ -44,10 +50,12 @@ function Layout() {
           <Route path="/cart" element={<Cart />} />
 
           <Route path="/on-going" element={<OnGoing />} />
+          <Route path="/fines" element={<Fines />} />
 
           <Route path="/profile" element={<ProfileLayout />}>
             <Route index element={<ProfileDetail />} />
             <Route path="borrowing-history" element={<BorrowingHistory />} />
+            <Route path="fine-history" element={<FineHistory />} />
           </Route>
         </Routes>
       </div>
