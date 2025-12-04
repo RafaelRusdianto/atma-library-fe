@@ -28,13 +28,14 @@
     display: flex;
     gap: 50px;
     padding: 0 60px;
+    flex-wrap: wrap;
 }
 
 .card {
     background: #ffffff;
     border-radius: 12px;
     width: 600px;
-    height: 500px;
+    min-height: 500px;
     padding-bottom: 30px;
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
 }
@@ -85,4 +86,86 @@
 .btn-secondary {
     background: #e4e9f0;
     color: #2c3e50;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+    .manage-wrapper {
+        padding: 1.5rem;
+    }
+
+    .card-container {
+        padding: 0 20px;
+        gap: 30px;
+    }
+
+    .card {
+        width: 520px;
+    }
+}
+
+@media (max-width: 768px) {
+    .manage-wrapper {
+        padding: 1.25rem 1rem;
+    }
+
+    .header h1 {
+        font-size: 1.7rem;
+    }
+
+    .header p {
+        font-size: 0.95rem;
+    }
+
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 520px;
+    }
+
+    .card-img {
+        height: 240px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: calc(100% - 40px);
+        margin: 16px 20px 0;
+    }
+}
+
+@media (max-width: 540px) {
+    .manage-wrapper {
+        padding: 1rem 0.75rem;
+    }
+
+    .card {
+        max-width: 100%;
+        border-radius: 10px;
+    }
+
+    .card-img {
+        height: 200px;
+    }
+
+    .card h3 {
+        font-size: 18px;
+        margin: 14px 16px 8px;
+    }
+
+    .card p {
+        margin: 0 16px 16px;
+        font-size: 14px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: calc(100% - 32px);
+        margin: 14px 16px 0;
+    }
 }
