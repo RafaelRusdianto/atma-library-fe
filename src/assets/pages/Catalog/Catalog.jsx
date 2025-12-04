@@ -1,6 +1,6 @@
 import { Search } from "lucide-react";
 import "./Catalog.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../../../config/api";
 
@@ -41,6 +41,11 @@ export default function LibraryCatalog() {
     const [showDropdown, setShowDropdown] = useState(false);//utk dropdown
 
     const [genreBooks, setGenreBooks] = useState([]);//utk buku sesuai genre
+
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const searchQuery = searchParams.get("search") || "";
 
 
     //recommendations
