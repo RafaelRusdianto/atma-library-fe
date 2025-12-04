@@ -32,7 +32,7 @@ function Layout() {
     <>
       <Navbar />
 
-       <div className="page-container">
+       <div>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
