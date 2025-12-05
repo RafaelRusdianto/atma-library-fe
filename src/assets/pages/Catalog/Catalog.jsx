@@ -71,6 +71,21 @@ export default function LibraryCatalog() {
             .catch((err) => console.error("Error searching books:", err));
     }, [query]);//inputan search
 
+    useEffect(() => {
+        if (!searchQuery) return;
+
+        setQuery(searchQuery);
+
+    api
+        .post("/buku/byKategori", { kategori: searchQuery })
+        .then((res) => {
+         setGenreBooks(res.data.data.slice(0, 12));
+        })
+        .catch((err) => {
+          console.error("Error loading category from searchQuery:", err);
+        });
+    }, [searchQuery]);
+
     return (
         <div className="page-container">
             <header className="header">
