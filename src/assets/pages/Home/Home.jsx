@@ -38,23 +38,27 @@ export default function Home() {
   const collections = [
     {
       id: "fiction",
-      title: "Fiction",
+      title: "Fantasy",
       img: "/home/fantasi.jpeg",
+      keyword: "Fantasy",
     },
     {
       id: "science",
       title: "History",
       img: "/home/history.jpeg",
+      keyword: "History",
     },
     {
       id: "social",
       title: "Horror",
       img: "/home/horor.jpeg",
+      keyword: "Horror",
     },
     {
       id: "digital",
       title: "Business",
       img: "/home/business1.jpeg",
+      keyword: "Business / Entrepreneurship",
     },
   ];
 
@@ -130,7 +134,11 @@ export default function Home() {
             <div
               key={item.id}
               className="collection-card"
-              onClick={() => navigate("/catalog")}
+              onClick={() =>
+                navigate(
+                  `/catalog?search=${encodeURIComponent(item.keyword)}`
+                )
+              }
             >
               <img src={item.img} alt={item.title} />
               <span>{item.title}</span>
