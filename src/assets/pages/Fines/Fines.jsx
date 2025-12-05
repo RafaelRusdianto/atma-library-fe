@@ -35,11 +35,7 @@ export default function FinesPage() {
 
   // Id unik untuk key di React (boleh id_denda atau fallback)
   const getFineKey = (fine, idx) => {
-    const baseKey =
-      fine.id_denda ||
-      fine.id ||
-      `${fine.nomor_pinjam || "np"}-${fine.id_buku_copy || "copy"}`;
-    // idx fallback prevents duplicate-key warnings when backend data lacks unique IDs
+    const baseKey = fine.id_denda;
     return `${baseKey}-${idx}`;
   };
 
@@ -82,21 +78,6 @@ export default function FinesPage() {
     fetchFines();
   }, []);
 
-  const totalOutstanding = useMemo(
-    () =>
-      fines.reduce((sum, fine) => {
-        const nominal =
-          fine.denda_per_buku ??
-          fine.nominal_denda ??
-          fine.total_denda ??
-          fine.fine_amount ??
-          fine.amount ??
-          0;
-        const numeric = Number(nominal);
-        return sum + (Number.isNaN(numeric) ? 0 : numeric);
-      }, 0),
-    [fines]
-  );
 
   // TOTAL & JUMLAH hanya untuk yang dipilih
   const selectedSummary = useMemo(() => {
@@ -107,13 +88,7 @@ export default function FinesPage() {
       if (!fine.id_denda) return;
       if (selectedDendaIds.includes(fine.id_denda)) {
         count++;
-        const nominal =
-          fine.denda_per_buku ??
-          fine.nominal_denda ??
-          fine.total_denda ??
-          fine.fine_amount ??
-          fine.amount ??
-          0;
+        const nominal = fine.denda_per_buku ;
         const numeric = Number(nominal);
         if (!Number.isNaN(numeric)) {
           total += numeric;
@@ -137,7 +112,6 @@ export default function FinesPage() {
     );
   };
 
-  // Toggle semua denda yang punya id_denda
   const handleToggleAll = () => {
     const selectableIds = fines
       .map((f) => f.id_denda)
@@ -161,7 +135,7 @@ export default function FinesPage() {
     }
   };
 
-  // sinkronkan checkbox "select all" dengan pilihan individual
+  
   useEffect(() => {
     const selectableIds = fines
       .map((f) => f.id_denda)
@@ -180,8 +154,6 @@ export default function FinesPage() {
     }
   }, [fines, selectedDendaIds, selectAllChecked]);
 
-  // Tombol bayar (untuk semua yang dipilih)
- // Tombol bayar (untuk semua yang dipilih)
 const handlePaySelected = async () => {
   if (selectedSummary.count === 0) {
     toast.info("Pilih denda yang ingin dibayar terlebih dahulu.");
@@ -209,6 +181,8 @@ const handlePaySelected = async () => {
     showCancelButton: true,
     confirmButtonText: "Pay",
     cancelButtonText: "Cancel",
+    confirmButtonColor: "#2563eb",
+    cancelButtonColor: "#9ca3af",
   });
 
   if (!result.isConfirmed || !result.value) return;
@@ -236,6 +210,7 @@ const handlePaySelected = async () => {
           Method: <strong>${metode}</strong>
         </p>
       `,
+      confirmButtonColor: "#2563eb",
     });
 
     fetchFines();
@@ -249,14 +224,9 @@ const handlePaySelected = async () => {
 
   const getFineDisplay = (fine) => {
     const cover = fine.url_foto_cover;
-
     const title = fine.judul;
-
     const author = fine.penulis;
-
     const copyNumber = fine.id_buku_copy;
-
-    
 
     return { cover, title, author, copyNumber };
   };
@@ -321,7 +291,7 @@ const handlePaySelected = async () => {
 
               return (
                 <div className="fine-table-row" key={key}>
-                  <div className="fine-col-select">
+                  <div className="fine-col-select" data-label="Select">
                     <input
                       type="checkbox"
                       checked={!!checked}
@@ -329,7 +299,7 @@ const handlePaySelected = async () => {
                     />
                   </div>
 
-                  <div className="fine-col-title">
+                  <div className="fine-col-title" data-label="Book Title">
                     <img
                       src={cover}
                       alt={title}
@@ -348,13 +318,13 @@ const handlePaySelected = async () => {
                     </div>
                   </div>
 
-                  <div>{formatDate(fine.tgl_pinjam)}</div>
-                  <div>{formatDate(fine.tgl_kembali)}</div>
-                  <div  >{daysLate}</div>
-                  <div>
+                  <div data-label="Borrowed On">{formatDate(fine.tgl_pinjam)}</div>
+                  <div data-label="Returned On">{formatDate(fine.tgl_kembali)}</div>
+                  <div data-label="Days Late">{daysLate}</div>
+                  <div data-label="Fine">
                     {formatCurrency(amount)}
                   </div>
-                  <div className="bh-col-status">
+                  <div className="bh-col-status" data-label="Status">
                     <span className="bh-status-pill fine-status-unpaid">
                       {status}
                     </span>

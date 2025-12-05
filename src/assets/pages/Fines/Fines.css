@@ -68,13 +68,15 @@
 
 .fine-table-header {
   display: grid;
-  grid-template-columns: 0.6fr 1.4fr 1.2fr 1.2fr 1fr 1fr 1fr;
+  grid-template-columns: 0.55fr 1.8fr 1.2fr 1.2fr 1fr 1fr 1fr;
+  column-gap: 18px;
   font-size: 13px;
   font-weight: 600;
   color: #6b7280;
   padding-bottom: 10px;
   border-bottom: 1px solid #e5e7eb;
   padding-left: 10px;
+  padding-right: 10px;
 }
 
 .fine-table-body {
@@ -87,11 +89,13 @@
 
 .fine-table-row {
   display: grid;
-  grid-template-columns: 0.6fr 1.4fr 1.2fr 1.2fr 1fr 1fr 1fr;
+  grid-template-columns: 0.55fr 1.8fr 1.2fr 1.2fr 1fr 1fr 1fr;
+  column-gap: 18px;
   align-items: center;
   padding: 14px 0;
   border-bottom: 1px solid #f1f5f9;
   padding-left: 10px;
+  padding-right: 10px;
 }
 
 /* Checkbox */
@@ -289,7 +293,8 @@
 @media (max-width: 960px) {
   .fine-table-header,
   .fine-table-row {
-    grid-template-columns: 0.7fr 2.3fr 1.3fr 1.3fr 1fr 1.2fr;
+    grid-template-columns: 0.7fr 2.2fr 1.25fr 1.25fr 1fr 1.1fr;
+    column-gap: 14px;
   }
 
   .fine-header-row {
@@ -302,5 +307,107 @@
 
   .fine-footer-actions {
     margin-top: 24px;
+  }
+}
+
+/* Stack into cards on small screens */
+@media (max-width: 780px) {
+  .fine-page-container {
+    padding: 0 14px;
+  }
+
+  .fine-table-card {
+    padding: 14px 12px;
+  }
+
+  .fine-table-header {
+    display: none;
+  }
+
+  .fine-table-body {
+    max-height: none;
+    min-height: auto;
+  }
+
+  .fine-table-row {
+    grid-template-columns: 1fr;
+    row-gap: 10px;
+    column-gap: 0;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.06);
+  }
+
+  .fine-table-row > div {
+    display: grid;
+    grid-template-columns: 115px 1fr;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+  }
+
+  .fine-table-row > div::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #6b7280;
+    font-size: 13px;
+  }
+
+  .fine-col-select {
+    justify-content: flex-start;
+  }
+
+  .fine-col-title {
+    align-items: flex-start;
+    grid-template-columns: 60px 1fr;
+  }
+
+  .fine-book-cover {
+    width: 50px;
+    height: 70px;
+  }
+
+  .bh-col-status {
+    justify-content: flex-start;
+  }
+
+  .fine-footer-actions {
+    padding: 0 6px;
+  }
+
+  .fine-pay-selected-btn {
+    width: 100%;
+    max-width: 420px;
+  }
+}
+
+@media (max-width: 520px) {
+  .fine-table-row {
+    padding: 10px;
+  }
+
+  .fine-table-row > div {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+  }
+
+  .fine-table-row > div::before {
+    margin-bottom: 4px;
+  }
+
+  .fine-col-title {
+    grid-template-columns: 55px 1fr;
+  }
+
+  .fine-book-title {
+    font-size: 14px;
+    line-height: 1.3;
+  }
+
+  .fine-book-author,
+  .fine-book-copy {
+    font-size: 12px;
   }
 }
