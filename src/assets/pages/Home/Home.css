@@ -5,8 +5,8 @@
 
 /* HERO SECTION */
 .hero {
-  height: 55vh;
-  background: linear-gradient(to top, rgba(3, 24, 117, 0.692), rgba(0, 0, 0, 0.452)), url("/home/library-hero.jpg") center/cover no-repeat;
+  min-height: 55vh;
+  background: linear-gradient(to top, rgba(3, 24, 117, 0.7), rgba(0, 0, 0, 0.45)), url("/home/library-hero.jpg") center/cover no-repeat;
   border-radius: 12px;
   margin: 20px auto;
   width: 95%;
@@ -18,33 +18,41 @@
 .hero-inner {
   text-align: center;
   color: white;
-  padding: 40px;
+  padding: 32px;
   border-radius: 12px;
+  max-width: 960px;
+  width: 100%;
 }
 
 .hero-title {
-  font-size: 42px;
+  font-size: clamp(28px, 4vw, 42px);
   font-weight: 700;
   margin-bottom: 10px;
 }
 
 .hero-subtitle {
-  font-size: 17px;
-  margin-bottom: 25px;
+  font-size: clamp(14px, 2vw, 17px);
+  margin-bottom: 20px;
 }
 
 /* SEARCH BAR */
+.hero-search-wrapper {
+  position: relative;
+  width: min(680px, 100%);
+  margin: 0 auto;
+}
+
 .hero-search {
   display: flex;
   align-items: center;
   background: white;
-  padding: 10px 15px;
+  padding: 10px 12px;
   padding-bottom: 6px;
   border-radius: 15px;
-  width: 500px;
+  width: 100%;
   margin: auto;
   position: relative;
-
+  gap: 10px;
 }
 
 .search-icon-home {
@@ -57,6 +65,8 @@
   font-size: 17px;
   padding: 6px 15px 4px 28px;
   margin-bottom: 6px;
+  flex: 1;
+  min-width: 0;
 }
 
 .hero-search input::placeholder {
@@ -68,28 +78,23 @@
   background: #1a4ae8;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 10px 18px;
   margin-bottom: 5px;
   border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
-  transition: background .2s ease;
+  transition: background 0.2s ease;
+  white-space: nowrap;
 }
 
 .hero-search button:hover {
   background: #0e2e92;
 }
 
-.hero-search-wrapper {
-  position: relative;
-  width: 500px;
-  margin: 0 auto;
-}
-
 /* DROPDOWN DI HERO */
 .hero-dropdown {
   position: absolute;
-  top: 105%;           
+  top: 105%;
   left: 0;
   right: 0;
   background: #ffffff;
@@ -133,13 +138,12 @@
 }
 
 .hero-dropdown-item.no-result {
-  justify-content: center;   
+  justify-content: center;
   align-items: center;
-
-  padding: 8px 16px;        
+  padding: 8px 16px;
   font-size: 14px;
-  color: #777;               
-  font-weight: 400;       
+  color: #777;
+  font-weight: 400;
   background: transparent;
   border: none;
 }
@@ -157,7 +161,7 @@
 
 .collections-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 18px;
 }
 
@@ -168,7 +172,6 @@
   cursor: pointer;
   transition: transform 0.25s ease;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -176,7 +179,7 @@
 }
 
 .collection-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .collection-card img {
@@ -193,9 +196,7 @@
   padding-top: 5px;
 }
 
-
 /* ==== MAP SECTION==== */
-
 .map-section {
   width: 92%;
   margin: 60px auto 60px auto;
@@ -232,7 +233,7 @@
 
 .vq-grid {
   display: grid;
-  grid-template-columns: 1.3fr 1.7fr; 
+  grid-template-columns: 1.3fr 1.7fr;
   gap: 24px;
   align-items: flex-start;
 }
@@ -309,9 +310,91 @@
   font-style: italic;
 }
 
-/* Responsive: kalau layar kecil, jadi stack atas–bawah */
-@media (max-width: 900px) {
+/* Responsive tweaks */
+@media (max-width: 1024px) {
+  .hero {
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .collections-section,
+  .vision-quotes-section,
+  .map-section {
+    width: 94%;
+  }
+
   .vq-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 60vh;
+  }
+
+  .hero-search {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+  }
+
+  .hero-search input {
+    width: 100%;
+    padding-left: 32px;
+  }
+
+  .hero-search button {
+    width: 100%;
+    margin-top: 6px;
+  }
+
+  .search-icon-home {
+    top: 18px;
+    left: 12px;
+  }
+
+  .collections-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+
+  .quote-card,
+  .vision-card {
+    text-align: left;
+  }
+
+  .map-iframe {
+    height: 260px;
+  }
+}
+
+@media (max-width: 560px) {
+  .hero {
+    min-height: 65vh;
+    padding: 16px;
+  }
+
+  .hero-inner {
+    padding: 24px;
+  }
+
+  .hero-title {
+    font-size: clamp(24px, 6vw, 32px);
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+  }
+
+  .collection-card img {
+    height: 150px;
+  }
+
+  .quote-card p {
+    font-size: 14px;
+  }
+
+  .quote-card span {
+    font-size: 12px;
   }
 }

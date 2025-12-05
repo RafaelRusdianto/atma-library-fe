@@ -1,58 +1,37 @@
 .login-page {
+  min-height: 100vh;
   margin: 0;
   font-family: "Poppins", sans-serif;
-  background: url("signlogin/Library-main.jpg");
-  background-size: cover;
-  background-color: rgba(0, 0, 0, 0.55);
-  background-blend-mode: darken;
-
+  background: linear-gradient(
+      rgba(0, 0, 0, 0.55),
+      rgba(0, 0, 0, 0.55)
+    ),
+    url("signlogin/Library-main.jpg") center/cover no-repeat;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
-  padding-right: 200px;
-  height: 100vh;
+  justify-content: center;
+  gap: 48px;
+  padding: 40px 32px;
+  box-sizing: border-box;
 }
 
 .logo-side {
   flex: 1;
-  color: white;
-}
-
-.logo-side img {
-  width: 1000px;
-}
-
-.login-container {
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.register-card {
-  zoom: 90%;
-  padding: 2rem;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 15px;
-  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.3);
-  backdrop-filter: blur(8px);
-  color: white;
-  text-align: left;
+.logo-side img {
+  width: min(420px, 80vw);
+  height: auto;
 }
 
-.login-card {
-  width: 450px;
-  padding: 2rem;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 15px;
-  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.3);
-  backdrop-filter: blur(8px);
-  color: white;
-  text-align: left;
-}
-
+.login-card,
+.register-card,
 .home-card {
-  width: 640px;
+  width: 100%;
+  max-width: 460px;
   padding: 2rem;
   background: rgba(255, 255, 255, 0.15);
   border-radius: 15px;
@@ -60,6 +39,10 @@
   backdrop-filter: blur(8px);
   color: white;
   text-align: left;
+}
+
+.register-card {
+  max-width: 540px;
 }
 
 .logo-text {
@@ -87,6 +70,7 @@ input {
   background: rgba(255, 255, 255, 0.9);
   margin-bottom: 10px;
   outline: none;
+  box-sizing: border-box;
 }
 
 .forgot-password {
@@ -127,6 +111,7 @@ input {
   display: flex;
   justify-content: center;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .social-btn {
@@ -171,12 +156,7 @@ input {
   font-size: 13px;
 }
 
-.register-text a {
-  color: #fff;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
+.register-text a,
 .register-text span {
   color: #fff;
   text-decoration: underline;
@@ -199,4 +179,61 @@ input {
 
 .btn-back:hover {
   background: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive tweaks */
+@media (max-width: 1024px) {
+  .login-page {
+    padding: 32px 20px;
+    gap: 32px;
+  }
+
+  .logo-side img {
+    width: min(360px, 70vw);
+  }
+}
+
+@media (max-width: 768px) {
+  .login-page {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    padding: 28px 18px 36px;
+  }
+
+  .logo-side {
+    width: 100%;
+  }
+
+  .logo-side img {
+    width: min(320px, 80vw);
+  }
+
+  .login-card,
+  .register-card,
+  .home-card {
+    max-width: 520px;
+  }
+
+  .forgot-password,
+  .register-text {
+    text-align: left;
+  }
+}
+
+@media (max-width: 540px) {
+  .login-page {
+    padding: 24px 14px 30px;
+  }
+
+  .login-card,
+  .register-card,
+  .home-card {
+    padding: 1.5rem;
+  }
+
+  .social-login {
+    gap: 8px;
+  }
 }

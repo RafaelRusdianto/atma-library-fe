@@ -17,7 +17,7 @@ function Navbar() {
   
    // Ambil state dari AuthContext
   const { isLoggedIn, role, user } = useAuth();
-  const fotoProfil = user.url_foto_profil;
+  const fotoProfil = user?.url_foto_profile;
   return (
     <nav className="navbar">
       <div className="nav-left-col">

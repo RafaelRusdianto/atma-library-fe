@@ -46,6 +46,7 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("user"); // kalau ada
 
     setIsLoggedIn(false);
+    setUser(null); 
     setRole("");
     setToken(null);
   };

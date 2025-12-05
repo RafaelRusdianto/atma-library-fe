@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../../config/api"; // ← sesuaikan path
 import { toast } from "react-toastify";
+import "../Login/Login.css";
 
 export default function Register() {
   const navigate = useNavigate();

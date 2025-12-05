@@ -39,22 +39,22 @@ export default function Home() {
     {
       id: "fiction",
       title: "Fiction",
-      img: "/public/home/fantasi.jpeg",
+      img: "/home/fantasi.jpeg",
     },
     {
       id: "science",
       title: "History",
-      img: "/public/home/history.jpeg",
+      img: "/home/history.jpeg",
     },
     {
       id: "social",
       title: "Horror",
-      img: "/public/home/horor.jpeg",
+      img: "/home/horor.jpeg",
     },
     {
       id: "digital",
       title: "Business",
-      img: "/public/home/business1.jpeg",
+      img: "/home/business1.jpeg",
     },
   ];
 
