@@ -1,6 +1,7 @@
+// BorrowingHistory.jsx
 import React, { useEffect, useState } from "react";
 import api from "../../../config/api";
-import { Search, Calendar, ArrowUpDown } from "lucide-react";
+import { Search } from "lucide-react";
 import "./BorrowingHistory.css";
 
 export default function BorrowedHistory() {
@@ -10,7 +11,6 @@ export default function BorrowedHistory() {
   const [page, setPage] = useState(1);
   const pageSize = 5;
 
-  // Format tanggal: 2025-01-01 → "01 Jan 2025"
   const formatDate = (dateStr) => {
     if (!dateStr) return "-";
     const d = new Date(dateStr);
@@ -21,12 +21,9 @@ export default function BorrowedHistory() {
     });
   };
 
-  // Ambil data from backend
   const loadHistory = async () => {
     try {
-      const res = await api.get("/member/peminjaman/riwayat"); // sesuaikan endpoint
-      console.log("BORROWED HISTORY RESPONSE:", res.data);
-
+      const res = await api.get("/member/peminjaman/riwayat");
       setRows(res.data.data || []);
     } catch (err) {
       console.error("Error loading borrowed history:", err);
@@ -39,7 +36,6 @@ export default function BorrowedHistory() {
     loadHistory();
   }, []);
 
-  // Tentukan warna pill berdasarkan status (cover beberapa variasi teks)
   const renderStatusPill = (status) => {
     const normalized = (status || "").toString().toLowerCase().trim();
 
@@ -59,7 +55,6 @@ export default function BorrowedHistory() {
       );
     }
 
-    // default (status lain)
     return (
       <span className="bh-status-pill bh-status-default">
         {status || "Unknown"}
@@ -67,8 +62,6 @@ export default function BorrowedHistory() {
     );
   };
 
-
-  // Search filter
   const filteredRows = rows.filter((item) =>
     (item.judul + " " + item.penulis)
       .toLowerCase()
@@ -89,46 +82,47 @@ export default function BorrowedHistory() {
         <div className="bh-search-box skeleton skeleton-input" />
       </div>
       <section className="bh-table-card">
-        <div className="bh-table-header">
-          <div className="bh-col-title">Book Title</div>
-          <div className="bh-col-author">Author</div>
-          <div className="bh-col-date">Borrowed on</div>
-          <div className="bh-col-date">Returned on</div>
-          <div className="bh-col-status">Status</div>
-        </div>
-        {[1, 2, 3].map((i) => (
-          <div className="bh-table-row" key={`sk-${i}`}>
-            <div className="bh-col-title">
-              <div className="bh-book-cover skeleton" />
-              <div className="bh-book-title skeleton skeleton-text-long" />
-            </div>
-            <div className="bh-col-author">
-              <div className="skeleton skeleton-text" />
-            </div>
-            <div className="bh-col-date">
-              <div className="skeleton skeleton-text" />
-            </div>
-            <div className="bh-col-date">
-              <div className="skeleton skeleton-text" />
-            </div>
-            <div className="bh-col-status">
-              <div className="skeleton skeleton-pill" />
-            </div>
+        <div className="bh-table-inner">
+          <div className="bh-table-header">
+            <div className="bh-col-title">Book Title</div>
+            <div className="bh-col-author">Author</div>
+            <div className="bh-col-date">Borrowed on</div>
+            <div className="bh-col-date">Returned on</div>
+            <div className="bh-col-status">Status</div>
           </div>
-        ))}
+          {[1, 2, 3].map((i) => (
+            <div className="bh-table-row" key={`sk-${i}`}>
+              <div className="bh-col-title">
+                <div className="bh-book-cover skeleton" />
+                <div className="bh-book-title skeleton skeleton-text-long" />
+              </div>
+              <div className="bh-col-author">
+                <div className="skeleton skeleton-text" />
+              </div>
+              <div className="bh-col-date">
+                <div className="skeleton skeleton-text" />
+              </div>
+              <div className="bh-col-date">
+                <div className="skeleton skeleton-text" />
+              </div>
+              <div className="bh-col-status">
+                <div className="skeleton skeleton-pill" />
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
     </>
   );
 
-  if (loading) {
+  if (loading){
     return renderSkeleton();
-  }
+  } 
 
   return (
     <>
       <h2 className="profile-section-title">Borrowing History</h2>
 
-      {/* Search & filter bar */}
       <div className="bh-toolbar">
         <div className="bh-search-box">
           <Search size={18} className="bh-search-icon" />
@@ -136,66 +130,67 @@ export default function BorrowedHistory() {
             type="text"
             placeholder="Search by title or author"
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
           />
         </div>
       </div>
 
-      {/* History table card */}
       <section className="bh-table-card">
-        {/* header */}
-        <div className="bh-table-header">
-          <div className="bh-col-title">BOOK TITLE</div>
-          <div className="bh-col-author">AUTHOR</div>
-          <div className="bh-col-date">BORROWED ON</div>
-          <div className="bh-col-date">RETURNED ON</div>
-          <div className="bh-col-status">STATUS</div>
-        </div>
+        <div className="bh-table-inner">
+          {/* header */}
+          <div className="bh-table-header">
+            <div className="bh-col-title">BOOK TITLE</div>
+            <div className="bh-col-author">AUTHOR</div>
+            <div className="bh-col-date">BORROWED ON</div>
+            <div className="bh-col-date">RETURNED ON</div>
+            <div className="bh-col-status">STATUS</div>
+          </div>
 
-        {/* body */}
-        {filteredRows.length === 0 ? (
-          <div className="bh-empty">No returned/rejected books found.</div>
-        ) : (
-          paginatedRows.map((item, idx) => (
-            <div
-              key={`${item.nomor_pinjam}-${item.id_buku_copy}`}
-              className={
-                "bh-table-row" +
-                (idx === paginatedRows.length - 1 ? " bh-last-row" : "")
-              }
-            >
-              {/* Title + cover */}
-              <div className="bh-col-title">
-                <img
-                  src={item.url_foto_cover}
-                  alt={item.judul}
-                  className="bh-book-cover"
-                />
-                <span className="bh-book-title">{item.judul}</span>
-              </div>
-
-              {/* Author */}
-              <div className="bh-col-author">
-                <span className="bh-author-text">{item.penulis}</span>
-              </div>
-
-              {/* Borrow date */}
-              <div className="bh-col-date">
-                {formatDate(item.tgl_pinjam)}
-              </div>
-
-              {/* Return date */}
-              <div className="bh-col-date">
-                {formatDate(item.tgl_kembali)}
-              </div>
-
-              {/* Status / Fine */}
-              <div className="bh-col-status">
-                {renderStatusPill(item.status_detail)}
-              </div>
+          {/* body */}
+          {filteredRows.length === 0 ? (
+            <div className="bh-empty">
+              No returned/rejected books found.
             </div>
-          ))
-        )}
+          ) : (
+            paginatedRows.map((item, idx) => (
+              <div
+                key={`${item.nomor_pinjam}-${item.id_buku_copy}`}
+                className={
+                  "bh-table-row" +
+                  (idx === paginatedRows.length - 1 ? " bh-last-row" : "")
+                }
+              >
+                <div className="bh-col-title">
+                  <img
+                    src={item.url_foto_cover}
+                    alt={item.judul}
+                    className="bh-book-cover"
+                  />
+                  <span className="bh-book-title">{item.judul}</span>
+                </div>
+
+                <div className="bh-col-author">
+                  <span className="bh-author-text">{item.penulis}</span>
+                </div>
+
+                <div className="bh-col-date">
+                  {formatDate(item.tgl_pinjam)}
+                </div>
+
+                <div className="bh-col-date">
+                  {formatDate(item.tgl_kembali)}
+                </div>
+
+                <div className="bh-col-status">
+                  {renderStatusPill(item.status_detail)}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
 
         {filteredRows.length > 0 && (
           <div className="bh-pagination">
