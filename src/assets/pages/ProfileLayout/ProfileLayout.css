@@ -133,7 +133,7 @@
   font-weight: 500;
   cursor: pointer;
   transition: 0.2s ease;
-  margin-top: auto;
+  margin-top: 12px;
 }
 
 .profile-logout-btn svg {
@@ -281,12 +281,19 @@
 /* ---------- Responsive ---------- */
 @media (max-width: 1024px) {
   .profile-page {
-    padding: 30px 24px;
+    padding: 24px 18px;
+  }
+
+  .profile-content {
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
   }
 
   .profile-sidebar {
-    width: 340px;
+    width: 100%;
     height: auto;
+    padding: 18px 14px;
   }
 
   .profile-avatar-large {
@@ -298,16 +305,6 @@
 @media (max-width: 768px) {
   .profile-page {
     padding: 20px 16px;
-  }
-
-  .profile-content {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .profile-sidebar {
-    width: 100%;
-    padding: 18px 14px;
   }
 
   .profile-menu-item {

@@ -34,6 +34,7 @@
   box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 /* Header tabel khusus Cart */
@@ -46,16 +47,20 @@
   padding-bottom: 10px;
   border-bottom: 1px solid #e5e7eb;
   padding-left: 10px;
+  padding-right: 10px;
+  column-gap: 12px;
 }
 
 /* Row khusus Cart */
 .cart-table-row {
   display: grid;
   grid-template-columns: 2.8fr 1.9fr 1.2fr;
+  column-gap: 12px;
   align-items: center;
   padding: 14px 0;
   border-bottom: 1px solid #f1f5f9;
   padding-left: 10px;
+  padding-right: 10px;
 }
 
 /* Area body yang scroll */
@@ -192,4 +197,115 @@
   width: 80px;
   height: 20px;
   border-radius: 999px;
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+  .cart-table-header,
+  .cart-table-row {
+    grid-template-columns: 2.4fr 1.8fr 1.2fr;
+    column-gap: 10px;
+  }
+
+  .cart-table-card {
+    max-width: 100%;
+    padding: 16px 16px 12px;
+  }
+}
+
+@media (max-width: 780px) {
+  .cart-page-container {
+    padding: 0 16px;
+  }
+
+  .cart-table-card {
+    padding: 14px 12px;
+  }
+
+  .cart-table-header {
+    display: none;
+  }
+
+  .cart-table-body {
+    max-height: none;
+    min-height: auto;
+  }
+
+  .cart-table-row {
+    grid-template-columns: 1fr;
+    row-gap: 8px;
+    column-gap: 0;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.06);
+  }
+
+  .cart-table-row > div {
+    display: grid;
+    grid-template-columns: 115px 1fr;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+  }
+
+  .cart-table-row > div::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #6b7280;
+    font-size: 13px;
+  }
+
+  .bh-col-title {
+    align-items: flex-start;
+    grid-template-columns: 60px 1fr;
+    display: grid;
+  }
+
+  .bh-book-cover {
+    width: 50px;
+    height: 70px;
+  }
+
+  .bh-book-title {
+    font-size: 14px;
+    line-height: 1.3;
+  }
+
+  .cart-actions {
+    justify-content: center;
+  }
+
+  .cart-submit-btn {
+    width: 100%;
+    max-width: 420px;
+  }
+}
+
+@media (max-width: 520px) {
+  .cart-table-row {
+    padding: 10px;
+  }
+
+  .cart-table-row > div {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+  }
+
+  .cart-table-row > div::before {
+    margin-bottom: 4px;
+  }
+
+  .bh-col-title {
+    grid-template-columns: 55px 1fr;
+  }
+
+  .bh-book-title {
+    font-size: 13px;
+  }
+
+  .cart-submit-btn {
+    max-width: none;
+  }
 }

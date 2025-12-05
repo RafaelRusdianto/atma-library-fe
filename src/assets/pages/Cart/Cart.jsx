@@ -108,13 +108,12 @@ export default function CartPage() {
           <div className="cart-table-body">
             {[1, 2, 3].map((i) => (
               <div className="cart-table-row" key={i}>
-                <div className="bh-col-title">
+                <div className="bh-col-title" data-label="Book Title">
                   <div className="skeleton skeleton-cover" />
                   <div className="skeleton skeleton-text-long" />
                 </div>
-                <div className="skeleton skeleton-text" />
-                <div className="skeleton skeleton-text" />
-                <div className="skeleton skeleton-pill" />
+                <div className="skeleton skeleton-text" data-label="Author" />
+                <div className="skeleton skeleton-text" data-label="Borrowed On" />
               </div>
             ))}
           </div>
@@ -146,7 +145,7 @@ export default function CartPage() {
 
               return (
                 <div className="cart-table-row" key={item.id_buku_copy}>
-                  <div className="bh-col-title">
+                  <div className="bh-col-title" data-label="Book Title">
                     <img
                       src={buku.url_foto_cover}
                       alt={buku.judul}
@@ -155,8 +154,8 @@ export default function CartPage() {
                     <span className="bh-book-title">{buku.judul}</span>
                   </div>
 
-                  <div>{buku.penulis}</div>
-                  <div>{borrowDate}</div>
+                  <div data-label="Author">{buku.penulis}</div>
+                  <div data-label="Borrowed On">{borrowDate}</div>
                 </div>
               );
             })
