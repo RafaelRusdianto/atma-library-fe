@@ -1,4 +1,3 @@
-/* PAGE CONTAINER */
 .fh-page-container {
   margin: 40px auto 60px;
   padding: 0 24px;
@@ -41,9 +40,13 @@
   box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
   display: flex;
   flex-direction: column;
+  overflow-x: visible;
 }
 
-/* HEADER */
+.fh-table-inner {
+  width: 100%;
+}
+
 .fh-table-header {
   display: grid;
   grid-template-columns: 2.6fr 1.2fr 1fr 1fr 1.2fr 1fr;
@@ -241,7 +244,7 @@
   box-shadow: none;
 }
 
-/* SIMPLE SKELETON (pakai yang sama dengan OnGoing jika sudah ada) */
+/* SIMPLE SKELETON */
 .skeleton {
   background: #e5e7eb;
   border-radius: 999px;
@@ -249,9 +252,15 @@
 }
 
 @keyframes requestSkeletonPulse {
-  0% { opacity: 0.55; }
-  50% { opacity: 1; }
-  100% { opacity: 0.55; }
+  0% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.55;
+  }
 }
 
 .skeleton-circle {
@@ -362,4 +371,93 @@
   padding: 12px 10px 4px;
   font-size: 14px;
   border-top: 1px solid #e5e7eb;
+}
+
+/* ================== RESPONSIVE ================== */
+/* 1024px ↓ : tablet / split screen */
+@media (max-width: 1024px) {
+  .fh-page-container {
+    margin: 30px auto 40px;
+    padding: 0 16px;
+  }
+
+  .fh-table-card {
+    padding: 16px 16px 10px;
+    border-radius: 18px;
+  }
+
+  .fh-table-header {
+    font-size: 12px;
+  }
+
+  .fh-table-row {
+    font-size: 13px;
+  }
+
+  .fh-table-header,
+  .fh-table-row {
+    grid-template-columns: 2.4fr 1.2fr 0.9fr 1fr 1.1fr 0.9fr;
+  }
+}
+
+/* 768px ↓ : HP, tabel bisa di-swipe ke samping */
+@media (max-width: 768px) {
+  .fh-page-container {
+    margin: 20px auto 30px;
+    padding: 0 12px;
+  }
+
+  .fh-table-card {
+    padding: 14px 12px 10px;
+    border-radius: 18px;
+
+    overflow-x: auto;              
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .fh-table-inner {
+    min-width: 720px;             
+  }
+
+  .fh-table-header {
+    font-size: 11px;
+  }
+
+  .fh-table-row {
+    font-size: 12.5px;
+  }
+
+  .fh-summary {
+    font-size: 13px;
+    padding-inline: 4px;
+  }
+}
+
+/* 540px ↓ : hp kecil */
+@media (max-width: 540px) {
+  .fh-table-card {
+    padding: 12px 10px 10px;
+    border-radius: 16px;
+  }
+
+  .fh-table-inner {
+    min-width: 660px;
+  }
+
+  .fh-table-header {
+    font-size: 10px;
+  }
+
+  .fh-table-row {
+    font-size: 12px;
+  }
+
+  .fh-book-cover {
+    width: 36px;
+    height: 52px;
+  }
+
+  .fh-book-title {
+    font-size: 13px;
+  }
 }

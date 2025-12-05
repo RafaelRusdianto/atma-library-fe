@@ -27,14 +27,14 @@ export default function FineHistoryPage() {
     }).format(numeric);
   };
 
-  // backend returns grouped data { nomor_pinjam, books: [...] } for paid fines
   const normalizeFromGroups = (groups) => {
     const rows = [];
 
     groups.forEach((group) => {
       const base = {
         nomor_pinjam: group.nomor_pinjam,
-        tgl_bayar: group.tgl_bayar || group.tgl_jatuh_tempo || group.tgl_kembali,
+        tgl_bayar:
+          group.tgl_bayar || group.tgl_jatuh_tempo || group.tgl_kembali,
       };
 
       (group.books || []).forEach((book) => {
@@ -46,8 +46,7 @@ export default function FineHistoryPage() {
           penulis: book.penulis,
           url_foto_cover:
             book.url_foto_cover ||
-            book.url_cover ||
-            "/navbar/book-placeholder.png",
+            book.url_cover || "/navbar/book-placeholder.png",
           hari_telat: book.hari_telat,
           total:
             book.denda_per_buku ??
@@ -77,7 +76,7 @@ export default function FineHistoryPage() {
     } catch (err) {
       console.error("Error loading fine history:", err);
       toast.error(
-        err?.response?.data?.message || "Gagal memuat riwayat pembayaran denda."
+        err?.response?.data?.message ||"Gagal memuat riwayat pembayaran denda."
       );
     } finally {
       setLoading(false);
@@ -99,38 +98,42 @@ export default function FineHistoryPage() {
 
   const renderSkeleton = () => (
     <>
-    <h2 className="profile-section-title">Fine Payment History</h2>
-    <div className="fh-page-container">
-      
-      <div className="fh-table-card">
-        <div className="fh-table-header">
-          <div>Book</div>
-          <div>Copy</div>
-          <div>Paid On</div>
-          <div>Amount</div>
-          <div>Status</div>
-        </div>
-        <div className="fh-table-body">
-          {[1, 2, 3].map((i) => (
-            <div className="fh-table-row" key={`sk-${i}`}>
-              <div className="fh-col-book">
-                <div className="skeleton skeleton-cover" />
-                <div className="fh-book-info">
-                  <div className="skeleton skeleton-text-long" />
-                  <div className="skeleton skeleton-text" />
-                </div>
-              </div>
-              <div className="skeleton skeleton-text" />
-              <div className="skeleton skeleton-text" />
-              <div className="skeleton skeleton-text" />
-              <div className="fh-col-status">
-                <div className="skeleton skeleton-pill" />
-              </div>
+      <h2 className="profile-section-title">Fine Payment History</h2>
+      <div className="fh-page-container">
+        <div className="fh-table-card">
+          {/* WRAPPER BARU */}
+          <div className="fh-table-inner">
+            <div className="fh-table-header">
+              <div>Book</div>
+              <div>Paid On</div>
+              <div>Days Late</div>
+              <div>Amount</div>
+              <div>Pay Method</div>
+              <div>Status</div>
             </div>
-          ))}
+            <div className="fh-table-body">
+              {[1, 2, 3].map((i) => (
+                <div className="fh-table-row" key={`sk-${i}`}>
+                  <div className="fh-col-book">
+                    <div className="skeleton skeleton-cover" />
+                    <div className="fh-book-info">
+                      <div className="skeleton skeleton-text-long" />
+                      <div className="skeleton skeleton-text" />
+                    </div>
+                  </div>
+                  <div className="skeleton skeleton-text" />
+                  <div className="skeleton skeleton-text" />
+                  <div className="skeleton skeleton-text" />
+                  <div className="skeleton skeleton-text" />
+                  <div className="fh-col-status">
+                    <div className="skeleton skeleton-pill" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 
@@ -139,60 +142,69 @@ export default function FineHistoryPage() {
   return (
     <>
       <h2 className="profile-section-title">Fine Payment History</h2>
-    <div className="fh-page-container">
-      <div className="fh-table-card">
-        <div className="fh-table-header">
-          <div>Book</div>
-          <div>Paid on</div>
-          <div>Days Late</div>
-          <div>Amount</div>
-          <div>Pay Method</div>
-          <div>Status</div>
-        </div>
+      <div className="fh-page-container">
+        <div className="fh-table-card">
+          {/* WRAPPER BARU */}
+          <div className="fh-table-inner">
+            <div className="fh-table-header">
+              <div>Book</div>
+              <div>Paid on</div>
+              <div>Days Late</div>
+              <div>Amount</div>
+              <div>Pay Method</div>
+              <div>Status</div>
+            </div>
 
-        <div className="fh-table-body">
-          {fines.length === 0 ? (
-            <div className="fh-empty">No paid fines found.</div>
-          ) : (
-            fines.map((fine, idx) => {
-              const key = fine.id_denda || `${fine.nomor_pinjam || "np"}-${idx}`;
-              return (
-                <div className="fh-table-row" key={key}>
-                  <div className="fh-col-book">
-                    <img
-                      src={fine.url_foto_cover}
-                      alt={fine.judul}
-                      className="fh-book-cover"
-                    />
-                    <div className="fh-book-info">
-                      <span className="fh-book-title">{fine.judul}</span>
-                      <span className="fh-book-author">{fine.penulis}</span>
-                      <span className="fh-book-copy">
-                        Copy: {fine.copy || "-"}
-                      </span>
+            <div className="fh-table-body">
+              {fines.length === 0 ? (
+                <div className="fh-empty">No paid fines found.</div>
+              ) : (
+                fines.map((fine, idx) => {
+                  const key =
+                    fine.id_denda ||
+                    `${fine.nomor_pinjam || "np"}-${idx}`;
+                  return (
+                    <div className="fh-table-row" key={key}>
+                      <div className="fh-col-book">
+                        <img
+                          src={fine.url_foto_cover}
+                          alt={fine.judul}
+                          className="fh-book-cover"
+                        />
+                        <div className="fh-book-info">
+                          <span className="fh-book-title">
+                            {fine.judul}
+                          </span>
+                          <span className="fh-book-author">
+                            {fine.penulis}
+                          </span>
+                          <span className="fh-book-copy">
+                            Copy: {fine.copy || "-"}
+                          </span>
+                        </div>
+                      </div>
+                      <div>{formatDate(fine.tgl_bayar)}</div>
+                      <div>{fine.hari_telat}</div>
+                      <div>{formatCurrency(fine.total)}</div>
+                      <div>{fine.metode}</div>
+                      <div className="fh-col-status">
+                        <span className="fh-status-pill fh-status-paid">
+                          {fine.status}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div>{formatDate(fine.tgl_bayar)}</div>
-                  <div>{fine.hari_telat}</div>
-                  <div>{formatCurrency(fine.total)}</div>
-                  <div>{fine.metode}</div>
-                  <div className="fh-col-status">
-                    <span className="fh-status-pill fh-status-paid">
-                      {fine.status}
-                    </span>
-                  </div>
-                </div>
-              );
-            })
-          )}
-        </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
 
-        <div className="fh-summary">
-          <span>Total Paid</span>
-          <strong>{formatCurrency(totalPaid)}</strong>
+          <div className="fh-summary">
+            <span>Total Paid</span>
+            <strong>{formatCurrency(totalPaid)}</strong>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 }
