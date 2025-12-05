@@ -33,6 +33,8 @@
   color: #9ca3af;
 }
 
+/* ================== TABLE ================== */
+
 /* card tabel utama */
 .bh-table-card {
   margin-top: 10px;
@@ -40,22 +42,19 @@
   border-radius: 24px;
   padding: 18px 24px 10px;
   box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
-
-  /* untuk hp: bisa di-scroll horizontal */
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+   overflow-x: visible;
 }
 
 /* pembungkus tabel */
 .bh-table-inner {
-  min-width: 650px;
+  width: 100%;
 }
 
 /* header row */
 .bh-table-header {
   display: grid;
   grid-template-columns: 2.5fr 1.6fr 1.2fr 1.2fr 1.4fr;
-  column-gap: 12px;          
+  column-gap: 12px;
   font-size: 12px;
   font-weight: 600;
   color: #6b7280;
@@ -193,6 +192,7 @@
   width: 100%;
 }
 
+/* pagination */
 .bh-pagination {
   display: flex;
   align-items: center;
@@ -220,16 +220,13 @@
   color: #4b5563;
 }
 
-/* responsive mirip profil */
-@media (max-width: 1024px) {
-  .bh-table-inner {
-    min-width: 600px;
-  }
-}
+/* ============= RESPONSIVE (mirip ProfileLayout) ============= */
 
-@media (max-width: 768px) {
+/* 1024px ↓ : tablet / split screen */
+@media (max-width: 1024px) {
   .bh-table-card {
-    padding: 16px 14px 8px;
+    padding: 16px 18px 8px;
+    border-radius: 22px;
   }
 
   .bh-table-header {
@@ -240,8 +237,36 @@
     font-size: 13px;
   }
 
+  /* kolom dibuat sedikit lebih rata supaya muat */
+  .bh-table-header,
+  .bh-table-row {
+    grid-template-columns: 2.3fr 1.6fr 1.2fr 1.2fr 1.3fr;
+  }
+}
+
+/* 768px ↓ : mobile layout, tapi tetap tabel 5 kolom */
+@media (max-width: 768px) {
+   .bh-table-card {
+    padding: 14px 14px 8px;
+    border-radius: 20px;
+
+    /* scroll horizontal muncul di dalam card */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .bh-table-inner {
-    min-width: 580px;
+    /* bikin isi tabel lebih lebar dari layar hp,
+       supaya ada area yang bisa di-geser */
+    min-width: 640px;
+  }
+
+  .bh-table-header {
+    font-size: 11px;
+  }
+
+  .bh-table-row {
+    font-size: 12.5px;
   }
 
   .bh-pagination {
@@ -251,7 +276,12 @@
 
 @media (max-width: 540px) {
   .bh-table-card {
-    padding: 14px 10px 8px;
+    padding: 12px 10px 8px;
+    border-radius: 18px;
+  }
+
+  .bh-table-inner {
+    min-width: 600px; /* sedikit diperkecil untuk hp kecil */
   }
 
   .bh-table-header {
@@ -262,7 +292,12 @@
     font-size: 12px;
   }
 
-  .bh-table-inner {
-    min-width: 540px;
+  .bh-book-cover {
+    width: 38px;
+    height: 54px;
+  }
+
+  .bh-book-title {
+    font-size: 13px;
   }
 }
