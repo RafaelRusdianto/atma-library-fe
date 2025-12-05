@@ -171,6 +171,41 @@ export default function BorrowRequestPage() {
     }
   };
 
+  // Delete draft/pending peminjaman
+  const handleDeleteLoan = async (loan) => {
+    const confirm = await Swal.fire({
+      title: "Delete this pending request?",
+      text: `This will remove loan #${loan.nomor_pinjam} submitted by ${loan.member_name}.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#dc2626",
+    });
+
+    if (!confirm.isConfirmed) return;
+
+    try {
+      const key = `loan-${loan.nomor_pinjam}`;
+      setProcessingKey(key);
+
+      await api.delete(
+        `/petugas/peminjaman/pending-destroy/${loan.nomor_pinjam}`
+      );
+
+      toast.success(`Loan #${loan.nomor_pinjam} deleted.`);
+      loadRequests();
+    } catch (err) {
+      console.error("Delete loan error:", err);
+      toast.error(
+        err?.response?.data?.message ||
+        "Failed to delete this pending request. Please try again."
+      );
+    } finally {
+      setProcessingKey(null);
+    }
+  };
+
   // Approve semua peminjaman pending
   const handleApproveAll = async () => {
     if (loans.length === 0) {
@@ -414,6 +449,15 @@ export default function BorrowRequestPage() {
                         className="request-btn request-btn-reject"
                       >
                         {isProcessing ? "Processing..." : "Reject Loan"}
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteLoan(loan)}
+                        disabled={isProcessing}
+                        className="request-btn request-btn-reject"
+                      >
+                        {isProcessing ? "Processing..." : "Delete"}
                       </button>
 
                     </div>

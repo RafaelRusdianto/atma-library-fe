@@ -45,6 +45,8 @@ function Layout() {
 
           <Route path="/profile" element={<ProfileLayout />}>
             <Route index element={<ProfileDetail />} />
+             <Route path="/profile/borrowing-history" element={<BorrowingHistory />} />
+            <Route path="/profile/fine-history" element={<FineHistory />} />
           </Route>
 
           {/* Khusus member */}
@@ -52,8 +54,7 @@ function Layout() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/on-going" element={<OnGoing />} />
             <Route path="/fines" element={<Fines />} />
-            <Route path="/profile/borrowing-history" element={<BorrowingHistory />} />
-            <Route path="/profile/fine-history" element={<FineHistory />} />
+           
           </Route>
 
           {/* Khusus petugas */}

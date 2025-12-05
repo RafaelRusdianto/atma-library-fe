@@ -254,7 +254,7 @@ export default function OnGoingPage() {
           <div className="ongoing-table-body">
             {[1, 2, 3].map((i) => (
               <div className="ongoing-table-row" key={i}>
-                <div className="bh-col-title" data-label="Book Title">
+                <div className="bh-col-title">
                   <div className="skeleton skeleton-cover" />
                   <div className="skeleton skeleton-text-long" />
                 </div>
@@ -295,7 +295,7 @@ export default function OnGoingPage() {
                   className="ongoing-table-row"
                   key={item.id_buku_copy + "-" + idx}
                 >
-                  <div className="bh-col-title" data-label="Book Title">
+                  <div className="bh-col-title">
                     <img
                       src={item.url_foto_cover}
                       alt={item.judul}
@@ -304,11 +304,11 @@ export default function OnGoingPage() {
                     <span className="bh-book-title">{item.judul}</span>
                   </div>
 
-                  <div data-label="Author">{item.penulis}</div>
+                  <div>{item.penulis}</div>
 
-                  <div data-label="Borrowed On">{formatDate(item.tgl_pinjam)}</div>
+                  <div>{formatDate(item.tgl_pinjam)}</div>
 
-                  <div className="bh-col-status" data-label="Status">
+                  <div className="bh-col-status">
                     <span
                       className={
                         "bh-status-pill " +
@@ -321,7 +321,7 @@ export default function OnGoingPage() {
                     </span>
                   </div>
 
-                  <div className="bh-col-actions" data-label="Action">
+                  <div className="bh-col-actions">
                     <button
                       type="button"
                       onClick={() => handleReturn(item)}
