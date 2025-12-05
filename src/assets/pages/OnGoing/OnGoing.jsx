@@ -258,10 +258,10 @@ export default function OnGoingPage() {
                   <div className="skeleton skeleton-cover" />
                   <div className="skeleton skeleton-text-long" />
                 </div>
-                <div className="skeleton skeleton-text" data-label="Author" />
-                <div className="skeleton skeleton-text" data-label="Borrowed On" />
-                <div className="skeleton skeleton-pill" data-label="Status" />
-                <div className="skeleton skeleton-pill" data-label="Action" />
+                <div className="skeleton skeleton-text" />
+                <div className="skeleton skeleton-text" />
+                <div className="skeleton skeleton-pill" />
+                <div className="skeleton skeleton-pill" />
               </div>
             ))}
           </div>
