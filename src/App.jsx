@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Home from "./assets/pages/Home/Home";
 import Login from "./assets/pages/Login/Login";
 import Register from "./assets/pages/Register/Register";
@@ -22,6 +22,7 @@ import OnGoing from "./assets/pages/OnGoing/OnGoing";
 import BorrowRequest from "./assets/pages/BorrowRequest/Borrowrequest"; 
 import FineHistory from "./assets/pages/FineHistory/FineHistory";
 import Fines from "./assets/pages/Fines/Fines";
+import RequireRole from "./context/requireableRole";
 function Layout() {
   const location = useLocation();
 
@@ -32,36 +33,41 @@ function Layout() {
     <>
       <Navbar />
 
-       <div>
+      <div>
         <Routes>
+          {/* route umum */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-
-          <Route path="/managebooks" element={<ManageBooks />} />
-          <Route path="/managebooks/createnewbook" element={<CreateNewBook />} />
-          <Route path="/managebooks/editexistingbook" element={<EditExistingBook />} />
-          <Route path="/borrow-requests" element={<BorrowRequest />} />
-
-
-
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/catalog/book/:id" element={<BookDetail />} />
           <Route path="/catalog/book/:id/peminjaman" element={<Peminjaman />} />
-          <Route path="/cart" element={<Cart />} />
-
-          <Route path="/on-going" element={<OnGoing />} />
-          <Route path="/fines" element={<Fines />} />
 
           <Route path="/profile" element={<ProfileLayout />}>
             <Route index element={<ProfileDetail />} />
-            <Route path="borrowing-history" element={<BorrowingHistory />} />
-            <Route path="fine-history" element={<FineHistory />} />
           </Route>
 
-          <Route path="/members" element={<MemberList />} />
-          <Route path="/support" element={<Support />} />
-          <Route path="/reports" element={<Reports />} />
+          {/* Khusus member */}
+          <Route element={<RequireRole allowed={["member"]} />}>
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/on-going" element={<OnGoing />} />
+            <Route path="/fines" element={<Fines />} />
+            <Route path="/profile/borrowing-history" element={<BorrowingHistory />} />
+            <Route path="/profile/fine-history" element={<FineHistory />} />
+          </Route>
+
+          {/* Khusus petugas */}
+          <Route element={<RequireRole allowed={["petugas"]} />}>
+            <Route path="/managebooks" element={<ManageBooks />} />
+            <Route path="/managebooks/createnewbook" element={<CreateNewBook />} />
+            <Route path="/managebooks/editexistingbook" element={<EditExistingBook />} />
+            <Route path="/borrow-requests" element={<BorrowRequest />} />
+            <Route path="/reports" element={<Reports />} />
+            <Route path="/members" element={<MemberList />} />
+          </Route>
+
+          {/* fallback */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
 
