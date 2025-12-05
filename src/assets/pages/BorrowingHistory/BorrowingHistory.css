@@ -220,8 +220,6 @@
   color: #4b5563;
 }
 
-/* ============= RESPONSIVE (mirip ProfileLayout) ============= */
-
 /* 1024px ↓ : tablet / split screen */
 @media (max-width: 1024px) {
   .bh-table-card {
@@ -237,27 +235,22 @@
     font-size: 13px;
   }
 
-  /* kolom dibuat sedikit lebih rata supaya muat */
   .bh-table-header,
   .bh-table-row {
     grid-template-columns: 2.3fr 1.6fr 1.2fr 1.2fr 1.3fr;
   }
 }
 
-/* 768px ↓ : mobile layout, tapi tetap tabel 5 kolom */
 @media (max-width: 768px) {
    .bh-table-card {
     padding: 14px 14px 8px;
     border-radius: 20px;
 
-    /* scroll horizontal muncul di dalam card */
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
 
   .bh-table-inner {
-    /* bikin isi tabel lebih lebar dari layar hp,
-       supaya ada area yang bisa di-geser */
     min-width: 640px;
   }
 
@@ -281,7 +274,7 @@
   }
 
   .bh-table-inner {
-    min-width: 600px; /* sedikit diperkecil untuk hp kecil */
+    min-width: 600px; 
   }
 
   .bh-table-header {
