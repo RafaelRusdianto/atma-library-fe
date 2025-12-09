@@ -9,7 +9,7 @@ import ManageBooks from "./assets/pages/ManageBooks/ManageBooks";
 import CreateNewBook from "./assets/pages/ManageBooks/CreateNewBook/CreateNewBook";
 import EditExistingBook from "./assets/pages/ManageBooks/EditExistingBook/EditExistingBook";
 import MemberList from "./assets/pages/MemberList/MemberList";
-import Support from "./assets/pages/Support/Support";
+import Support from "./assets/pages/Support/support";
 import Reports from "./assets/pages/Reports/reports";
 
 import Navbar from "./assets/components/NavBar/navbar";
@@ -23,6 +23,7 @@ import BorrowRequest from "./assets/pages/BorrowRequest/Borrowrequest";
 import FineHistory from "./assets/pages/FineHistory/FineHistory";
 import Fines from "./assets/pages/Fines/Fines";
 import RequireRole from "./context/requireableRole";
+
 function Layout() {
   const location = useLocation();
 
@@ -42,6 +43,7 @@ function Layout() {
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/catalog/book/:id" element={<BookDetail />} />
           <Route path="/catalog/book/:id/peminjaman" element={<Peminjaman />} />
+          <Route path="/support" element={<Support />} />
 
           <Route path="/profile" element={<ProfileLayout />}>
             <Route index element={<ProfileDetail />} />

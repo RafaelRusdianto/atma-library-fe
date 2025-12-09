@@ -142,7 +142,7 @@ export default function Register() {
 
           <label>No. Telepon</label>
           <input
-            type="text"
+            type="number"
             placeholder="08xxxxxxxxxx"
             required
             value={formData.no_telp}

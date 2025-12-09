@@ -450,7 +450,7 @@ export default function BorrowRequestPage() {
                       >
                         {isProcessing ? "Processing..." : "Reject Loan"}
                       </button>
-
+{/* 
                       <button
                         type="button"
                         onClick={() => handleDeleteLoan(loan)}
@@ -458,7 +458,7 @@ export default function BorrowRequestPage() {
                         className="request-btn request-btn-reject"
                       >
                         {isProcessing ? "Processing..." : "Delete"}
-                      </button>
+                      </button> */}
 
                     </div>
 
