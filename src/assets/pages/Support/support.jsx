@@ -1,5 +1,5 @@
 import React from "react";
-import "./Support.css";
+import "./support.css";
 
 function Support() {
   const data = {

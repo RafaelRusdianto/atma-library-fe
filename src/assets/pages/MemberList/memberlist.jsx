@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./MemberList.css";
+import "./memberlist.css";
 import api from "../../../config/api";
 import { toast } from "react-toastify";
 

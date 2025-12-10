@@ -31,7 +31,7 @@ const BookSection = ({ title, books }) => (
     </div>
 );
 
-export default function LibraryCatalog() {
+export default function Catalog() {
     const navigate = useNavigate();
 
     const [query, setQuery] = useState("");//utk search

@@ -8,7 +8,7 @@ import Peminjaman from "./assets/pages/Peminjaman/Peminjaman";
 import ManageBooks from "./assets/pages/ManageBooks/ManageBooks";
 import CreateNewBook from "./assets/pages/ManageBooks/CreateNewBook/CreateNewBook";
 import EditExistingBook from "./assets/pages/ManageBooks/EditExistingBook/EditExistingBook";
-import MemberList from "./assets/pages/MemberList/MemberList";
+import MemberList from "./assets/pages/MemberList/memberlist.jsx";
 import Support from "./assets/pages/Support/support";
 import Reports from "./assets/pages/Reports/reports";
 
@@ -19,10 +19,10 @@ import ProfileDetail from "./assets/pages/ProfileDetail/ProfileDetail";
 import ProfileLayout from "./assets/pages/ProfileLayout/ProfileLayout";
 import Cart from "./assets/pages/Cart/Cart";
 import OnGoing from "./assets/pages/OnGoing/OnGoing";
-import BorrowRequest from "./assets/pages/BorrowRequest/Borrowrequest"; 
+import BorrowRequest from "./assets/pages/BorrowRequest/BorrowRequest.jsx"; 
 import FineHistory from "./assets/pages/FineHistory/FineHistory";
 import Fines from "./assets/pages/Fines/Fines";
-import RequireRole from "./context/requireableRole";
+import RequireRole from "./context/RequireableRole.jsx";
 
 function Layout() {
   const location = useLocation();

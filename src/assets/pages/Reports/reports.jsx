@@ -11,7 +11,7 @@ import {
   BarChart,
   Bar,
 } from "recharts";
-import "./Reports.css";
+import "./reports.css";
 
 export default function ReportsPage() {
   const [summary, setSummary] = useState({});

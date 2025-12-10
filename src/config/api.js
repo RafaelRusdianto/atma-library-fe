@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "/api",
+  baseURL: "https://atmalibrarybe.webapplication.my.id/api",
   headers: {
     Accept: "application/json",
   },
